@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useKpssMeta, useSearchPositions } from "@/hooks/use-kpss";
 import { ResultsTable } from "@/components/ResultsTable";
-import { MultiSelect, type Option } from "@/components/MultiSelect";
 import { Button } from "@/components/ui/button";
 import { 
   Select, 
@@ -11,15 +10,19 @@ import {
   SelectValue 
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { MultiSelect, type Option } from "@/components/MultiSelect";
 import { 
   Search, 
   GraduationCap, 
   Map, 
-  BookOpen,
+  BookOpen, 
+  Users, 
   Building2,
-  Users
+  RefreshCw,
+  Sparkles
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   const { data: meta, isLoading: isMetaLoading } = useKpssMeta();
@@ -29,75 +32,106 @@ export default function Home() {
   const [educationLevel, setEducationLevel] = useState<string>("");
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
-  
-  // Derived Data
-  const filteredQualifications = meta?.qualifications.filter(q => 
-    !educationLevel || q.educationLevel === educationLevel || q.educationLevel === 'Special'
-  ) || [];
 
+  // Derived Options
   const cityOptions: Option[] = [
     { label: "Tüm Şehirler", value: "Tümü" },
     ...(meta?.cities.map(c => ({ label: c, value: c })) || [])
   ];
 
+  const filteredQualifications = meta?.qualifications.filter(q => 
+    !educationLevel || q.educationLevel === educationLevel || q.educationLevel === 'Special'
+  ) || [];
+
+  // Create department options from filtered qualifications
   const departmentOptions: Option[] = filteredQualifications.map(q => ({
     label: `${q.code} - ${q.description}`,
-    value: q.code,
-    badge: q.code
+    value: q.code
   }));
 
   const handleSearch = () => {
     if (!educationLevel) return;
     
-    // Logic for "All" in cities
-    const citiesPayload = selectedCities.includes("Tümü") ? ["All"] : selectedCities;
+    // Logic: If "Tümü" is selected or empty array, send ["All"]
+    const citiesPayload = (selectedCities.length === 0 || selectedCities.includes("Tümü")) 
+      ? ["All"] 
+      : selectedCities;
+
+    const deptPayload = selectedDepartments;
 
     searchMutation.mutate({
       educationLevel,
-      cities: citiesPayload.length > 0 ? citiesPayload : ["All"],
-      departmentCodes: selectedDepartments,
+      cities: citiesPayload,
+      departmentCodes: deptPayload,
     });
   };
 
+  const handleReset = () => {
+    setEducationLevel("");
+    setSelectedCities([]);
+    setSelectedDepartments([]);
+    searchMutation.reset();
+  };
+
   return (
-    <div className="min-h-screen bg-background pb-20 font-sans">
+    <div className="min-h-screen bg-background pb-20 selection:bg-primary/20">
+      
+      {/* Background Gradients */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
+         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[128px]" />
+      </div>
+
       {/* Hero Header */}
-      <div className="bg-gradient-to-b from-primary/5 via-primary/[0.02] to-background border-b border-primary/10">
-        <div className="container max-w-7xl mx-auto px-4 py-12 md:py-20">
+      <div className="relative z-10 border-b border-border/40 bg-card/30 backdrop-blur-md">
+        <div className="container max-w-7xl mx-auto px-4 py-16 md:py-24">
           <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="flex-1 space-y-6 animate-in slide-in-from-left duration-700">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-background border shadow-sm">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                </span>
-                <span className="text-xs font-medium text-foreground/80">2025/1 Dönemi Güncel</span>
+            
+            <div className="flex-1 space-y-8 animate-in slide-in-from-left-4 duration-700 fade-in">
+              <div className="space-y-4">
+                <Badge variant="outline" className="px-4 py-1.5 text-sm font-medium border-primary/30 text-primary bg-primary/5 rounded-full">
+                  <Sparkles className="w-3.5 h-3.5 mr-2 inline-block fill-primary" />
+                  2025/1 Dönemi Güncel
+                </Badge>
+                <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-foreground leading-[1.1]">
+                  KPSS <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Tercih Robotu</span>
+                </h1>
+                <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
+                  Puanınıza ve niteliklerinize en uygun kamu kadrolarını saniyeler içinde bulun.
+                  %100 güncel ve resmi kılavuz verileri.
+                </p>
               </div>
               
-              <h1 className="text-4xl md:text-6xl font-display font-extrabold tracking-tight text-foreground leading-[1.1]">
-                KPSS <span className="text-primary">Tercih Robotu</span>
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground max-w-xl leading-relaxed">
-                Nitelik kodlarınıza ve tercihlerinize en uygun kamu kadrolarını saniyeler içinde analiz edin.
-              </p>
+              <div className="flex items-center gap-6 pt-4">
+                 <div className="flex -space-x-3">
+                    {[1,2,3,4].map(i => (
+                        <div key={i} className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center text-xs font-medium text-muted-foreground">
+                            <Users className="w-5 h-5" />
+                        </div>
+                    ))}
+                 </div>
+                 <div className="text-sm">
+                    <span className="font-bold text-foreground">50,000+</span> aday tarafından kullanılıyor
+                 </div>
+              </div>
             </div>
             
-            {/* Stats / Visual Decor */}
-            <div className="flex-1 w-full flex justify-center md:justify-end animate-in slide-in-from-right duration-700 delay-100">
-              <div className="grid grid-cols-2 gap-4 md:gap-6 w-full max-w-md">
-                <div className="bg-card p-6 rounded-2xl shadow-xl shadow-primary/5 border border-border hover:border-primary/30 transition-colors">
-                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-                    <Users className="w-6 h-6 text-primary" />
+            {/* Stats Cards */}
+            <div className="flex-1 w-full flex justify-center md:justify-end animate-in slide-in-from-right-4 duration-1000 fade-in">
+              <div className="grid grid-cols-2 gap-4 w-full max-w-md">
+                <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50 hover:border-primary/50 transition-colors group">
+                  <div className="bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Building2 className="w-6 h-6 text-primary" />
                   </div>
-                  <div className="text-3xl font-bold font-display">1200+</div>
-                  <div className="text-sm text-muted-foreground font-medium mt-1">Aktif Kadro</div>
+                  <div className="text-3xl font-bold text-foreground">1200+</div>
+                  <div className="text-sm text-muted-foreground font-medium">Aktif Kadro</div>
                 </div>
-                <div className="bg-card p-6 rounded-2xl shadow-xl shadow-accent/5 border border-border hover:border-accent/30 transition-colors mt-8">
-                  <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center mb-4">
-                    <Building2 className="w-6 h-6 text-accent" />
+                <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50 hover:border-accent/50 transition-colors group mt-8">
+                  <div className="bg-accent/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                    <Users className="w-6 h-6 text-accent" />
                   </div>
-                  <div className="text-3xl font-bold font-display">85+</div>
-                  <div className="text-sm text-muted-foreground font-medium mt-1">Kamu Kurumu</div>
+                  <div className="text-3xl font-bold text-foreground">85+</div>
+                  <div className="text-sm text-muted-foreground font-medium">Kurum</div>
                 </div>
               </div>
             </div>
@@ -106,19 +140,34 @@ export default function Home() {
       </div>
 
       {/* Main Content Area */}
-      <div className="container max-w-7xl mx-auto px-4 -mt-10 relative z-10">
-        <div className="bg-card rounded-2xl shadow-2xl shadow-black/5 border border-border p-6 md:p-8 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
+      <div className="container max-w-7xl mx-auto px-4 -mt-12 relative z-20">
+        
+        {/* Filter Card */}
+        <div className="bg-card rounded-2xl shadow-2xl shadow-black/20 border border-border p-6 md:p-8 animate-in slide-in-from-bottom-8 duration-700 fade-in">
           
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-xl font-bold flex items-center gap-2">
+              <Search className="w-5 h-5 text-primary" />
+              Kadro Arama Kriterleri
+            </h2>
+            { (educationLevel || selectedCities.length > 0 || selectedDepartments.length > 0) && (
+              <Button variant="ghost" size="sm" onClick={handleReset} className="text-muted-foreground hover:text-foreground">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Filtreleri Temizle
+              </Button>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-end">
             
             {/* Education Level */}
             <div className="space-y-2.5 lg:col-span-3">
-              <Label className="text-base font-semibold flex items-center gap-2">
+              <Label className="text-sm font-semibold flex items-center gap-2 text-muted-foreground">
                 <GraduationCap className="w-4 h-4 text-primary" />
                 Öğrenim Düzeyi
               </Label>
               <Select value={educationLevel} onValueChange={setEducationLevel}>
-                <SelectTrigger className="h-12 text-base bg-background border-2 focus:ring-primary/20 focus:border-primary transition-all">
+                <SelectTrigger className="h-12 bg-background border-input hover:border-primary/50 transition-colors focus:ring-primary/20">
                   <SelectValue placeholder="Seçiniz..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -131,44 +180,41 @@ export default function Home() {
 
             {/* City Selection (Multi) */}
             <div className="space-y-2.5 lg:col-span-3">
-              <Label className="text-base font-semibold flex items-center gap-2">
+              <Label className="text-sm font-semibold flex items-center gap-2 text-muted-foreground">
                 <Map className="w-4 h-4 text-primary" />
                 Şehir Tercihi
               </Label>
-              <MultiSelect
+              <MultiSelect 
                 options={cityOptions}
                 selected={selectedCities}
                 onChange={setSelectedCities}
-                placeholder="Şehir Seçiniz..."
-                searchPlaceholder="Şehir ara..."
-                disabled={isMetaLoading}
-                className="h-auto min-h-[3rem] border-2"
+                placeholder="Şehir Seçiniz (Çoklu)"
+                className="h-12 bg-background"
+                emptyMessage="Şehir bulunamadı."
               />
             </div>
 
             {/* Department/Qualification Search (Multi) */}
             <div className="space-y-2.5 lg:col-span-4">
-              <Label className="text-base font-semibold flex items-center gap-2">
+              <Label className="text-sm font-semibold flex items-center gap-2 text-muted-foreground">
                 <BookOpen className="w-4 h-4 text-primary" />
-                Bölüm / Nitelik Kodları
+                Bölüm / Nitelik Kodu
               </Label>
-              <MultiSelect
+              <MultiSelect 
                 options={departmentOptions}
                 selected={selectedDepartments}
                 onChange={setSelectedDepartments}
-                placeholder="Kod veya Bölüm Ara..."
-                searchPlaceholder="Örn: 3249, Bilgisayar..."
-                disabled={isMetaLoading || !educationLevel}
-                emptyMessage={!educationLevel ? "Önce öğrenim düzeyi seçiniz" : "Sonuç bulunamadı"}
-                className="h-auto min-h-[3rem] border-2"
+                placeholder={!educationLevel ? "Önce öğrenim düzeyi seçiniz" : "Bölüm veya kod arayın..."}
+                className="h-12 bg-background"
+                emptyMessage={!educationLevel ? "Öğrenim düzeyi seçiniz." : "Bölüm bulunamadı."}
               />
             </div>
-
+            
             {/* Action Button */}
             <div className="lg:col-span-2">
               <Button 
                 size="lg" 
-                className="w-full h-12 text-lg font-bold shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300"
+                className="w-full h-12 text-base font-bold shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300"
                 onClick={handleSearch}
                 disabled={searchMutation.isPending || !educationLevel}
               >
@@ -180,40 +226,43 @@ export default function Home() {
                 ) : (
                   <span className="flex items-center gap-2">
                     <Search className="w-5 h-5" />
-                    LİSTELE
+                    Listele
                   </span>
                 )}
               </Button>
             </div>
           </div>
-
-          {/* Error State */}
-          {searchMutation.isError && (
-            <div className="mt-6 p-4 bg-destructive/5 text-destructive rounded-xl border border-destructive/20 flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
-              <div className="w-8 h-8 rounded-full bg-destructive/10 flex items-center justify-center shrink-0">
-                <span className="font-bold">!</span>
-              </div>
-              <div className="flex-1">
-                <p className="font-semibold">Arama Başarısız</p>
-                <p className="text-sm opacity-90">{searchMutation.error.message}</p>
-              </div>
-            </div>
-          )}
-          
         </div>
 
         {/* Results Area */}
         <div className="min-h-[400px]">
+          {searchMutation.isError && (
+            <div className="mt-6 p-4 bg-destructive/10 text-destructive rounded-xl border border-destructive/20 flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+               <div className="w-8 h-8 rounded-full bg-destructive/20 flex items-center justify-center shrink-0">
+                  <span className="font-bold">!</span>
+               </div>
+              <span className="font-medium">{searchMutation.error.message}</span>
+            </div>
+          )}
+
           {searchMutation.data ? (
-            <ResultsTable 
-              results={searchMutation.data} 
-              isLoading={searchMutation.isPending} 
-            />
+            <div className="animate-in fade-in slide-in-from-bottom-8 duration-500">
+               <div className="mt-12 flex items-center gap-4 mb-4">
+                  <Badge variant="secondary" className="text-base px-3 py-1">
+                    {searchMutation.data.length} Sonuç Bulundu
+                  </Badge>
+                  <Separator className="flex-1" />
+               </div>
+               <ResultsTable 
+                 results={searchMutation.data} 
+                 isLoading={searchMutation.isPending} 
+               />
+            </div>
           ) : (
              !searchMutation.isPending && (
-              <div className="text-center mt-24 opacity-60 animate-in fade-in duration-1000">
-                <p className="text-xl font-medium text-muted-foreground">Kadro aramak için yukarıdaki formu doldurunuz.</p>
-                <p className="text-sm text-muted-foreground mt-2">Nitelik kodlarınıza uygun tüm kadroları tek tıkla listeleyin.</p>
+              <div className="flex flex-col items-center justify-center mt-24 opacity-40 space-y-4">
+                <BookOpen className="w-16 h-16" />
+                <p className="text-xl font-medium">Kadro aramak için formu kullanınız.</p>
               </div>
              )
           )}

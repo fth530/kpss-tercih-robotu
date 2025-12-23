@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Check, ChevronsUpDown, X } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -14,34 +14,31 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 export type Option = {
   label: string;
   value: string;
-  badge?: string;
 };
 
 interface MultiSelectProps {
   options: Option[];
   selected: string[];
-  onChange: (value: string[]) => void;
+  onChange: (selected: string[]) => void;
   placeholder?: string;
-  searchPlaceholder?: string;
-  emptyMessage?: string;
   className?: string;
-  disabled?: boolean;
+  maxBadges?: number;
+  emptyMessage?: string;
 }
 
 export function MultiSelect({
   options,
   selected,
   onChange,
-  placeholder = "Select options...",
-  searchPlaceholder = "Search...",
-  emptyMessage = "No results found.",
+  placeholder = "Seçiniz...",
   className,
-  disabled = false,
+  maxBadges = 3,
+  emptyMessage = "Sonuç bulunamadı.",
 }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
 
@@ -49,30 +46,9 @@ export function MultiSelect({
     onChange(selected.filter((i) => i !== item));
   };
 
-  // Handle "All" selection logic specially if present in options
-  const handleSelect = (currentValue: string) => {
-    if (currentValue === "Tümü" || currentValue === "All") {
-      if (selected.includes("Tümü") || selected.includes("All")) {
-        onChange([]);
-      } else {
-        onChange(["Tümü"]); // Exclusive selection for "All"
-      }
-      return;
-    }
-
-    // If "All" was selected, remove it when selecting specific items
-    let newSelected = selected.filter(s => s !== "Tümü" && s !== "All");
-
-    if (newSelected.includes(currentValue)) {
-      newSelected = newSelected.filter((item) => item !== currentValue);
-    } else {
-      newSelected = [...newSelected, currentValue];
-    }
-    
-    onChange(newSelected);
-  };
-
-  const isAllSelected = selected.includes("Tümü") || selected.includes("All");
+  // Ensure "All" logic is handled by parent, but here we can check if "All" is selected
+  // If "Tümü" or "All" is selected, usually it's the only one.
+  // But purely for UI, we just render what is passed in `selected`.
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -82,59 +58,85 @@ export function MultiSelect({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            "w-full justify-between h-auto min-h-[3rem] py-2 px-3 text-left font-normal bg-background hover:bg-background/80",
+            "w-full justify-between bg-card hover:bg-accent/10 border-input h-auto min-h-[3rem] py-2",
             className
           )}
-          disabled={disabled}
         >
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1">
             {selected.length === 0 && (
-              <span className="text-muted-foreground">{placeholder}</span>
+              <span className="text-muted-foreground font-normal">{placeholder}</span>
             )}
-            
-            {isAllSelected && (
-              <Badge variant="secondary" className="rounded-md px-2 py-0.5 font-medium border-primary/20 bg-primary/5 text-primary">
-                Tümü
-              </Badge>
-            )}
-
-            {!isAllSelected && selected.map((item) => {
-              const option = options.find((o) => o.value === item);
-              return (
+            {selected.length > 0 && selected.length <= maxBadges ? (
+              selected.map((item) => (
                 <Badge
-                  key={item}
                   variant="secondary"
-                  className="rounded-md px-2 py-0.5 font-medium border-primary/20 bg-primary/5 text-primary group"
+                  key={item}
+                  className="mr-1 mb-1 font-normal bg-primary/20 text-primary-foreground hover:bg-primary/30 border-primary/20"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUnselect(item);
+                  }}
                 >
-                  {option ? (option.badge || option.label) : item}
+                  {options.find((option) => option.value === item)?.label || item}
                   <button
-                    className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 opacity-50 group-hover:opacity-100 transition-opacity"
+                    className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") {
+                        handleUnselect(item);
+                      }
+                    }}
                     onMouseDown={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
                     }}
-                    onClick={() => handleUnselect(item)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleUnselect(item);
+                    }}
                   >
-                    <X className="h-3 w-3" />
-                    <span className="sr-only">Remove {option?.label}</span>
+                    <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
                   </button>
                 </Badge>
-              );
-            })}
+              ))
+            ) : selected.length > maxBadges ? (
+               <Badge variant="secondary" className="bg-primary/20 text-primary-foreground border-primary/20">
+                {selected.length} seçildi
+               </Badge>
+            ) : null}
           </div>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0 min-w-[var(--radix-popover-trigger-width)]" align="start">
-        <Command>
-          <CommandInput placeholder={searchPlaceholder} />
+      <PopoverContent className="w-full p-0 bg-popover border-border" align="start">
+        <Command className="bg-popover text-popover-foreground">
+          <CommandInput placeholder="Ara..." />
           <CommandEmpty>{emptyMessage}</CommandEmpty>
           <CommandGroup className="max-h-64 overflow-auto custom-scrollbar">
             {options.map((option) => (
               <CommandItem
                 key={option.value}
                 value={option.label} // Search by label
-                onSelect={() => handleSelect(option.value)}
+                onSelect={() => {
+                  if (option.value === "Tümü" || option.value === "All") {
+                      // Logic for "All": clear others and set only All, or toggle
+                      // Simple toggle here, parent handles logic mostly.
+                      if (selected.includes(option.value)) {
+                          onChange([]);
+                      } else {
+                          onChange([option.value]);
+                      }
+                  } else {
+                      // If selecting a regular item, remove "All" if it exists
+                      const newSelected = selected.filter(s => s !== "Tümü" && s !== "All");
+                      
+                      if (selected.includes(option.value)) {
+                        onChange(newSelected.filter((item) => item !== option.value));
+                      } else {
+                        onChange([...newSelected, option.value]);
+                      }
+                  }
+                }}
               >
                 <Check
                   className={cn(
@@ -142,10 +144,9 @@ export function MultiSelect({
                     selected.includes(option.value) ? "opacity-100" : "opacity-0"
                   )}
                 />
-                <div className="flex flex-col">
-                  <span className={cn("font-medium", option.value === option.label ? "" : "text-sm")}>{option.label}</span>
-                  {option.value !== option.label && <span className="text-xs text-muted-foreground font-mono">{option.value}</span>}
-                </div>
+                <span className={cn(selected.includes(option.value) && "font-medium text-primary")}>
+                    {option.label}
+                </span>
               </CommandItem>
             ))}
           </CommandGroup>

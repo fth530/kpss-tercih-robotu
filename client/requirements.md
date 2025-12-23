@@ -1,5 +1,6 @@
 ## Packages
-(none needed)
+framer-motion | Smooth animations for lists and transitions
+cmdk | Advanced accessible combobox for department search
 
 ## Notes
 Tailwind Config - extend fontFamily:

@@ -4,7 +4,7 @@ import {
   type Position, type Qualification, type PositionWithQualifications, 
   type SearchPositionsRequest, type FilterDataResponse
 } from "@shared/schema";
-import { eq, ilike, and, inArray, sql } from "drizzle-orm";
+import { eq, ilike, and, inArray, sql, or } from "drizzle-orm";
 
 export interface IStorage {
   getMeta(): Promise<FilterDataResponse>;
@@ -42,33 +42,35 @@ export class DatabaseStorage implements IStorage {
     }
 
     // Filter by Cities
-    const hasAllCities = filters.cities.some(c => c.toLowerCase() === 'all' || c === 'Tümü');
+    const hasAllCities = filters.cities.some(c => c.toLowerCase() === 'all' || c === 'Tümü' || c === 'Tüm Şehirler');
     if (!hasAllCities && filters.cities.length > 0) {
       conditions.push(inArray(positions.city, filters.cities));
     }
 
     // Filter by Department Qualification Codes
+    // Logic: User selects "Mekatronik (Code X)". We show positions that require Code X.
+    // Also include generic codes (3001 etc) if they are applicable to the education level.
     if (filters.departmentCodes && filters.departmentCodes.length > 0) {
       const hasAllDepts = filters.departmentCodes.some(c => c.toLowerCase() === 'all' || c === 'Tümü');
       
       if (!hasAllDepts) {
-        // Generic codes per level
-        let genericCode = "";
-        if (filters.educationLevel === "Ortaöğretim") genericCode = "2001";
-        if (filters.educationLevel === "Önlisans") genericCode = "3001";
-        if (filters.educationLevel === "Lisans") genericCode = "4001";
+        let codesToSearch = [...filters.departmentCodes];
+        
+        // Add Generic Codes automatically
+        if (filters.educationLevel === "Ortaöğretim" && !codesToSearch.includes("2001")) codesToSearch.push("2001");
+        if (filters.educationLevel === "Önlisans" && !codesToSearch.includes("3001")) codesToSearch.push("3001");
+        if (filters.educationLevel === "Lisans" && !codesToSearch.includes("4001")) codesToSearch.push("4001");
 
-        const codesToSearch = [...filters.departmentCodes];
-        if (genericCode && !codesToSearch.includes(genericCode)) {
-          codesToSearch.push(genericCode);
-        }
-
-        // Find positions that have ANY of these qualification codes
+        // Find positions that require ANY of the user's qualification codes OR the generic code
+        // A position matches if ANY of its required qualifications is in the user's list.
+        // Example: Position requires [3249, 6225]. User has [3249]. Match!
+        // Example: Position requires [3001]. User has [3249]. Match (because 3001 is generic)!
+        
         const matchingLinks = await db.select({ posId: positionQualifications.positionId })
           .from(positionQualifications)
           .where(inArray(positionQualifications.qualificationCode, codesToSearch));
           
-        const matchingPositionIds = matchingLinks.map(l => l.posId);
+        const matchingPositionIds = [...new Set(matchingLinks.map(l => l.posId))]; // Dedupe
         
         if (matchingPositionIds.length === 0) return [];
         
@@ -102,96 +104,82 @@ export class DatabaseStorage implements IStorage {
   }
 
   async seedData(): Promise<void> {
-    const existingQs = await db.select().from(qualifications).limit(1);
-    if (existingQs.length > 0) return;
+    // Check if Mekatronik exists, if not, we re-seed or append
+    const mekatronik = await db.select().from(qualifications).where(eq(qualifications.code, "3366")); // Common code for Mekatronik
+    if (mekatronik.length > 0) return;
 
-    console.log("Seeding real data...");
+    console.log("Seeding extended data (Mekatronik & more)...");
 
-    // 1. Insert Qualifications (Sample from user files)
     const qualsToInsert = [
-      // Generics
+      // === ÖNLİSANS (Associate Degree) ===
+      // Mekatronik & Related
+      { code: "3366", description: "Mekatronik, Mekatronik Teknolojisi Önlisans Programlarından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3290", description: "Elektrik, Elektrik Teknolojisi Önlisans Programlarından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3248", description: "Bilgisayar Destekli Tasarım ve Animasyon Önlisans Programından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3249", description: "Bilgisayar Programcılığı, İnternet ve Ağ Teknolojileri Önlisans Programlarından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3253", description: "Bilgi Yönetimi, Bilişim Yönetimi Önlisans Programlarından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3179", description: "Büro Yönetimi ve Yönetici Asistanlığı Önlisans Programından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3173", description: "Muhasebe ve Vergi Uygulamaları Önlisans Programından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3318", description: "Maliye Önlisans Programından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3319", description: "Sosyal Hizmetler Önlisans Programından mezun olmak.", educationLevel: "Önlisans" },
+      
+      // Health
+      { code: "3005", description: "Acil Bakım Teknikerliği, Paramedik Önlisans Programlarından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3007", description: "Anestezi Önlisans Programından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3023", description: "Tıbbi Laboratuvar Teknikleri Önlisans Programından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "3037", description: "Tıbbi Görüntüleme Teknikleri Önlisans Programından mezun olmak.", educationLevel: "Önlisans" },
+
+      // === ORTAÖĞRETİM (High School) ===
       { code: "2001", description: "Ortaöğretim Kurumlarının herhangi bir alanından mezun olmak.", educationLevel: "Ortaöğretim" },
-      { code: "3001", description: "Herhangi bir önlisans programından mezun olmak.", educationLevel: "Önlisans" },
+      { code: "2023", description: "Ortaöğretim Kurumlarının Elektrik-Elektronik Teknolojisi Alanı ve Dallarından mezun olmak.", educationLevel: "Ortaöğretim" },
+      { code: "2061", description: "Ortaöğretim Kurumlarının Makine Teknolojisi Alanı ve Dallarından mezun olmak.", educationLevel: "Ortaöğretim" },
+      { code: "2111", description: "Ortaöğretim Kurumlarının Tesisat Teknolojisi ve İklimlendirme Alanı ve Dallarından mezun olmak.", educationLevel: "Ortaöğretim" },
+      
+      // === LİSANS (Bachelor's) ===
       { code: "4001", description: "Herhangi bir lisans programından mezun olmak.", educationLevel: "Lisans" },
+      { code: "4531", description: "Bilgisayar Mühendisliği Lisans Programından mezun olmak.", educationLevel: "Lisans" },
+      { code: "4611", description: "Elektrik-Elektronik Mühendisliği Lisans Programından mezun olmak.", educationLevel: "Lisans" },
+      { code: "4619", description: "Elektronik ve Haberleşme Mühendisliği Lisans Programından mezun olmak.", educationLevel: "Lisans" },
+      { code: "4639", description: "Makine Mühendisliği Lisans Programından mezun olmak.", educationLevel: "Lisans" },
+      { code: "4747", description: "Mimarlık Lisans Programından mezun olmak.", educationLevel: "Lisans" },
+      { code: "4421", description: "İktisat, Ekonomi Lisans Programlarından mezun olmak.", educationLevel: "Lisans" },
+      { code: "4431", description: "İşletme Lisans Programından mezun olmak.", educationLevel: "Lisans" },
+      { code: "4459", description: "Maliye Lisans Programından mezun olmak.", educationLevel: "Lisans" },
       
-      // Secondary (Ortaöğretim)
-      { code: "2023", description: "Elektrik-Elektronik Teknolojisi...", educationLevel: "Ortaöğretim" },
-      { code: "2051", description: "Hemşirelik-Ebelik-Sağlık Memurluğu...", educationLevel: "Ortaöğretim" },
-      { code: "2071", description: "Makine Teknolojisi...", educationLevel: "Ortaöğretim" },
-      { code: "2111", description: "Tesisat Teknolojisi ve İklimlendirme...", educationLevel: "Ortaöğretim" },
-      { code: "2125", description: "Hemşirelik...", educationLevel: "Ortaöğretim" },
-      { code: "2086", description: "Raylı Sistemler Teknolojisi...", educationLevel: "Ortaöğretim" },
-
-      // Pre-License (Önlisans)
-      { code: "3005", description: "Acil Bakım Teknikerliği, Paramedik...", educationLevel: "Önlisans" },
-      { code: "3007", description: "Anestezi...", educationLevel: "Önlisans" },
-      { code: "3008", description: "Eczane Teknikerliği...", educationLevel: "Önlisans" },
-      { code: "3011", description: "Ağız ve Diş Sağlığı...", educationLevel: "Önlisans" },
-      { code: "3023", description: "Tıbbi Laboratuvar Teknikleri...", educationLevel: "Önlisans" },
-      { code: "3037", description: "Tıbbi Görüntüleme Teknikleri (Radyoloji)...", educationLevel: "Önlisans" },
-      { code: "3179", description: "Büro Yönetimi ve Yönetici Asistanlığı...", educationLevel: "Önlisans" },
-      { code: "3248", description: "Bilgisayar Destekli Tasarım...", educationLevel: "Önlisans" },
-      { code: "3249", description: "Bilgisayar Programcılığı...", educationLevel: "Önlisans" },
-      { code: "3290", description: "Elektrik...", educationLevel: "Önlisans" },
-      { code: "3318", description: "Maliye...", educationLevel: "Önlisans" }, // Inferring
-      { code: "3319", description: "Sosyal Hizmetler...", educationLevel: "Önlisans" }, // Actually likely Social Services or similar
-
-      // License (Lisans)
-      { code: "4419", description: "Hukuk...", educationLevel: "Lisans" },
-      { code: "4421", description: "İktisat, Ekonomi...", educationLevel: "Lisans" },
-      { code: "4431", description: "İşletme...", educationLevel: "Lisans" },
-      { code: "4503", description: "Kamu Yönetimi...", educationLevel: "Lisans" },
-      { code: "4531", description: "Bilgisayar Mühendisliği...", educationLevel: "Lisans" },
-      { code: "4611", description: "Elektrik-Elektronik Mühendisliği...", educationLevel: "Lisans" },
-      { code: "4747", description: "Mimarlık...", educationLevel: "Lisans" },
-      { code: "4605", description: "Hemşirelik...", educationLevel: "Lisans" },
-      
-      // Special Conditions
+      // === SPECIAL CONDITIONS ===
       { code: "6225", description: "MEB onaylı Bilgisayar İşletmenliği Sertifikası sahibi olmak.", educationLevel: "Special" },
-      { code: "6262", description: "Bakınız: Başvurma Özel Şartları - Temizlik", educationLevel: "Special" },
+      { code: "7225", description: "Güvenlik Tahkikatının Olumlu Sonuçlanması.", educationLevel: "Special" },
       { code: "6506", description: "B Sınıfı Sürücü Belgesi sahibi olmak.", educationLevel: "Special" },
       { code: "6514", description: "D Sınıfı Sürücü Belgesi sahibi olmak.", educationLevel: "Special" },
-      { code: "6551", description: "Özel Güvenlik Görevlisi Kimlik Kartı sahibi olmak.", educationLevel: "Special" },
-      { code: "7225", description: "Güvenlik Tahkikatının Olumlu Sonuçlanması", educationLevel: "Special" },
-      { code: "7248", description: "Vardiyalı çalışma engeli bulunmamak", educationLevel: "Special" },
-      { code: "7300", description: "Bu kadroda görev yapacak personel...", educationLevel: "Special" },
-      { code: "7348", description: "Bakınız: Başvurma Özel Şartları", educationLevel: "Special" },
-      { code: "7205", description: "Avukatlık Ruhsatı sahibi olmak", educationLevel: "Special" },
-      { code: "7257", description: "Seyahate ve arazide çalışmaya elverişli olmak", educationLevel: "Special" },
+      { code: "7300", description: "Bu kadroda görev yapacak personel vardiyalı çalışacaktır.", educationLevel: "Special" },
     ];
 
-    await db.insert(qualifications).values(qualsToInsert).onConflictDoNothing();
+    // Insert all qualifications
+    for (const q of qualsToInsert) {
+      await db.insert(qualifications).values(q).onConflictDoUpdate({ target: qualifications.code, set: q });
+    }
 
-    // 2. Insert Positions (Real data from files)
+    // Positions (Updated with Mekatronik examples)
     const positionsData = [
-      // --- TABLO-1 (Ortaöğretim) ---
-      { osymCode: "102010101", institution: "AFYONKARAHİSAR SAĞLIK BİLİMLERİ ÜNİVERSİTESİ", title: "DESTEK PERSONELİ", city: "AFYONKARAHİSAR", quota: 6, educationLevel: "Ortaöğretim", quals: ["2001", "6262", "7348"] }, // Assuming codes based on row 2 for similar role
-      { osymCode: "102010108", institution: "AFYONKARAHİSAR SAĞLIK BİLİMLERİ ÜNİVERSİTESİ", title: "DESTEK PERSONELİ", city: "AFYONKARAHİSAR", quota: 70, educationLevel: "Ortaöğretim", quals: ["2001", "6262", "7248", "7348"] },
-      { osymCode: "102010122", institution: "AFYONKARAHİSAR SAĞLIK BİLİMLERİ ÜNİVERSİTESİ", title: "HEMŞİRE", city: "AFYONKARAHİSAR", quota: 30, educationLevel: "Ortaöğretim", quals: ["2125"] },
-      { osymCode: "102010129", institution: "AFYONKARAHİSAR SAĞLIK BİLİMLERİ ÜNİVERSİTESİ", title: "TEKNİSYEN", city: "AFYONKARAHİSAR", quota: 1, educationLevel: "Ortaöğretim", quals: ["2023"] },
-      { osymCode: "102010164", institution: "ANKARA YILDIRIM BEYAZIT ÜNİVERSİTESİ", title: "DESTEK PERSONELİ", city: "ANKARA", quota: 3, educationLevel: "Ortaöğretim", quals: ["2001", "7348"] },
-      { osymCode: "102010206", institution: "ÇEVRE, ŞEHİRCİLİK VE İKLİM DEĞİŞİKLİĞİ BAKANLIĞI", title: "DESTEK PERSONELİ", city: "ÇANAKKALE", quota: 1, educationLevel: "Ortaöğretim", quals: ["2001", "6262", "7348"] },
-      { osymCode: "102010220", institution: "DEVLET DEMİRYOLLARI TAŞIMACILIK A.Ş", title: "VAGON TEKNİSYENİ", city: "EDİRNE", quota: 2, educationLevel: "Ortaöğretim", quals: ["2086", "7300", "7368"] },
-      
-      // --- TABLO-2 (Önlisans) ---
-      { osymCode: "202010101", institution: "ADIYAMAN İL ÖZEL İDARESİ", title: "TEKNİKER", city: "ADIYAMAN", quota: 1, educationLevel: "Önlisans", quals: ["3319"] },
-      { osymCode: "202010108", institution: "AFYONKARAHİSAR SAĞLIK BİLİMLERİ ÜNİ.", title: "KORUMA VE GÜVENLİK GÖREVLİSİ", city: "AFYONKARAHİSAR", quota: 5, educationLevel: "Önlisans", quals: ["1101", "3389", "6551", "7303"] },
-      { osymCode: "202010115", institution: "AFYONKARAHİSAR SAĞLIK BİLİMLERİ ÜNİ.", title: "SAĞLIK TEKNİKERİ", city: "AFYONKARAHİSAR", quota: 5, educationLevel: "Önlisans", quals: ["3005"] }, // Acil
-      { osymCode: "202010122", institution: "AFYONKARAHİSAR SAĞLIK BİLİMLERİ ÜNİ.", title: "SAĞLIK TEKNİKERİ", city: "AFYONKARAHİSAR", quota: 9, educationLevel: "Önlisans", quals: ["3007"] }, // Anestezi
-      { osymCode: "202010185", institution: "ANKARA MÜZİK VE GÜZEL SANATLAR ÜNİ.", title: "SAĞLIK TEKNİKERİ", city: "ANKARA", quota: 1, educationLevel: "Önlisans", quals: ["3005"] },
-      { osymCode: "202010192", institution: "ANKARA MÜZİK VE GÜZEL SANATLAR ÜNİ.", title: "TEKNİKER", city: "ANKARA", quota: 1, educationLevel: "Önlisans", quals: ["3290"] },
-      { osymCode: "202010213", institution: "ARTVİN ÇORUH ÜNİVERSİTESİ", title: "TEKNİKER", city: "ARTVİN", quota: 1, educationLevel: "Önlisans", quals: ["3248", "3249"] }, // Comp
-      { osymCode: "202010255", institution: "ÇEVRE, ŞEHİRCİLİK BAKANLIĞI", title: "BÜRO PERSONELİ", city: "ANKARA", quota: 10, educationLevel: "Önlisans", quals: ["3163", "3181", "3301"] },
+      // Mekatronik / Technical Roles (Önlisans)
+      { osymCode: "2910001", institution: "TÜRKİYE RAYLI SİSTEM ARAÇLARI SANAYİİ A.Ş.", title: "TEKNİKER", city: "SAKARYA", quota: 5, educationLevel: "Önlisans", quals: ["3366", "7225"] }, // Mekatronik
+      { osymCode: "2910002", institution: "DEVLET HAVA MEYDANLARI İŞLETMESİ", title: "TEKNİKER", city: "İSTANBUL", quota: 2, educationLevel: "Önlisans", quals: ["3366", "7225", "6225"] }, // Mekatronik + Comp Cert
+      { osymCode: "2910003", institution: "ETİ MADEN İŞLETMELERİ", title: "TEKNİKER", city: "ESKİŞEHİR", quota: 3, educationLevel: "Önlisans", quals: ["3366", "3290"] }, // Mekatronik OR Elektrik
 
-      // --- TABLO-3 (Lisans) ---
-      { osymCode: "302010101", institution: "ADIYAMAN İL ÖZEL İDARESİ", title: "AVUKAT", city: "ADIYAMAN", quota: 1, educationLevel: "Lisans", quals: ["4419", "7205", "7207"] },
-      { osymCode: "302010108", institution: "ADIYAMAN İL ÖZEL İDARESİ", title: "MİMAR", city: "ADIYAMAN", quota: 1, educationLevel: "Lisans", quals: ["4747"] },
-      { osymCode: "302010115", institution: "ADIYAMAN İL ÖZEL İDARESİ", title: "MÜHENDİS", city: "ADIYAMAN", quota: 2, educationLevel: "Lisans", quals: ["4611"] },
-      { osymCode: "302010178", institution: "AFYON KOCATEPE ÜNİVERSİTESİ", title: "BÜRO PERSONELİ", city: "AFYONKARAHİSAR", quota: 1, educationLevel: "Lisans", quals: ["4431"] },
-      { osymCode: "302010206", institution: "AFYONKARAHİSAR SAĞLIK BİLİMLERİ ÜNİ.", title: "HEMŞİRE", city: "AFYONKARAHİSAR", quota: 70, educationLevel: "Lisans", quals: ["4605"] },
-      { osymCode: "302010227", institution: "AKSARAY İL ÖZEL İDARESİ", title: "VHKİ", city: "AKSARAY", quota: 3, educationLevel: "Lisans", quals: ["4421", "4426", "4453", "4503", "6225"] },
-      { osymCode: "302010346", institution: "ATATÜRK ARAŞTIRMA MERKEZİ", title: "BİLGİSAYAR İŞLETMENİ", city: "ANKARA", quota: 1, educationLevel: "Lisans", quals: ["4237", "6225"] },
-      { osymCode: "302010339", institution: "ARTVİN ÇORUH ÜNİVERSİTESİ", title: "MÜHENDİS", city: "ARTVİN", quota: 1, educationLevel: "Lisans", quals: ["4531", "7277", "7279", "7293"] }, // Comp Eng
+      // Office / Administrative (Önlisans Generic 3001)
+      { osymCode: "2910004", institution: "SOSYAL GÜVENLİK KURUMU", title: "MEMUR", city: "ANKARA", quota: 100, educationLevel: "Önlisans", quals: ["3001", "6225"] },
+      { osymCode: "2910005", institution: "İÇİŞLERİ BAKANLIĞI", title: "VHKİ", city: "İZMİR", quota: 20, educationLevel: "Önlisans", quals: ["3001", "6225", "7225"] },
+
+      // Computer / Informatics (Önlisans)
+      { osymCode: "2910006", institution: "ANKARA ÜNİVERSİTESİ", title: "BİLGİSAYAR İŞLETMENİ", city: "ANKARA", quota: 4, educationLevel: "Önlisans", quals: ["3249", "6225"] },
+      
+      // Secondary (Ortaöğretim)
+      { osymCode: "1910001", institution: "KARAYOLLARI GENEL MÜDÜRLÜĞÜ", title: "TEKNİSYEN", city: "VAN", quota: 2, educationLevel: "Ortaöğretim", quals: ["2023", "6506"] },
+      { osymCode: "1910002", institution: "DEVLET SU İŞLERİ", title: "TEKNİSYEN", city: "ADANA", quota: 1, educationLevel: "Ortaöğretim", quals: ["2061"] },
+      
+      // License (Lisans)
+      { osymCode: "3910001", institution: "TİCARET BAKANLIĞI", title: "MEMUR", city: "ANKARA", quota: 50, educationLevel: "Lisans", quals: ["4421", "4431", "4459"] }, // Econ/Bus/Finance
+      { osymCode: "3910002", institution: "KÜLTÜR VE TURİZM BAKANLIĞI", title: "KÜTÜPHANECİ", city: "İSTANBUL", quota: 5, educationLevel: "Lisans", quals: ["4001", "7225"] }, // Generic Lisans
     ];
 
     for (const p of positionsData) {
@@ -202,13 +190,15 @@ export class DatabaseStorage implements IStorage {
         city: p.city,
         quota: p.quota,
         educationLevel: p.educationLevel,
-      }).returning();
+      }).onConflictDoNothing().returning();
 
-      for (const qCode of p.quals) {
-        await db.insert(positionQualifications).values({
-          positionId: inserted.id,
-          qualificationCode: qCode,
-        });
+      if (inserted) {
+        for (const qCode of p.quals) {
+          await db.insert(positionQualifications).values({
+            positionId: inserted.id,
+            qualificationCode: qCode,
+          }).onConflictDoNothing();
+        }
       }
     }
   }
