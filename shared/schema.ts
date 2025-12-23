@@ -5,26 +5,23 @@ import { z } from "zod";
 
 // === TABLE DEFINITIONS ===
 
-// Nitelik Kodları (e.g., 3249 - Bilgisayar Programcılığı, 6225 - MEB Onaylı Bilgisayar İşletmeni Sertifikası)
 export const qualifications = pgTable("qualifications", {
   code: text("code").primaryKey(), // 3249, 7225, etc.
   description: text("description").notNull(),
   educationLevel: text("education_level"), // Ortaöğretim, Önlisans, Lisans, or 'Special' for conditions
 });
 
-// Kadrolar (Positions)
 export const positions = pgTable("positions", {
   id: serial("id").primaryKey(),
-  osymCode: text("osym_code").notNull().unique(), // e.g., 1010101
-  institution: text("institution").notNull(), // e.g., Ankara Üniversitesi
-  title: text("title").notNull(), // e.g., Memur, Bilgisayar İşletmeni
+  osymCode: text("osym_code").notNull().unique(), 
+  institution: text("institution").notNull(),
+  title: text("title").notNull(),
   city: text("city").notNull(),
-  quota: integer("quota").notNull(), // Kaç kişi alınacağı
-  educationLevel: text("education_level").notNull(), // Ortaöğretim, Önlisans, Lisans
-  minScore: integer("min_score"), // Optional informational field
+  quota: integer("quota").notNull(),
+  educationLevel: text("education_level").notNull(),
+  minScore: integer("min_score"),
 });
 
-// Kadro - Nitelik İlişkisi (Many-to-Many)
 export const positionQualifications = pgTable("position_qualifications", {
   id: serial("id").primaryKey(),
   positionId: integer("position_id").notNull(),
@@ -56,19 +53,18 @@ export const insertQualificationSchema = createInsertSchema(qualifications);
 export type Position = typeof positions.$inferSelect;
 export type Qualification = typeof qualifications.$inferSelect;
 
-// For the search results, we want the position + its qualification codes
 export interface PositionWithQualifications extends Position {
   qualifications: Qualification[];
 }
 
 export type SearchPositionsRequest = {
   educationLevel: string;
-  cities: string[]; // ["All"] or ["Ankara", "Izmir"]
-  departmentCode?: string; // e.g. "3249" - Main qualification code for the user's major
+  cities: string[]; 
+  departmentCodes: string[]; // Changed to array
 };
 
 export type FilterDataResponse = {
   cities: string[];
   educationLevels: string[];
-  qualifications: Qualification[]; // For the autocomplete dropdown
+  qualifications: Qualification[];
 };

@@ -1,9 +1,6 @@
 import { z } from 'zod';
 import { positions, qualifications } from './schema';
 
-// ============================================
-// SHARED ERROR SCHEMAS
-// ============================================
 export const errorSchemas = {
   validation: z.object({
     message: z.string(),
@@ -17,9 +14,6 @@ export const errorSchemas = {
   }),
 };
 
-// ============================================
-// API CONTRACT
-// ============================================
 export const api = {
   meta: {
     get: {
@@ -41,7 +35,7 @@ export const api = {
       input: z.object({
         educationLevel: z.string(),
         cities: z.array(z.string()),
-        departmentCode: z.string().optional(),
+        departmentCodes: z.array(z.string()), // Updated to array
       }),
       responses: {
         200: z.array(z.custom<typeof positions.$inferSelect & { qualifications: typeof qualifications.$inferSelect[] }>()),
@@ -51,9 +45,6 @@ export const api = {
   },
 };
 
-// ============================================
-// REQUIRED: buildUrl helper
-// ============================================
 export function buildUrl(path: string, params?: Record<string, string | number>): string {
   let url = path;
   if (params) {
@@ -66,9 +57,6 @@ export function buildUrl(path: string, params?: Record<string, string | number>)
   return url;
 }
 
-// ============================================
-// TYPE HELPERS
-// ============================================
 export type SearchInput = z.infer<typeof api.positions.search.input>;
 export type SearchResponse = z.infer<typeof api.positions.search.responses[200]>;
 export type MetaResponse = z.infer<typeof api.meta.get.responses[200]>;
