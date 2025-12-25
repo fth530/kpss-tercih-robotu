@@ -33,12 +33,17 @@ const allowlist = [
 ];
 
 async function buildAll() {
+  const startTime = Date.now();
+  
   await rm("dist", { recursive: true, force: true });
 
-  console.log("building client...");
+  console.log("🏗️  Building client...");
+  const clientStart = Date.now();
   await viteBuild();
+  console.log(`✅ Client built in ${Date.now() - clientStart}ms`);
 
-  console.log("building server...");
+  console.log("🏗️  Building server...");
+  const serverStart = Date.now();
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));
   const allDeps = [
     ...Object.keys(pkg.dependencies || {}),
@@ -58,10 +63,16 @@ async function buildAll() {
     minify: true,
     external: externals,
     logLevel: "info",
+    sourcemap: false, // Disable sourcemaps for production
+    treeShaking: true, // Enable tree shaking
+    target: "node18", // Target Node.js 18+
   });
+  
+  console.log(`✅ Server built in ${Date.now() - serverStart}ms`);
+  console.log(`🎉 Total build time: ${Date.now() - startTime}ms`);
 }
 
 buildAll().catch((err) => {
-  console.error(err);
+  console.error("❌ Build failed:", err);
   process.exit(1);
 });

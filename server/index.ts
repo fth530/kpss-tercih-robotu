@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import { env } from "./env"; // Import environment validation
 
 const app = express();
 const httpServer = createServer(app);
@@ -23,14 +24,17 @@ app.use(
 app.use(express.urlencoded({ extended: false }));
 
 export function log(message: string, source = "express") {
-  const formattedTime = new Date().toLocaleTimeString("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: true,
-  });
+  // Only log in development mode to reduce noise in production
+  if (env.NODE_ENV === "development") {
+    const formattedTime = new Date().toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    });
 
-  console.log(`${formattedTime} [${source}] ${message}`);
+    console.log(`${formattedTime} [${source}] ${message}`);
+  }
 }
 
 app.use((req, res, next) => {
@@ -52,7 +56,12 @@ app.use((req, res, next) => {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
 
-      log(logLine);
+      // Warn about slow requests
+      if (duration > 1000) {
+        log(`⚠️  SLOW REQUEST: ${logLine}`, "performance");
+      } else {
+        log(logLine);
+      }
     }
   });
 
@@ -66,14 +75,18 @@ app.use((req, res, next) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
 
+    // Log errors in development
+    if (env.NODE_ENV === "development") {
+      console.error(`Error ${status}: ${message}`, err.stack);
+    }
+
     res.status(status).json({ message });
-    throw err;
   });
 
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
-  if (process.env.NODE_ENV === "production") {
+  if (env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
     const { setupVite } = await import("./vite");
@@ -84,15 +97,7 @@ app.use((req, res, next) => {
   // Other ports are firewalled. Default to 5000 if not specified.
   // this serves both the API and the client.
   // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  httpServer.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`serving on port ${port}`);
-    },
-  );
+  httpServer.listen(env.PORT, "0.0.0.0", () => {
+    log(`serving on port ${env.PORT}`);
+  });
 })();

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useKpssMeta, useSearchPositions } from "@/hooks/use-kpss";
+import { useFavorites } from "@/hooks/use-favorites";
 import { ResultsTable } from "@/components/ResultsTable";
 import { Button } from "@/components/ui/button";
 import { 
@@ -14,26 +15,27 @@ import { MultiSelect, type Option } from "@/components/MultiSelect";
 import { 
   Search, 
   GraduationCap, 
-  Map, 
+  MapPin, 
   BookOpen, 
-  Users, 
   Building2,
   RefreshCw,
-  Sparkles
+  Sparkles,
+  TrendingUp,
+  ChevronRight,
+  Star
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   const { data: meta, isLoading: isMetaLoading } = useKpssMeta();
   const searchMutation = useSearchPositions();
+  const { favoritePositions, favoritesCount } = useFavorites();
 
-  // Form State
   const [educationLevel, setEducationLevel] = useState<string>("");
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState<"search" | "favorites">("search");
 
-  // Derived Options
   const cityOptions: Option[] = [
     { label: "Tüm Şehirler", value: "Tümü" },
     ...(meta?.cities.map(c => ({ label: c, value: c })) || [])
@@ -43,7 +45,6 @@ export default function Home() {
     !educationLevel || q.educationLevel === educationLevel || q.educationLevel === 'Special'
   ) || [];
 
-  // Create department options from filtered qualifications
   const departmentOptions: Option[] = filteredQualifications.map(q => ({
     label: `${q.code} - ${q.description}`,
     value: q.code
@@ -51,18 +52,12 @@ export default function Home() {
 
   const handleSearch = () => {
     if (!educationLevel) return;
-    
-    // Logic: If "Tümü" is selected or empty array, send ["All"]
     const citiesPayload = (selectedCities.length === 0 || selectedCities.includes("Tümü")) 
-      ? ["All"] 
-      : selectedCities;
-
-    const deptPayload = selectedDepartments;
-
+      ? ["All"] : selectedCities;
     searchMutation.mutate({
       educationLevel,
       cities: citiesPayload,
-      departmentCodes: deptPayload,
+      departmentCodes: selectedDepartments,
     });
   };
 
@@ -74,200 +69,333 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20 selection:bg-primary/20">
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
       
-      {/* Background Gradients */}
-      <div className="fixed inset-0 z-0 pointer-events-none">
-         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-[128px]" />
-         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-[128px]" />
+      {/* Animated Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/5 rounded-full blur-[150px]" />
       </div>
 
-      {/* Hero Header */}
-      <div className="relative z-10 border-b border-border/40 bg-card/30 backdrop-blur-md">
-        <div className="container max-w-7xl mx-auto px-4 py-16 md:py-24">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            
-            <div className="flex-1 space-y-8 animate-in slide-in-from-left-4 duration-700 fade-in">
-              <div className="space-y-4">
-                <Badge variant="outline" className="px-4 py-1.5 text-sm font-medium border-primary/30 text-primary bg-primary/5 rounded-full">
-                  <Sparkles className="w-3.5 h-3.5 mr-2 inline-block fill-primary" />
-                  2025/1 Dönemi Güncel
-                </Badge>
-                <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-foreground leading-[1.1]">
-                  KPSS <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-cyan-400">Tercih Robotu</span>
-                </h1>
-                <p className="text-xl text-muted-foreground max-w-2xl leading-relaxed">
-                  Puanınıza ve niteliklerinize en uygun kamu kadrolarını saniyeler içinde bulun.
-                  %100 güncel ve resmi kılavuz verileri.
-                </p>
+      {/* Header */}
+      <header className="relative z-10 border-b border-white/5 backdrop-blur-xl bg-slate-950/50">
+        <div className="container max-w-6xl mx-auto px-6 py-5">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              {/* Logo */}
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-400 rounded-2xl blur-lg opacity-50 group-hover:opacity-75 transition-opacity" />
+                <div className="relative w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-white/20 rounded-lg blur-sm" />
+                    <svg className="w-7 h-7 text-white relative z-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <polyline points="14 2 14 8 20 8" />
+                      <line x1="12" y1="18" x2="12" y2="12" />
+                      <line x1="9" y1="15" x2="15" y2="15" />
+                    </svg>
+                  </div>
+                </div>
               </div>
               
-              <div className="flex items-center gap-6 pt-4">
-                 <div className="flex -space-x-3">
-                    {[1,2,3,4].map(i => (
-                        <div key={i} className="w-10 h-10 rounded-full border-2 border-background bg-muted flex items-center justify-center text-xs font-medium text-muted-foreground">
-                            <Users className="w-5 h-5" />
-                        </div>
-                    ))}
-                 </div>
-                 <div className="text-sm">
-                    <span className="font-bold text-foreground">50,000+</span> aday tarafından kullanılıyor
-                 </div>
+              {/* Brand */}
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-white tracking-tight">KPSS Tercih</span>
+                <span className="text-xs text-slate-500 font-medium">Kadro Arama Robotu</span>
               </div>
             </div>
             
-            {/* Stats Cards */}
-            <div className="flex-1 w-full flex justify-center md:justify-end animate-in slide-in-from-right-4 duration-1000 fade-in">
-              <div className="grid grid-cols-2 gap-4 w-full max-w-md">
-                <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50 hover:border-primary/50 transition-colors group">
-                  <div className="bg-primary/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Building2 className="w-6 h-6 text-primary" />
-                  </div>
-                  <div className="text-3xl font-bold text-foreground">1200+</div>
-                  <div className="text-sm text-muted-foreground font-medium">Aktif Kadro</div>
-                </div>
-                <div className="bg-card/50 backdrop-blur-sm p-6 rounded-2xl border border-border/50 hover:border-accent/50 transition-colors group mt-8">
-                  <div className="bg-accent/10 w-12 h-12 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
-                    <Users className="w-6 h-6 text-accent" />
-                  </div>
-                  <div className="text-3xl font-bold text-foreground">85+</div>
-                  <div className="text-sm text-muted-foreground font-medium">Kurum</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content Area */}
-      <div className="container max-w-7xl mx-auto px-4 -mt-12 relative z-20">
-        
-        {/* Filter Card */}
-        <div className="bg-card rounded-2xl shadow-2xl shadow-black/20 border border-border p-6 md:p-8 animate-in slide-in-from-bottom-8 duration-700 fade-in">
-          
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-bold flex items-center gap-2">
-              <Search className="w-5 h-5 text-primary" />
-              Kadro Arama Kriterleri
-            </h2>
-            { (educationLevel || selectedCities.length > 0 || selectedDepartments.length > 0) && (
-              <Button variant="ghost" size="sm" onClick={handleReset} className="text-muted-foreground hover:text-foreground">
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Filtreleri Temizle
-              </Button>
-            )}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 items-end">
-            
-            {/* Education Level */}
-            <div className="space-y-2.5 lg:col-span-3">
-              <Label className="text-sm font-semibold flex items-center gap-2 text-muted-foreground">
-                <GraduationCap className="w-4 h-4 text-primary" />
-                Öğrenim Düzeyi
-              </Label>
-              <Select value={educationLevel} onValueChange={setEducationLevel}>
-                <SelectTrigger className="h-12 bg-background border-input hover:border-primary/50 transition-colors focus:ring-primary/20">
-                  <SelectValue placeholder="Seçiniz..." />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Ortaöğretim">Ortaöğretim (Lise)</SelectItem>
-                  <SelectItem value="Önlisans">Önlisans</SelectItem>
-                  <SelectItem value="Lisans">Lisans</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* City Selection (Multi) */}
-            <div className="space-y-2.5 lg:col-span-3">
-              <Label className="text-sm font-semibold flex items-center gap-2 text-muted-foreground">
-                <Map className="w-4 h-4 text-primary" />
-                Şehir Tercihi
-              </Label>
-              <MultiSelect 
-                options={cityOptions}
-                selected={selectedCities}
-                onChange={setSelectedCities}
-                placeholder="Şehir Seçiniz (Çoklu)"
-                className="h-12 bg-background"
-                emptyMessage="Şehir bulunamadı."
-              />
-            </div>
-
-            {/* Department/Qualification Search (Multi) */}
-            <div className="space-y-2.5 lg:col-span-4">
-              <Label className="text-sm font-semibold flex items-center gap-2 text-muted-foreground">
-                <BookOpen className="w-4 h-4 text-primary" />
-                Bölüm / Nitelik Kodu
-              </Label>
-              <MultiSelect 
-                options={departmentOptions}
-                selected={selectedDepartments}
-                onChange={setSelectedDepartments}
-                placeholder={!educationLevel ? "Önce öğrenim düzeyi seçiniz" : "Bölüm veya kod arayın..."}
-                className="h-12 bg-background"
-                emptyMessage={!educationLevel ? "Öğrenim düzeyi seçiniz." : "Bölüm bulunamadı."}
-              />
-            </div>
-            
-            {/* Action Button */}
-            <div className="lg:col-span-2">
-              <Button 
-                size="lg" 
-                className="w-full h-12 text-base font-bold shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all duration-300"
-                onClick={handleSearch}
-                disabled={searchMutation.isPending || !educationLevel}
+            <div className="flex items-center gap-3">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setActiveTab("favorites")}
+                className={`relative ${
+                  activeTab === "favorites"
+                    ? "text-yellow-400 bg-yellow-500/10"
+                    : "text-slate-400 hover:text-white"
+                }`}
               >
-                {searchMutation.isPending ? (
-                  <span className="flex items-center gap-2">
-                    <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                    Aranıyor...
-                  </span>
-                ) : (
-                  <span className="flex items-center gap-2">
-                    <Search className="w-5 h-5" />
-                    Listele
-                  </span>
+                <Star className={`w-4 h-4 mr-2 ${activeTab === "favorites" ? "fill-yellow-400" : ""}`} />
+                Favoriler
+                {favoritesCount > 0 && (
+                  <Badge className="ml-2 bg-yellow-500/20 text-yellow-400 border-yellow-500/30 hover:bg-yellow-500/30">
+                    {favoritesCount}
+                  </Badge>
                 )}
               </Button>
+              
+              <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20 px-3 py-1.5">
+                <Sparkles className="w-3.5 h-3.5 mr-1.5" />
+                2025/2 Güncel
+              </Badge>
             </div>
           </div>
         </div>
+      </header>
 
-        {/* Results Area */}
-        <div className="min-h-[400px]">
-          {searchMutation.isError && (
-            <div className="mt-6 p-4 bg-destructive/10 text-destructive rounded-xl border border-destructive/20 flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
-               <div className="w-8 h-8 rounded-full bg-destructive/20 flex items-center justify-center shrink-0">
-                  <span className="font-bold">!</span>
-               </div>
-              <span className="font-medium">{searchMutation.error.message}</span>
-            </div>
-          )}
 
-          {searchMutation.data ? (
-            <div className="animate-in fade-in slide-in-from-bottom-8 duration-500">
-               <div className="mt-12 flex items-center gap-4 mb-4">
-                  <Badge variant="secondary" className="text-base px-3 py-1">
-                    {searchMutation.data.length} Sonuç Bulundu
-                  </Badge>
-                  <Separator className="flex-1" />
-               </div>
-               <ResultsTable 
-                 results={searchMutation.data} 
-                 isLoading={searchMutation.isPending} 
-               />
-            </div>
-          ) : (
-             !searchMutation.isPending && (
-              <div className="flex flex-col items-center justify-center mt-24 opacity-40 space-y-4">
-                <BookOpen className="w-16 h-16" />
-                <p className="text-xl font-medium">Kadro aramak için formu kullanınız.</p>
+      {/* Hero Section */}
+      <section className="relative z-10 pt-16 pb-8">
+        <div className="container max-w-6xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              Hayalindeki Kadroya
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400">
+                Bir Adım Daha Yakın
+              </span>
+            </h1>
+            <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+              KPSS puanınıza ve mezuniyet alanınıza uygun tüm kamu kadrolarını 
+              anında listeleyin. Resmi kılavuz verileriyle %100 doğru sonuçlar.
+            </p>
+            
+            {/* Stats */}
+            <div className="flex items-center justify-center gap-8 mb-12">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-white">1,795</div>
+                <div className="text-sm text-slate-500">Kadro</div>
               </div>
-             )
-          )}
+              <div className="w-px h-10 bg-slate-700" />
+              <div className="text-center">
+                <div className="text-3xl font-bold text-white">1,300</div>
+                <div className="text-sm text-slate-500">Nitelik</div>
+              </div>
+              <div className="w-px h-10 bg-slate-700" />
+              <div className="text-center">
+                <div className="text-3xl font-bold text-white">81</div>
+                <div className="text-sm text-slate-500">Şehir</div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* Search Section */}
+      <section className="relative z-10 pb-20">
+        <div className="container max-w-5xl mx-auto px-6">
+          
+          {/* Filter Card */}
+          <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-700/50 p-8 shadow-2xl shadow-black/20">
+            
+            {/* Card Header */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
+                  <Search className="w-5 h-5 text-blue-400" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-white">Kadro Ara</h2>
+                  <p className="text-sm text-slate-500">Kriterleri belirleyin</p>
+                </div>
+              </div>
+              {(educationLevel || selectedCities.length > 0 || selectedDepartments.length > 0) && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleReset}
+                  className="text-slate-400 hover:text-white hover:bg-slate-800"
+                >
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Temizle
+                </Button>
+              )}
+            </div>
+
+            {/* Filters Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              
+              {/* Education Level */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium text-slate-300 flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4 text-blue-400" />
+                  Öğrenim Düzeyi
+                </Label>
+                <Select value={educationLevel} onValueChange={setEducationLevel}>
+                  <SelectTrigger className="h-12 bg-slate-800/50 border-slate-700 text-white hover:border-blue-500/50 focus:border-blue-500 focus:ring-blue-500/20 transition-all">
+                    <SelectValue placeholder="Seçiniz..." />
+                  </SelectTrigger>
+                  <SelectContent className="bg-slate-800 border-slate-700">
+                    <SelectItem value="Ortaöğretim" className="text-white focus:bg-slate-700">Ortaöğretim (Lise)</SelectItem>
+                    <SelectItem value="Önlisans" className="text-white focus:bg-slate-700">Önlisans</SelectItem>
+                    <SelectItem value="Lisans" className="text-white focus:bg-slate-700">Lisans</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              {/* City */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium text-slate-300 flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-blue-400" />
+                  Şehir
+                </Label>
+                <MultiSelect 
+                  options={cityOptions}
+                  selected={selectedCities}
+                  onChange={setSelectedCities}
+                  placeholder="Tüm şehirler"
+                  className="h-12 bg-slate-800/50 border-slate-700 text-white"
+                  emptyMessage="Şehir bulunamadı."
+                />
+              </div>
+
+              {/* Department */}
+              <div className="space-y-3">
+                <Label className="text-sm font-medium text-slate-300 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-blue-400" />
+                  Bölüm / Nitelik
+                </Label>
+                <MultiSelect 
+                  options={departmentOptions}
+                  selected={selectedDepartments}
+                  onChange={setSelectedDepartments}
+                  placeholder={!educationLevel ? "Önce düzey seçin" : "Bölüm arayın..."}
+                  className="h-12 bg-slate-800/50 border-slate-700 text-white"
+                  emptyMessage={!educationLevel ? "Önce öğrenim düzeyi seçin." : "Bölüm bulunamadı."}
+                />
+              </div>
+            </div>
+
+            {/* Search Button */}
+            <Button 
+              size="lg" 
+              className="w-full h-14 text-base font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300"
+              onClick={handleSearch}
+              disabled={searchMutation.isPending || !educationLevel}
+            >
+              {searchMutation.isPending ? (
+                <span className="flex items-center gap-2">
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                  Aranıyor...
+                </span>
+              ) : (
+                <span className="flex items-center gap-2">
+                  <Search className="w-5 h-5" />
+                  Kadroları Listele
+                  <ChevronRight className="w-4 h-4" />
+                </span>
+              )}
+            </Button>
+          </div>
+
+
+          {/* Results Section */}
+          <div className="mt-8">
+            {searchMutation.isError && (
+              <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl flex items-center gap-3 text-red-400">
+                <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center shrink-0">
+                  <span className="text-lg">!</span>
+                </div>
+                <span>{searchMutation.error.message}</span>
+              </div>
+            )}
+
+            {activeTab === "search" && searchMutation.data ? (
+              <div className="space-y-6">
+                {/* Results Header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                      <TrendingUp className="w-5 h-5 text-emerald-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">Sonuçlar</h3>
+                      <p className="text-sm text-slate-500">{searchMutation.data.length} kadro bulundu</p>
+                    </div>
+                  </div>
+                  <Badge variant="outline" className="border-slate-700 text-slate-300 px-4 py-2">
+                    <Building2 className="w-4 h-4 mr-2" />
+                    {searchMutation.data.length} Kadro
+                  </Badge>
+                </div>
+                
+                {/* Results Table */}
+                <div className="bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-700/50 overflow-hidden">
+                  <ResultsTable 
+                    results={searchMutation.data} 
+                    isLoading={searchMutation.isPending} 
+                  />
+                </div>
+              </div>
+            ) : activeTab === "favorites" ? (
+              <div className="space-y-6">
+                {/* Favorites Header */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
+                      <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">Favorilerim</h3>
+                      <p className="text-sm text-slate-500">{favoritesCount} favori kadro</p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setActiveTab("search")}
+                    className="text-slate-400 hover:text-white"
+                  >
+                    Aramaya Dön
+                  </Button>
+                </div>
+                
+                {/* Favorites Table */}
+                {favoritePositions.length > 0 ? (
+                  <div className="bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-700/50 overflow-hidden">
+                    <ResultsTable 
+                      results={favoritePositions} 
+                      isLoading={false} 
+                    />
+                  </div>
+                ) : (
+                  <div className="text-center py-20 bg-slate-900/30 rounded-2xl border border-slate-700/30">
+                    <div className="w-20 h-20 rounded-full bg-slate-800/50 flex items-center justify-center mx-auto mb-6">
+                      <Star className="w-10 h-10 text-slate-600" />
+                    </div>
+                    <h3 className="text-xl font-semibold text-slate-400 mb-2">Henüz Favori Yok</h3>
+                    <p className="text-slate-500 max-w-md mx-auto mb-6">
+                      Kadro listesinde yıldız ikonuna tıklayarak favorilerinize ekleyin
+                    </p>
+                    <Button
+                      onClick={() => setActiveTab("search")}
+                      className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500"
+                    >
+                      Kadro Ara
+                    </Button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              !searchMutation.isPending && (
+                <div className="text-center py-20">
+                  <div className="w-20 h-20 rounded-full bg-slate-800/50 flex items-center justify-center mx-auto mb-6">
+                    <Search className="w-10 h-10 text-slate-600" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-400 mb-2">Aramaya Başlayın</h3>
+                  <p className="text-slate-500 max-w-md mx-auto">
+                    Öğrenim düzeyinizi seçin ve size uygun kadroları keşfedin
+                  </p>
+                </div>
+              )
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="relative z-10 border-t border-slate-800 py-8">
+        <div className="container max-w-6xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+            <div>© 2025 KPSS Tercih Robotu. Tüm hakları saklıdır.</div>
+            <div className="flex items-center gap-2">
+              <span>Veriler:</span>
+              <Badge variant="outline" className="border-slate-700 text-slate-400">ÖSYM 2025/2 Kılavuzu</Badge>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

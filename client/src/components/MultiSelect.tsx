@@ -37,14 +37,71 @@ export function MultiSelect({
   onChange,
   placeholder = "Seçiniz...",
   className,
-  maxBadges = 3,
+  maxBadges = 2,
   emptyMessage = "Sonuç bulunamadı.",
 }: MultiSelectProps) {
   const [open, setOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const handleUnselect = (item: string) => {
     onChange(selected.filter((i) => i !== item));
   };
+
+  // Smart search and sort function
+  const getFilteredAndSortedOptions = () => {
+    if (!searchQuery) return options;
+
+    const query = searchQuery.toLowerCase().trim();
+    
+    return options
+      .map(option => {
+        const label = option.label.toLowerCase();
+        const value = option.value.toLowerCase();
+        const words = label.split(/[\s,.-]+/); // Split by spaces, commas, dots, dashes
+        
+        // Calculate relevance score
+        let score = 0;
+        
+        // Check value (code) first - highest priority
+        if (value === query) score = 10000;
+        else if (value.startsWith(query)) score = 9000;
+        else if (value.includes(query)) score = 8000;
+        
+        // Check label
+        // Exact word match (very high priority)
+        if (words.some(word => word === query)) score = Math.max(score, 7000);
+        // Word starts with query
+        else if (words.some(word => word.startsWith(query))) score = Math.max(score, 6000);
+        // Label starts with query
+        else if (label.startsWith(query)) score = Math.max(score, 5000);
+        // First word contains query
+        else if (words[0]?.includes(query)) score = Math.max(score, 4000);
+        // Any word contains query
+        else if (words.some(word => word.includes(query))) score = Math.max(score, 3000);
+        // Contains query anywhere
+        else if (label.includes(query)) score = Math.max(score, 2000);
+        // No match
+        else return null;
+        
+        // Bonus for position (earlier = better)
+        const position = label.indexOf(query);
+        if (position >= 0) {
+          score += Math.max(0, 500 - position * 10);
+        }
+        
+        // Bonus for shorter matches (more specific)
+        score += Math.max(0, 200 - label.length / 2);
+        
+        // Penalty for very long descriptions
+        if (label.length > 100) score -= 100;
+        
+        return { ...option, score };
+      })
+      .filter((item): item is Option & { score: number } => item !== null)
+      .sort((a, b) => b.score - a.score);
+  };
+
+  const filteredOptions = getFilteredAndSortedOptions();
 
   // Ensure "All" logic is handled by parent, but here we can check if "All" is selected
   // If "Tümü" or "All" is selected, usually it's the only one.
@@ -62,43 +119,48 @@ export function MultiSelect({
             className
           )}
         >
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 flex-1 overflow-hidden">
             {selected.length === 0 && (
               <span className="text-muted-foreground font-normal">{placeholder}</span>
             )}
             {selected.length > 0 && selected.length <= maxBadges ? (
-              selected.map((item) => (
-                <Badge
-                  variant="secondary"
-                  key={item}
-                  className="mr-1 mb-1 font-normal bg-primary/20 text-primary-foreground hover:bg-primary/30 border-primary/20"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleUnselect(item);
-                  }}
-                >
-                  {options.find((option) => option.value === item)?.label || item}
-                  <button
-                    className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        handleUnselect(item);
-                      }
-                    }}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
+              selected.map((item) => {
+                const label = options.find((option) => option.value === item)?.label || item;
+                const displayLabel = label.length > 30 ? label.substring(0, 30) + "..." : label;
+                
+                return (
+                  <Badge
+                    variant="secondary"
+                    key={item}
+                    className="mr-1 mb-1 font-normal bg-primary/20 text-primary-foreground hover:bg-primary/30 border-primary/20 max-w-[200px] truncate"
                     onClick={(e) => {
-                      e.preventDefault();
                       e.stopPropagation();
                       handleUnselect(item);
                     }}
                   >
-                    <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
-                  </button>
-                </Badge>
-              ))
+                    <span className="truncate">{displayLabel}</span>
+                    <button
+                      className="ml-1 ring-offset-background rounded-full outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 shrink-0"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleUnselect(item);
+                        }
+                      }}
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleUnselect(item);
+                      }}
+                    >
+                      <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                    </button>
+                  </Badge>
+                );
+              })
             ) : selected.length > maxBadges ? (
                <Badge variant="secondary" className="bg-primary/20 text-primary-foreground border-primary/20">
                 {selected.length} seçildi
@@ -109,25 +171,26 @@ export function MultiSelect({
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0 bg-popover border-border" align="start">
-        <Command className="bg-popover text-popover-foreground">
-          <CommandInput placeholder="Ara..." />
+        <Command className="bg-popover text-popover-foreground" shouldFilter={false}>
+          <CommandInput 
+            placeholder="Ara..." 
+            value={searchQuery}
+            onValueChange={setSearchQuery}
+          />
           <CommandEmpty>{emptyMessage}</CommandEmpty>
           <CommandGroup className="max-h-64 overflow-auto custom-scrollbar">
-            {options.map((option) => (
+            {filteredOptions.map((option) => (
               <CommandItem
                 key={option.value}
-                value={option.label} // Search by label
+                value={option.value}
                 onSelect={() => {
                   if (option.value === "Tümü" || option.value === "All") {
-                      // Logic for "All": clear others and set only All, or toggle
-                      // Simple toggle here, parent handles logic mostly.
                       if (selected.includes(option.value)) {
                           onChange([]);
                       } else {
                           onChange([option.value]);
                       }
                   } else {
-                      // If selecting a regular item, remove "All" if it exists
                       const newSelected = selected.filter(s => s !== "Tümü" && s !== "All");
                       
                       if (selected.includes(option.value)) {
