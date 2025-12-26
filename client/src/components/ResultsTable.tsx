@@ -317,12 +317,15 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
                         </TooltipTrigger>
                         <TooltipContent 
                           side="top" 
-                          className="max-w-sm p-4 bg-slate-800 border-slate-700 shadow-xl z-[100]"
+                          className="max-w-md p-4 bg-slate-800 border-slate-700 shadow-xl z-[100]"
                         >
-                          <p className="font-bold text-sm text-slate-300 mb-2">Diğer Nitelikler</p>
-                          <div className="flex flex-wrap gap-1">
+                          <p className="font-bold text-sm text-slate-300 mb-3">Diğer Nitelikler</p>
+                          <div className="space-y-2 max-h-[200px] overflow-y-auto">
                             {position.qualifications.slice(4).map((qual) => (
-                              <span key={qual.code} className="text-xs text-blue-400">{qual.code}</span>
+                              <div key={qual.code} className="flex gap-2">
+                                <span className="text-xs font-mono text-blue-400 shrink-0 w-10">{qual.code}</span>
+                                <span className="text-xs text-slate-300 leading-relaxed">{qual.description}</span>
+                              </div>
                             ))}
                           </div>
                         </TooltipContent>
