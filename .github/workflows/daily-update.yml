@@ -1,0 +1,62 @@
+name: Daily ÖSYM Update
+
+on:
+  schedule:
+    # Her gün saat 09:00 ve 18:00'de çalış (Türkiye saati UTC+3)
+    - cron: '0 6 * * *'   # 09:00 TR
+    - cron: '0 15 * * *'  # 18:00 TR
+  workflow_dispatch: # Manuel tetikleme
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for ÖSYM updates
+        id: check
+        run: |
+          npm run check-update 2>&1 | tee check-output.txt
+          if grep -q "Yeni kılavuz bulundu" check-output.txt; then
+            echo "has_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_update=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Fetch and update data
+        if: steps.check.outputs.has_update == 'true'
+        run: npm run fetch-update
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git diff --quiet parsed_data/ || echo "has_changes=true" >> $GITHUB_OUTPUT
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add parsed_data/
+          git add attached_assets/
+          git commit -m "🔄 ÖSYM verileri güncellendi ($(date +'%d.%m.%Y %H:%M'))"
+          git push
+
+      - name: Trigger Vercel deploy
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          echo "✅ Veriler güncellendi, Vercel otomatik deploy edecek"
+          # Vercel GitHub entegrasyonu varsa otomatik deploy olur
+          # Yoksa webhook ekleyebilirsin:
+          # curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}

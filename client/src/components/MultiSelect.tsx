@@ -47,16 +47,19 @@ export function MultiSelect({
     onChange(selected.filter((i) => i !== item));
   };
 
+  // Turkish-aware lowercase function
+  const turkishLower = (str: string) => str.toLocaleLowerCase('tr-TR');
+
   // Smart search and sort function
   const getFilteredAndSortedOptions = () => {
     if (!searchQuery) return options;
 
-    const query = searchQuery.toLowerCase().trim();
-    
+    const query = turkishLower(searchQuery.trim());
+
     return options
       .map(option => {
-        const label = option.label.toLowerCase();
-        const value = option.value.toLowerCase();
+        const label = turkishLower(option.label);
+        const value = turkishLower(option.value);
         const words = label.split(/[\s,.-]+/); // Split by spaces, commas, dots, dashes
         
         // Calculate relevance score
