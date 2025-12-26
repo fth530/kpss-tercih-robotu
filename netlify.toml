@@ -6,10 +6,11 @@
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
 
-# Serverless functions
+# Include parsed_data in functions
 [functions]
   directory = "netlify/functions"
   node_bundler = "esbuild"
+  included_files = ["parsed_data/**"]
   
 # Redirects - API to serverless function
 [[redirects]]
