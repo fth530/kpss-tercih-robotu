@@ -6,12 +6,14 @@ import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 
 const ASSETS_DIR = "./attached_assets";
 const OUTPUT_DIR = "./parsed_data";
+const PUBLIC_DATA_DIR = "./client/public/data";
 const STATE_FILE = "./parsed_data/.update-state.json";
 const OSYM_BASE_URL = "https://www.osym.gov.tr";
 const KPSS_2025_PAGE = "/TR,32935/2025.html";
 
 fs.mkdirSync(ASSETS_DIR, { recursive: true });
 fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+fs.mkdirSync(PUBLIC_DATA_DIR, { recursive: true });
 
 // Güncelleme durumunu takip et
 interface UpdateState {
@@ -459,6 +461,11 @@ async function main() {
 
   fs.writeFileSync(path.join(OUTPUT_DIR, "qualifications.json"), JSON.stringify(uniqueQuals, null, 2));
   fs.writeFileSync(path.join(OUTPUT_DIR, "positions.json"), JSON.stringify(allPositions, null, 2));
+
+  // 4.5 Public klasörüne de kopyala (Vercel static deployment için)
+  fs.writeFileSync(path.join(PUBLIC_DATA_DIR, "qualifications.json"), JSON.stringify(uniqueQuals, null, 2));
+  fs.writeFileSync(path.join(PUBLIC_DATA_DIR, "positions.json"), JSON.stringify(allPositions, null, 2));
+  if (!isCI) console.log(`   📁 Public klasörüne kopyalandı: ${PUBLIC_DATA_DIR}`);
 
   // 5. Hash kontrolü - değişiklik var mı?
   const newHashes: Record<string, string> = {};

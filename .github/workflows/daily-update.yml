@@ -41,7 +41,7 @@ jobs:
       - name: Check for changes
         id: changes
         run: |
-          git diff --quiet parsed_data/ || echo "has_changes=true" >> $GITHUB_OUTPUT
+          git diff --quiet parsed_data/ client/public/data/ || echo "has_changes=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.changes.outputs.has_changes == 'true'
@@ -49,6 +49,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add parsed_data/
+          git add client/public/data/
           git add attached_assets/
           git commit -m "🔄 ÖSYM verileri güncellendi ($(date +'%d.%m.%Y %H:%M'))"
           git push
