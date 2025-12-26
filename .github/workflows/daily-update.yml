@@ -53,10 +53,10 @@ jobs:
           git commit -m "🔄 ÖSYM verileri güncellendi ($(date +'%d.%m.%Y %H:%M'))"
           git push
 
-      - name: Trigger Vercel deploy
+      - name: Trigger Netlify deploy
         if: steps.changes.outputs.has_changes == 'true'
         run: |
-          echo "✅ Veriler güncellendi, Vercel otomatik deploy edecek"
-          # Vercel GitHub entegrasyonu varsa otomatik deploy olur
-          # Yoksa webhook ekleyebilirsin:
-          # curl -X POST ${{ secrets.VERCEL_DEPLOY_HOOK }}
+          echo "✅ Veriler güncellendi, Netlify otomatik deploy edecek"
+          # Netlify GitHub entegrasyonu varsa otomatik deploy olur
+          # Manuel webhook için:
+          # curl -X POST -d {} ${{ secrets.NETLIFY_BUILD_HOOK }}

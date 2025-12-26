@@ -26,6 +26,32 @@ npm run dev
 
 Uygulama `http://localhost:5000` adresinde çalışır.
 
+## 🌐 Netlify'a Deploy
+
+### Otomatik Deploy (Önerilen)
+
+1. GitHub repository'nizi Netlify'a bağlayın
+2. Build ayarları otomatik algılanır (`netlify.toml` sayesinde)
+3. Her push'ta otomatik deploy olur
+
+### Manuel Deploy
+
+```bash
+# Build
+npm run build:skip-fetch
+
+# Netlify CLI ile deploy
+netlify deploy --prod
+```
+
+### Netlify Ayarları
+
+- **Build command:** `npm run build:skip-fetch`
+- **Publish directory:** `dist/public`
+- **Node version:** 20
+
+> **Not:** `build:skip-fetch` komutu PDF indirme işlemini atlar (zaten git'te mevcut). Bu Netlify build loglarını temiz tutar.
+
 ## 📦 Teknolojiler
 
 ### Frontend

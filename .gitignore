@@ -4,3 +4,9 @@ dist
 .env
 *.log
 .local
+
+# Netlify
+.netlify
+
+# Large PDF files (optional - keep in git but ignore in Netlify)
+# attached_assets/*.pdf

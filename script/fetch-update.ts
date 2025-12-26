@@ -45,6 +45,7 @@ const turkishLower = (str: string) => str.toLocaleLowerCase('tr-TR');
 async function fetchPage(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const fullUrl = url.startsWith("http") ? url : `${OSYM_BASE_URL}${url}`;
+    const isCI = process.env.CI === 'true' || process.env.NETLIFY === 'true';
 
     https.get(fullUrl, {
       headers: {
@@ -65,7 +66,10 @@ async function fetchPage(url: string): Promise<string> {
       res.on("data", chunk => data += chunk);
       res.on("end", () => resolve(data));
       res.on("error", reject);
-    }).on("error", reject);
+    }).on("error", (err) => {
+      if (!isCI) console.error("Fetch error:", err);
+      reject(err);
+    });
   });
 }
 
@@ -304,7 +308,8 @@ function getFileType(fileName: string): { type: string; level: string } | null {
 
 // En son genel KPSS kılavuzunu otomatik bul
 async function findLatestKilavuz(): Promise<string | null> {
-  console.log("🔍 En son KPSS kılavuzu aranıyor...");
+  const isCI = process.env.CI === 'true' || process.env.NETLIFY === 'true';
+  if (!isCI) console.log("🔍 En son KPSS kılavuzu aranıyor...");
 
   try {
     const html = await fetchPage(KPSS_2025_PAGE);
@@ -331,71 +336,76 @@ async function findLatestKilavuz(): Promise<string | null> {
     }
 
     if (bestMatch) {
-      console.log(`   ✅ Bulunan kılavuz: ${bestMatch.url}`);
+      if (!isCI) console.log(`   ✅ Bulunan kılavuz: ${bestMatch.url}`);
       return bestMatch.url;
     }
 
     return null;
   } catch (err) {
-    console.error("   ❌ Kılavuz arama hatası:", err);
+    if (!isCI) console.error("   ❌ Kılavuz arama hatası:", err);
     return null;
   }
 }
 
 // Ana fonksiyon
 async function main() {
-  console.log("🚀 KPSS Tercih Robotu - Otomatik Güncelleme\n");
-  console.log("=".repeat(50));
+  const isCI = process.env.CI === 'true' || process.env.NETLIFY === 'true';
+  
+  if (!isCI) {
+    console.log("🚀 KPSS Tercih Robotu - Otomatik Güncelleme\n");
+    console.log("=".repeat(50));
+  }
 
   const state = loadState();
   let hasChanges = false;
+  const isCI = process.env.CI === 'true' || process.env.NETLIFY === 'true';
 
   // 1. En son kılavuzu otomatik bul
   const kilavuzUrl = await findLatestKilavuz();
 
   if (!kilavuzUrl) {
-    console.error("❌ Kılavuz bulunamadı!");
+    if (!isCI) console.error("❌ Kılavuz bulunamadı!");
     process.exit(1);
   }
 
   // 2. ÖSYM sayfasından PDF linklerini çek
-  console.log("\n📡 ÖSYM sitesinden veriler çekiliyor...");
+  if (!isCI) console.log("\n📡 ÖSYM sitesinden veriler çekiliyor...");
 
   let html: string;
   try {
     html = await fetchPage(kilavuzUrl);
-    console.log("   ✅ Sayfa başarıyla alındı");
+    if (!isCI) console.log("   ✅ Sayfa başarıyla alındı");
   } catch (err) {
-    console.error("   ❌ Sayfa alınamadı:", err);
+    if (!isCI) console.error("   ❌ Sayfa alınamadı:", err);
     process.exit(1);
   }
 
   const pdfLinks = extractPdfLinks(html);
-  console.log(`   📋 ${pdfLinks.length} PDF dosyası bulundu\n`);
+  if (!isCI) console.log(`   📋 ${pdfLinks.length} PDF dosyası bulundu\n`);
 
   if (pdfLinks.length === 0) {
-    console.error("❌ PDF linki bulunamadı!");
+    if (!isCI) console.error("❌ PDF linki bulunamadı!");
     process.exit(1);
   }
 
   // Eski dosyaları temizle (sadece bizim indirdiklerimizi)
-  console.log("🧹 Eski PDF dosyaları temizleniyor...");
+  if (!isCI) console.log("🧹 Eski PDF dosyaları temizleniyor...");
   const existingFiles = fs.readdirSync(ASSETS_DIR).filter(f => f.endsWith('.pdf'));
   for (const file of existingFiles) {
     const filePath = path.join(ASSETS_DIR, file);
     fs.unlinkSync(filePath);
   }
-  console.log(`   ✅ ${existingFiles.length} eski dosya temizlendi\n`);
+  if (!isCI) console.log(`   ✅ ${existingFiles.length} eski dosya temizlendi\n`);
 
   // 2. PDF'leri indir
-  console.log("📥 PDF dosyaları indiriliyor...");
+  if (!isCI) console.log("📥 PDF dosyaları indiriliyor...");
 
   const downloadedFiles: { path: string; type: string; level: string }[] = [];
 
   for (const pdf of pdfLinks) {
     const fileInfo = getFileType(pdf.name);
     if (!fileInfo) {
-      console.log(`   ⏭️  Atlandı: ${pdf.name}`);
+      if (!isCI) console.log(`   ⏭️  Atlandı: ${pdf.name}`);
       continue;
     }
 
@@ -403,44 +413,44 @@ async function main() {
 
     try {
       await downloadPdf(pdf.url, savePath);
-      console.log(`   ✅ ${pdf.name}`);
+      if (!isCI) console.log(`   ✅ ${pdf.name}`);
       downloadedFiles.push({ path: savePath, ...fileInfo });
     } catch (err) {
-      console.error(`   ❌ İndirilemedi: ${pdf.name}`, err);
+      if (!isCI) console.error(`   ❌ İndirilemedi: ${pdf.name}`, err);
     }
   }
 
-  console.log(`\n   📦 ${downloadedFiles.length} dosya indirildi\n`);
+  if (!isCI) console.log(`\n   📦 ${downloadedFiles.length} dosya indirildi\n`);
 
   // 3. PDF'leri parse et
-  console.log("🔄 PDF dosyaları işleniyor...");
+  if (!isCI) console.log("🔄 PDF dosyaları işleniyor...");
 
   const allQuals: Qualification[] = [];
   const allPositions: Position[] = [];
 
   // Nitelikleri parse et
-  console.log("\n   📋 Nitelik kodları:");
+  if (!isCI) console.log("\n   📋 Nitelik kodları:");
   for (const file of downloadedFiles.filter(f => f.type === "qualification")) {
     try {
       const text = await extractPdfText(file.path);
       const quals = parseQualifications(text, file.level);
       allQuals.push(...quals);
-      console.log(`      ✅ ${file.level}: ${quals.length} nitelik`);
+      if (!isCI) console.log(`      ✅ ${file.level}: ${quals.length} nitelik`);
     } catch (err) {
-      console.error(`      ❌ ${file.level}: Hata`, err);
+      if (!isCI) console.error(`      ❌ ${file.level}: Hata`, err);
     }
   }
 
   // Kadroları parse et
-  console.log("\n   📋 Kadro tabloları:");
+  if (!isCI) console.log("\n   📋 Kadro tabloları:");
   for (const file of downloadedFiles.filter(f => f.type === "position")) {
     try {
       const text = await extractPdfText(file.path);
       const positions = parsePositions(text, file.level);
       allPositions.push(...positions);
-      console.log(`      ✅ ${file.level}: ${positions.length} kadro`);
+      if (!isCI) console.log(`      ✅ ${file.level}: ${positions.length} kadro`);
     } catch (err) {
-      console.error(`      ❌ ${file.level}: Hata`, err);
+      if (!isCI) console.error(`      ❌ ${file.level}: Hata`, err);
     }
   }
 
@@ -460,7 +470,7 @@ async function main() {
   for (const [fileName, hash] of Object.entries(newHashes)) {
     if (oldHashes[fileName] !== hash) {
       hasChanges = true;
-      console.log(`   🔄 Değişiklik: ${fileName}`);
+      if (!isCI) console.log(`   🔄 Değişiklik: ${fileName}`);
     }
   }
 
@@ -471,42 +481,49 @@ async function main() {
   saveState(state);
 
   // 7. Sonuç
-  console.log("\n" + "=".repeat(50));
-  console.log("✅ GÜNCELLEME TAMAMLANDI!\n");
-  console.log(`   📊 ${uniqueQuals.length} benzersiz nitelik kodu`);
-  console.log(`   📊 ${allPositions.length} kadro`);
-  console.log(`   📁 Kayıt: ${OUTPUT_DIR}/`);
-  console.log(`   🕐 Tarih: ${new Date().toLocaleString("tr-TR")}`);
+  if (!isCI) {
+    console.log("\n" + "=".repeat(50));
+    console.log("✅ GÜNCELLEME TAMAMLANDI!\n");
+    console.log(`   📊 ${uniqueQuals.length} benzersiz nitelik kodu`);
+    console.log(`   📊 ${allPositions.length} kadro`);
+    console.log(`   📁 Kayıt: ${OUTPUT_DIR}/`);
+    console.log(`   🕐 Tarih: ${new Date().toLocaleString("tr-TR")}`);
 
-  if (hasChanges) {
-    console.log("\n   ⚠️  VERİLER GÜNCELLENDİ! Sunucuyu yeniden başlatın:");
-    console.log("   npm run dev\n");
-  } else {
-    console.log("\n   ✅ Veriler zaten güncel.\n");
+    if (hasChanges) {
+      console.log("\n   ⚠️  VERİLER GÜNCELLENDİ! Sunucuyu yeniden başlatın:");
+      console.log("   npm run dev\n");
+    } else {
+      console.log("\n   ✅ Veriler zaten güncel.\n");
+    }
   }
 }
 
 // Sadece yeni veri var mı kontrol et (hızlı mod)
 async function checkForUpdates(): Promise<boolean> {
-  console.log("🔍 Güncellemeler kontrol ediliyor...\n");
+  const isCI = process.env.CI === 'true' || process.env.NETLIFY === 'true';
+  if (!isCI) console.log("🔍 Güncellemeler kontrol ediliyor...\n");
 
   const state = loadState();
   const kilavuzUrl = await findLatestKilavuz();
 
   if (!kilavuzUrl) {
-    console.log("❌ Kılavuz bulunamadı");
+    if (!isCI) console.log("❌ Kılavuz bulunamadı");
     return false;
   }
 
   if (state.lastKilavuzUrl !== kilavuzUrl) {
-    console.log("🆕 Yeni kılavuz bulundu!");
-    console.log(`   Eski: ${state.lastKilavuzUrl || "(yok)"}`);
-    console.log(`   Yeni: ${kilavuzUrl}`);
+    if (!isCI) {
+      console.log("🆕 Yeni kılavuz bulundu!");
+      console.log(`   Eski: ${state.lastKilavuzUrl || "(yok)"}`);
+      console.log(`   Yeni: ${kilavuzUrl}`);
+    }
     return true;
   }
 
-  console.log("✅ Kılavuz güncel, değişiklik yok.");
-  console.log(`   Son güncelleme: ${state.lastUpdate || "(hiç)"}`);
+  if (!isCI) {
+    console.log("✅ Kılavuz güncel, değişiklik yok.");
+    console.log(`   Son güncelleme: ${state.lastUpdate || "(hiç)"}`);
+  }
   return false;
 }
 
