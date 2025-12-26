@@ -1,6 +1,6 @@
 import { build as esbuild } from "esbuild";
 import { build as viteBuild } from "vite";
-import { rm, readFile } from "fs/promises";
+import { rm, readFile, cp } from "fs/promises";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -68,6 +68,10 @@ async function buildAll() {
     treeShaking: true, // Enable tree shaking
     target: "node18", // Target Node.js 18+
   });
+  
+  // Copy parsed_data to dist for serverless functions
+  if (!isCI) console.log("📦 Copying parsed_data...");
+  await cp("parsed_data", "dist/parsed_data", { recursive: true });
   
   if (!isCI) console.log(`✅ Server built in ${Date.now() - serverStart}ms`);
   if (!isCI) console.log(`🎉 Total build time: ${Date.now() - startTime}ms`);

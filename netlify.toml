@@ -8,14 +8,17 @@
 
 # Serverless functions
 [functions]
+  directory = "netlify/functions"
   node_bundler = "esbuild"
   
-# Redirects - SPA routing
+# Redirects - API to serverless function
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/server/:splat"
   status = 200
+  force = true
 
+# Redirects - SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"

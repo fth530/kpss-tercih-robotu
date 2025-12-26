@@ -40,18 +40,39 @@ class JsonStorage implements IStorage {
   private loadData() {
     if (this.loaded) return;
     
-    const qualsPath = path.join(process.cwd(), "parsed_data", "qualifications.json");
-    const posPath = path.join(process.cwd(), "parsed_data", "positions.json");
+    // Try multiple possible paths for Netlify compatibility
+    const possiblePaths = [
+      path.join(process.cwd(), "parsed_data"),
+      path.join(process.cwd(), "dist", "parsed_data"),
+      path.join(__dirname, "..", "..", "parsed_data"),
+      path.join(__dirname, "..", "..", "dist", "parsed_data"),
+    ];
     
-    if (fs.existsSync(qualsPath)) {
-      this.qualifications = JSON.parse(fs.readFileSync(qualsPath, "utf-8"));
+    let qualsPath = "";
+    let posPath = "";
+    
+    for (const basePath of possiblePaths) {
+      const qPath = path.join(basePath, "qualifications.json");
+      const pPath = path.join(basePath, "positions.json");
+      
+      if (fs.existsSync(qPath) && fs.existsSync(pPath)) {
+        qualsPath = qPath;
+        posPath = pPath;
+        break;
+      }
     }
-    if (fs.existsSync(posPath)) {
-      this.positions = JSON.parse(fs.readFileSync(posPath, "utf-8"));
+    
+    if (!qualsPath || !posPath) {
+      console.error("❌ JSON dosyaları bulunamadı! Aranan yollar:", possiblePaths);
+      throw new Error("JSON data files not found");
     }
+    
+    this.qualifications = JSON.parse(fs.readFileSync(qualsPath, "utf-8"));
+    this.positions = JSON.parse(fs.readFileSync(posPath, "utf-8"));
     
     this.loaded = true;
     console.log(`📊 JSON Storage: ${this.qualifications.length} nitelik, ${this.positions.length} kadro yüklendi`);
+    console.log(`📁 Yol: ${path.dirname(qualsPath)}`);
   }
 
   async getMeta(): Promise<FilterDataResponse> {
