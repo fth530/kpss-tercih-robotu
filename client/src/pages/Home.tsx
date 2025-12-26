@@ -293,21 +293,33 @@ export default function Home() {
 
             {activeTab === "search" && searchMutation.data ? (
               <div className="space-y-6">
-                {/* Results Header */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                      <TrendingUp className="w-5 h-5 text-emerald-400" />
+                {/* Results Header - Daha Vurgulu */}
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-2xl border border-emerald-500/20">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
+                      <TrendingUp className="w-7 h-7 text-emerald-400" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-white">Sonuçlar</h3>
-                      <p className="text-sm text-slate-500">{searchMutation.data.length} kadro bulundu</p>
+                      <h3 className="text-xl font-bold text-white">
+                        {searchMutation.data.length.toLocaleString('tr-TR')} Kadro Bulundu!
+                      </h3>
+                      <p className="text-sm text-slate-400">
+                        {educationLevel} düzeyinde 
+                        {selectedCities.length > 0 && !selectedCities.includes("Tümü") 
+                          ? ` • ${selectedCities.length} şehir` 
+                          : " • Tüm şehirler"}
+                        {selectedDepartments.length > 0 
+                          ? ` • ${selectedDepartments.length} nitelik` 
+                          : ""}
+                      </p>
                     </div>
                   </div>
-                  <Badge variant="outline" className="border-slate-700 text-slate-300 px-4 py-2">
-                    <Building2 className="w-4 h-4 mr-2" />
-                    {searchMutation.data.length} Kadro
-                  </Badge>
+                  <div className="text-right">
+                    <div className="text-3xl font-bold text-emerald-400">
+                      {searchMutation.data.length}
+                    </div>
+                    <div className="text-xs text-slate-500 uppercase tracking-wider">Kadro</div>
+                  </div>
                 </div>
                 
                 {/* Results Table */}
@@ -369,14 +381,38 @@ export default function Home() {
               </div>
             ) : (
               !searchMutation.isPending && (
-                <div className="text-center py-20">
-                  <div className="w-20 h-20 rounded-full bg-slate-800/50 flex items-center justify-center mx-auto mb-6">
-                    <Search className="w-10 h-10 text-slate-600" />
+                <div className="text-center py-16 bg-slate-900/30 rounded-2xl border border-slate-700/30">
+                  {/* Animated Icon */}
+                  <div className="relative w-24 h-24 mx-auto mb-8">
+                    <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-ping" />
+                    <div className="relative w-24 h-24 rounded-full bg-slate-800/80 flex items-center justify-center">
+                      <Search className="w-10 h-10 text-blue-400" />
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-slate-400 mb-2">Aramaya Başlayın</h3>
-                  <p className="text-slate-500 max-w-md mx-auto">
-                    Öğrenim düzeyinizi seçin ve size uygun kadroları keşfedin
+                  
+                  <h3 className="text-2xl font-bold text-white mb-3">Kadro Aramaya Başlayın</h3>
+                  <p className="text-slate-400 max-w-lg mx-auto mb-8 leading-relaxed">
+                    KPSS puanınıza uygun binlerce kamu kadrosunu keşfedin. 
+                    Yukarıdaki filtrelerden öğrenim düzeyinizi seçerek başlayın.
                   </p>
+                  
+                  {/* Quick Guide */}
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
+                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full">
+                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">1</span>
+                      <span className="text-slate-300">Öğrenim düzeyi seçin</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-600 hidden sm:block" />
+                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full">
+                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">2</span>
+                      <span className="text-slate-300">Şehir/Bölüm filtreleyin</span>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-slate-600 hidden sm:block" />
+                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full">
+                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">3</span>
+                      <span className="text-slate-300">Kadroları listeleyin</span>
+                    </div>
+                  </div>
                 </div>
               )
             )}
