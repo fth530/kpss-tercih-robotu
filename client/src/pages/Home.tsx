@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useKpssMeta, useSearchPositions } from "@/hooks/use-kpss";
 import { useFavorites } from "@/hooks/use-favorites";
 import { ResultsTable } from "@/components/ResultsTable";
@@ -22,7 +22,10 @@ import {
   Sparkles,
   TrendingUp,
   ChevronRight,
-  Star
+  Star,
+  BarChart3,
+  Users,
+  Award
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -33,6 +36,7 @@ export default function Home() {
 
   const [educationLevel, setEducationLevel] = useState<string>("");
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
+  const [showStats, setShowStats] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<"search" | "favorites">("search");
 
@@ -50,6 +54,53 @@ export default function Home() {
     value: q.code
   }));
 
+  // İstatistikleri hesapla
+  const stats = useMemo(() => {
+    if (!searchMutation.data || searchMutation.data.length === 0) return null;
+    
+    const results = searchMutation.data;
+    
+    // Şehir bazında kadro sayısı
+    const cityCount: Record<string, number> = {};
+    results.forEach(p => {
+      cityCount[p.city] = (cityCount[p.city] || 0) + 1;
+    });
+    
+    // En çok kadro olan şehirler (top 5)
+    const topCities = Object.entries(cityCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5);
+    
+    // Kurum bazında kadro sayısı
+    const institutionCount: Record<string, number> = {};
+    results.forEach(p => {
+      institutionCount[p.institution] = (institutionCount[p.institution] || 0) + 1;
+    });
+    
+    // En çok kadro olan kurumlar (top 3)
+    const topInstitutions = Object.entries(institutionCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3);
+    
+    // Toplam kontenjan
+    const totalQuota = results.reduce((sum, p) => sum + p.quota, 0);
+    
+    // Benzersiz şehir sayısı
+    const uniqueCities = Object.keys(cityCount).length;
+    
+    // Benzersiz kurum sayısı
+    const uniqueInstitutions = Object.keys(institutionCount).length;
+    
+    return {
+      topCities,
+      topInstitutions,
+      totalQuota,
+      uniqueCities,
+      uniqueInstitutions,
+      totalPositions: results.length
+    };
+  }, [searchMutation.data]);
+
   const handleSearch = () => {
     if (!educationLevel) return;
     const citiesPayload = (selectedCities.length === 0 || selectedCities.includes("Tümü")) 
@@ -59,6 +110,7 @@ export default function Home() {
       cities: citiesPayload,
       departmentCodes: selectedDepartments,
     });
+    setShowStats(false);
   };
 
   const handleReset = () => {
@@ -66,6 +118,7 @@ export default function Home() {
     setSelectedCities([]);
     setSelectedDepartments([]);
     searchMutation.reset();
+    setShowStats(false);
   };
 
   return (
@@ -294,7 +347,7 @@ export default function Home() {
             {activeTab === "search" && searchMutation.data ? (
               <div className="space-y-6">
                 {/* Results Header - Daha Vurgulu */}
-                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-2xl border border-emerald-500/20">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-2xl border border-emerald-500/20">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
                       <TrendingUp className="w-7 h-7 text-emerald-400" />
@@ -314,13 +367,104 @@ export default function Home() {
                       </p>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <div className="text-3xl font-bold text-emerald-400">
-                      {searchMutation.data.length}
+                  <div className="flex items-center gap-4">
+                    {stats && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setShowStats(!showStats)}
+                        className={`border-slate-600 ${showStats ? 'bg-blue-500/20 text-blue-400 border-blue-500/50' : 'text-slate-300 hover:text-white'}`}
+                      >
+                        <BarChart3 className="w-4 h-4 mr-2" />
+                        İstatistikler
+                      </Button>
+                    )}
+                    <div className="text-right">
+                      <div className="text-3xl font-bold text-emerald-400">
+                        {searchMutation.data.length}
+                      </div>
+                      <div className="text-xs text-slate-500 uppercase tracking-wider">Kadro</div>
                     </div>
-                    <div className="text-xs text-slate-500 uppercase tracking-wider">Kadro</div>
                   </div>
                 </div>
+
+                {/* Statistics Panel */}
+                {showStats && stats && (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50">
+                    {/* Genel İstatistikler */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                        <BarChart3 className="w-4 h-4 text-blue-400" />
+                        Genel Bakış
+                      </h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div className="bg-slate-900/50 rounded-xl p-3 text-center">
+                          <div className="text-2xl font-bold text-blue-400">{stats.totalPositions}</div>
+                          <div className="text-xs text-slate-500">Kadro</div>
+                        </div>
+                        <div className="bg-slate-900/50 rounded-xl p-3 text-center">
+                          <div className="text-2xl font-bold text-emerald-400">{stats.totalQuota}</div>
+                          <div className="text-xs text-slate-500">Kontenjan</div>
+                        </div>
+                        <div className="bg-slate-900/50 rounded-xl p-3 text-center">
+                          <div className="text-2xl font-bold text-cyan-400">{stats.uniqueCities}</div>
+                          <div className="text-xs text-slate-500">Şehir</div>
+                        </div>
+                        <div className="bg-slate-900/50 rounded-xl p-3 text-center">
+                          <div className="text-2xl font-bold text-purple-400">{stats.uniqueInstitutions}</div>
+                          <div className="text-xs text-slate-500">Kurum</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* En Çok Kadro Olan Şehirler */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-emerald-400" />
+                        En Çok Kadro (Şehir)
+                      </h4>
+                      <div className="space-y-2">
+                        {stats.topCities.map(([city, count], idx) => (
+                          <div key={city} className="flex items-center gap-3">
+                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                              idx === 0 ? 'bg-yellow-500/20 text-yellow-400' :
+                              idx === 1 ? 'bg-slate-400/20 text-slate-300' :
+                              idx === 2 ? 'bg-orange-500/20 text-orange-400' :
+                              'bg-slate-700 text-slate-400'
+                            }`}>
+                              {idx + 1}
+                            </span>
+                            <span className="flex-1 text-sm text-slate-300 truncate">{city}</span>
+                            <span className="text-sm font-semibold text-emerald-400">{count}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* En Çok Kadro Olan Kurumlar */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
+                        <Building2 className="w-4 h-4 text-purple-400" />
+                        En Çok Kadro (Kurum)
+                      </h4>
+                      <div className="space-y-2">
+                        {stats.topInstitutions.map(([inst, count], idx) => (
+                          <div key={inst} className="flex items-center gap-3">
+                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
+                              idx === 0 ? 'bg-yellow-500/20 text-yellow-400' :
+                              idx === 1 ? 'bg-slate-400/20 text-slate-300' :
+                              'bg-orange-500/20 text-orange-400'
+                            }`}>
+                              {idx + 1}
+                            </span>
+                            <span className="flex-1 text-sm text-slate-300 truncate" title={inst}>{inst}</span>
+                            <span className="text-sm font-semibold text-purple-400 shrink-0">{count}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
                 
                 {/* Results Table */}
                 <div className="bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-700/50 overflow-hidden">
