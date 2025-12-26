@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useFavorites } from "@/hooks/use-favorites";
+import { ShareButton } from "@/components/ShareButton";
 
 interface Qualification {
   code: string;
@@ -62,6 +63,7 @@ function MobileCard({ position, onCopy, onToggleFavorite, isFav }: {
             >
               <Copy className="h-3 w-3" />
             </Button>
+            <ShareButton position={position} />
           </div>
           <h3 className="text-slate-200 font-medium text-sm line-clamp-2">
             {position.institution}
@@ -252,14 +254,17 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
                     <code className="text-blue-400 font-mono text-sm bg-blue-500/10 px-2.5 py-1 rounded-lg">
                       {position.osymCode}
                     </code>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity text-slate-500 hover:text-white hover:bg-slate-700"
-                      onClick={() => handleCopyCode(position.osymCode)}
-                    >
-                      <Copy className="h-3.5 w-3.5" />
-                    </Button>
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7 text-slate-500 hover:text-white hover:bg-slate-700"
+                        onClick={() => handleCopyCode(position.osymCode)}
+                      >
+                        <Copy className="h-3.5 w-3.5" />
+                      </Button>
+                      <ShareButton position={position} />
+                    </div>
                   </div>
                 </td>
                 <td className="py-4">
