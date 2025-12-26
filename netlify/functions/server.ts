@@ -88,7 +88,7 @@ app.get("/api/meta", async (_req: Request, res: Response) => {
   }
 });
 
-app.post("/api/search", async (req: Request, res: Response) => {
+app.post("/api/positions/search", async (req: Request, res: Response) => {
   try {
     loadData();
     
