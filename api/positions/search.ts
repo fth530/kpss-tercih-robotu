@@ -1,41 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import fs from 'fs';
-import path from 'path';
-
-let qualifications: any[] = [];
-let positions: any[] = [];
-let dataLoaded = false;
-
-function loadData() {
-  if (dataLoaded) return;
-  
-  const possiblePaths = [
-    path.join(process.cwd(), "parsed_data"),
-    path.join(__dirname, "..", "..", "parsed_data"),
-  ];
-  
-  let foundPath = "";
-  for (const basePath of possiblePaths) {
-    const qPath = path.join(basePath, "qualifications.json");
-    if (fs.existsSync(qPath)) {
-      foundPath = basePath;
-      break;
-    }
-  }
-  
-  if (!foundPath) {
-    throw new Error("Data files not found");
-  }
-  
-  qualifications = JSON.parse(
-    fs.readFileSync(path.join(foundPath, "qualifications.json"), "utf-8")
-  );
-  positions = JSON.parse(
-    fs.readFileSync(path.join(foundPath, "positions.json"), "utf-8")
-  );
-  
-  dataLoaded = true;
-}
+import qualificationsData from '../../parsed_data/qualifications.json';
+import positionsData from '../../parsed_data/positions.json';
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
   // CORS
@@ -52,15 +17,13 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   }
   
   try {
-    loadData();
-    
     const { educationLevel, cities, departmentCodes } = req.body;
     
     if (!educationLevel) {
       return res.status(400).json({ message: "educationLevel is required" });
     }
 
-    let results = positions;
+    let results: any[] = positionsData;
     
     // Filter by education level
     results = results.filter((p: any) => p.educationLevel === educationLevel);
@@ -99,7 +62,7 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
     }
     
     // Map to response format
-    const qualMap = new Map(qualifications.map((q: any) => [q.code, q]));
+    const qualMap = new Map(qualificationsData.map((q: any) => [q.code, q]));
     
     const response = results.map((p: any, idx: number) => ({
       id: idx + 1,
