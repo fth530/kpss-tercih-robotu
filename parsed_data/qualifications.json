@@ -1,5 +1,1245 @@
 [
   {
+    "code": "1101",
+    "description": "Cinsiyeti erkek olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "1103",
+    "description": "Cinsiyeti kadın olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6205",
+    "description": "HEMŞİRELİK-EBELİK-SAĞLIK MEMURLUĞU ALANI - EBELİK-HEMŞİRELİK DALI",
+    "educationLevel": "Ortaöğretim"
+  },
+  {
+    "code": "6225",
+    "description": "MEB onaylı Bilgisayar İşletmenliği Sertifikası sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6251",
+    "description": "MEB onaylı Doğalgaz Kalorifer Ateşçiliği Sertifikası sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6262",
+    "description": "Bakınız: Başvurma Özel Şartları - Temizlik",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6297",
+    "description": "MEB onaylı Kalorifer Ateşçiliği Sertifikası sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6501",
+    "description": "M Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6502",
+    "description": "A1 Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6503",
+    "description": "A2 Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6504",
+    "description": "A Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6505",
+    "description": "B1 Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6506",
+    "description": "B Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6507",
+    "description": "BE Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6508",
+    "description": "C1 Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6509",
+    "description": "C1E Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6510",
+    "description": "C Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6511",
+    "description": "CE Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6512",
+    "description": "D1 Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6513",
+    "description": "D1E Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6514",
+    "description": "D Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6515",
+    "description": "F Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6516",
+    "description": "G Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6517",
+    "description": "DE Sınıfı Sürücü Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6519",
+    "description": "İstenilen sürücü belgesine en az 5 yıldır sahip olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6551",
+    "description": "Özel Güvenlik Görevlisi Kimlik Kartı sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6903",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Almanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6905",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Almanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6907",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Almanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6909",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Almanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6911",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Almanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6915",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Arapça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6917",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Arapça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6919",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Arapça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6921",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Arapça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6923",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Arapça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6926",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Arnavutça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6927",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Arnavutça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6928",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Arnavutça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6929",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Arnavutça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6930",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Arnavutça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6931",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Boşnakça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6932",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Boşnakça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6933",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Boşnakça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6934",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Boşnakça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6935",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Boşnakça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6936",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Bulgarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6937",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Bulgarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6938",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Bulgarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6939",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Bulgarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6940",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Bulgarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6941",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Çince yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6942",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Çince yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6943",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Çince yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6944",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Çince yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6945",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Çince yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6946",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6947",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6948",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak. Nitelik Kodları - Özel Koşullar 1\n6949 Son 5 yıl içinde en az YDS D düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6950",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6951",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Fransızca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6953",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Fransızca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6955",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Fransızca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6957",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Fransızca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6959",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Fransızca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6961",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Farsça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6962",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Farsça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6963",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Farsça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6964",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Farsça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6965",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Farsça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6966",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Ermenice yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6967",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Ermenice yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6968",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Ermenice yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6969",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Ermenice yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6970",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Ermenice yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6971",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Gürcüce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6972",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Gürcüce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6973",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Gürcüce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6974",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Gürcüce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6975",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Gürcüce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6976",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6977",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6978",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6979",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6980",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6981",
+    "description": "Son 5 yıl içinde YDS A düzeyinde İspanyolca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6982",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde İspanyolca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6983",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde İspanyolca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6984",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde İspanyolca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6985",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde İspanyolca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6986",
+    "description": "Son 5 yıl içinde YDS A düzeyinde İtalyanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6987",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde İtalyanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6988",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde İtalyanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6989",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde İtalyanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6990",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde İtalyanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6991",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Japonca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6992",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Japonca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6993",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Japonca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6994",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Japonca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6995",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Japonca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6996",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Korece yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6997",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Korece yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6998",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Korece yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "6999",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Korece yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7000",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Korece yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7001",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Lehçe yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7002",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Lehçe yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7003",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Lehçe yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7004",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Lehçe yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7005",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Lehçe yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7006",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Macarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7007",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Macarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7008",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Macarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7009",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Macarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7010",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Macarca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7011",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Portekizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7012",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Portekizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7013",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Portekizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7014",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Portekizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7015",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Portekizce yeterliği almış olmak. 2\n7016 Son 5 yıl içinde YDS A düzeyinde Rumence yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7017",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Rumence yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7018",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Rumence yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7019",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Rumence yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7020",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Rumence yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7071",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Rusça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7073",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Rusça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7075",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Rusça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7077",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Rusça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7079",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Rusça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7081",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Sırpça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7082",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Sırpça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7083",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Sırpça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7084",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Sırpça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7085",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Sırpça yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7086",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7087",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7088",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7089",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7090",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7091",
+    "description": "Son 5 yıl içinde YDS A düzeyinde Yunanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7092",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde Yunanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7093",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde Yunanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7094",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde Yunanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7095",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde Yunanca yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7107",
+    "description": "Son 5 yıl içinde YDS A düzeyinde İngilizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7109",
+    "description": "Son 5 yıl içinde en az YDS B düzeyinde İngilizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7111",
+    "description": "Son 5 yıl içinde en az YDS C düzeyinde İngilizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7113",
+    "description": "Son 5 yıl içinde en az YDS D düzeyinde İngilizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7115",
+    "description": "Son 5 yıl içinde en az YDS E düzeyinde İngilizce yeterliği almış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7149",
+    "description": "A Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7151",
+    "description": "B Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7153",
+    "description": "C Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7155",
+    "description": "D Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7157",
+    "description": "E Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7163",
+    "description": "C Sınıfı İş Güvenliği Uzmanı belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7165",
+    "description": "B Sınıfı İş Güvenliği Uzmanı belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7167",
+    "description": "A Sınıfı İş Güvenliği Uzmanı belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7180",
+    "description": "Emniyet Genel Müdürlüğü Kurbağa Adam Sertifikası sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7181",
+    "description": "Sınırlı Kaptan Yeterlik Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7182",
+    "description": "Vardiya Zabiti Yeterlik Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7183",
+    "description": "STCW Belgeleri (Deniz Güvenlik Eğitimleri ve Belgeleri) sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7184",
+    "description": "Telsiz Operatörü GOC veya ROC Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7187",
+    "description": "Usta Gemici Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7189",
+    "description": "Gemi Adamı olarak en az 2 yıl çalışmış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7192",
+    "description": "Gemiadamları Sağlık Yönergesine uygun olarak alınmış sağlık yoklama belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7193",
+    "description": "En az Makine Zabiti yeterliğine sahip olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7200",
+    "description": "Hava Trafik Kontrolörlüğü lisansına sahip olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7202",
+    "description": "Pedagojik formasyona sahip olmak",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7205",
+    "description": "Avukatlık Ruhsatı sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7207",
+    "description": "Avukatlık Ruhsatı aldıktan sonra en az 2 yıl mesleği ile ilgili çalışmış olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7229",
+    "description": "Geçerlilik süresi dolmamış Elektrik Kuvvetli Akım Tesislerinde Yüksek Gerilim Altında Çalışma İzin Belgesi (EKAT) sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7233",
+    "description": "Diyanet İşleri Başkanlığı Hafızlık Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7235",
+    "description": "İmam Hatip Lisesi dışındaki lise veya dengi okullardan mezun olanlar için Diyanet İşleri Başkanlığı Hafızlık Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7239",
+    "description": "Diyanet İşleri Başkanlığı Kur'an Kursu Öğreticiliği Yeterlik Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7241",
+    "description": "Diyanet İşleri Başkanlığı İmam-Hatip Yeterlik Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7243",
+    "description": "Diyanet İşleri Başkanlığı Müezzin-Kayyım Yeterlik Belgesi sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7245",
+    "description": "İmam-Hatiplik yapmaya engel bir özürü bulunmamak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7247",
+    "description": "Tehlikeli ve çok tehlikeli işlerde çalışmasına engel bir durumu bulunmamak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7248",
+    "description": "Vardiyalı çalışmasına engel bir durumu bulunmamak. 3\n7251 ICAO ANNEX 1'deki sağlık kriterlerine uygun olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7252",
+    "description": "Tam teşekküllü resmi sağlık kurumlarından \"Yurdun her yerinde görev yapabilir ve silah kullanabilir.\" ibareli sağlık kurulu raporu almak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7257",
+    "description": "Seyahate ve/veya arazide çalışmaya uygun olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7261",
+    "description": "En az 2 yüksek düzeyli programlama dilini bilmek ve bu alanda en az 2 yıl çalışmış olduğunu belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7263",
+    "description": "En az iki yüksek düzeyli programlama dilini bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7265",
+    "description": "Oracle ve C++ veya Delphi programlama dilini bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7267",
+    "description": "Client-Server ya da büyük sistemlerin işletim sistemlerinden en az birini bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7271",
+    "description": "Java ve J2EE bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7273",
+    "description": "SQL veya PL/SQL bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7275",
+    "description": "Unix bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7277",
+    "description": "Linux bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7279",
+    "description": "Cisco ağ sistemlerini bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7281",
+    "description": "Oracle veri tabanı yönetim sistemlerini bildiğini belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7283",
+    "description": "Web tasarımı konusunda belge sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7284",
+    "description": "MS Visual Studio.Net (ASP.NET,C#) platformunda web tabanlı yazılım geliştirme konusunda bilgi sahibi olduğunu veya bu konuda çalışma yapıtğını belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7285",
+    "description": "MS Visual Studio.NET (ASP.NET, C#) platformunda web tabanlı yazılım geliştirmede en az 2 yıl çalışmış olduğunu belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7287",
+    "description": "MS SQL Server veri tabanı yönetimi konusunda en az 2 yıl çalışmış olduğunu belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7288",
+    "description": "Spring Framework bildiğini veya Spring kullanarak çalışma yaptığını belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7289",
+    "description": "Hibernate ORM bildiğini veya Hibernate kullanarak çalışma yaptığını belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7290",
+    "description": "C# programlama dili bildiğini veya C# kullanarak çalışma yaptığını belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7291",
+    "description": "DevExpress, Ext.Net bildiğini veya DevExpress,Ext.Net kullanarak çalışma yaptığını belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7292",
+    "description": "Cisco Certified Network Professional (CCNP) Sertifikası sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7293",
+    "description": "Ağ güvenliği (Intrusion Prevention System(IPS) veya Firewall, UTM veya URL filtering) konusunda en az 2 yıl çalışmış olduğunu belgelemek.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7294",
+    "description": "MCSA Database Administrator Sertifikası sahibi olmak.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7300",
+    "description": "Bu kadro/pozisyonda vardiya sistemi uygulanmaktadır.",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7302",
+    "description": "Bakınız: Başvurma Özel Şartları - Şoför",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7303",
+    "description": "Bakınız: Başvurma Özel Şartları - Koruma Ve Güvenlik Görevlisi",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7304",
+    "description": "Bakınız: Başvurma Özel Şartları - Koruma Ve Güvenlik Görevlisi-Silahlı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7306",
+    "description": "Bakınız: Başvurma Özel Şartları - Aile ve Sosyal Hizmetler Bakanlığı - Destek Personeli(Bakım Personeli-Çocuk Bakıcısı)",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7307",
+    "description": "Bakınız: Başvurma Özel Şartları - ARFF Memuru - İtfaiyeci",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7311",
+    "description": "Bakınız: Başvurma Özel Şartları - Çözümleyici",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7314",
+    "description": "Bakınız: Başvurma Özel Şartları - Makina ve Kimya Endüstrisi Kurumu Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7315",
+    "description": "Bakınız: Başvurma Özel Şartları - İcra Memuru",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7321",
+    "description": "Bakınız: Başvurma Özel Şartları - Apron Memuru",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7322",
+    "description": "Bakınız: Başvurma Özel Şartları - Devlet Hava Meydanları İşletmesi Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7323",
+    "description": "Bakınız: Başvurma Özel Şartları - Adalet Bakanlığı Ceza ve Tevkifevleri Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7324",
+    "description": "Bakınız: Başvurma Özel Şartları - Toprak Mahsulleri Ofisi Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7325",
+    "description": "Bakınız: Başvurma Özel Şartları - Gelir İdaresi Başkanlığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7326",
+    "description": "Bakınız: Başvurma Özel Şartları - Hazine ve Maliye Bakanlığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7327",
+    "description": "Bakınız: Başvurma Özel Şartları - T.C. Devlet Demiryolları İşletmesi Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7328",
+    "description": "Bakınız: Başvurma Özel Şartları - T.C. Devlet Demiryolları İşletmesi Genel Müdürlüğü-Hareket Memuru-Memur(Hat Bakım Onarım Memuru)-Sürveyan",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7329",
+    "description": "Bakınız: Başvurma Özel Şartları - Yüksek Seçim Kurulu Başkanlığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7330",
+    "description": "Bakınız: Başvurma Özel Şartları - Maden Tetkik ve Arama Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7331",
+    "description": "Bakınız: Başvurma Özel Şartları - Öğretmen",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7332",
+    "description": "Bakınız: Başvurma Özel Şartları - Dil ve Konuşma Terapisti",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7333",
+    "description": "Bakınız: Başvurma Özel Şartları - Odyolog",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7334",
+    "description": "Bakınız: Başvurma Özel Şartları - Perfüzyonist",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7335",
+    "description": "Bakınız: Başvurma Özel Şartları - Sağlık Fizikçisi",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7336",
+    "description": "Bakınız: Başvurma Özel Şartları - Klinik Psikolog",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7337",
+    "description": "Bakınız: Başvurma Özel Şartları - Denizcilik Sörvey Mühendisi",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7347",
+    "description": "Bakınız: Başvurma Özel Şartları - Kaloriferci",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7348",
+    "description": "Bakınız: Başvurma Özel Şartları - Destek Personeli",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7350",
+    "description": "Bakınız: Başvurma Özel Şartları - Sağlık Bakanlığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7351",
+    "description": "Bakınız: Başvurma Özel Şartları - Sağlık Bakanlığı-Ebe-Hemşire",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7353",
+    "description": "Bakınız: Başvurma Özel Şartları - Aşçı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7358",
+    "description": "Bakınız: Başvurma Özel Şartları - Zabıta Memuru 4\n7359 Bakınız: Başvurma Özel Şartları - İtfaiye Eri",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7361",
+    "description": "Bakınız: Başvurma Özel Şartları - Avukat",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7362",
+    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Petrolleri Anonim Ortaklığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7363",
+    "description": "Bakınız: Başvurma Özel Şartları - Türk Silahlı Kuvvetleri, Jandarma Genel Komutanlığı ve Sahil Güvenlik Komutanlığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7364",
+    "description": "Bakınız: Başvurma Özel Şartları - Devlet Malzeme Ofisi Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7365",
+    "description": "Bakınız: Başvurma Özel Şartları - Emniyet Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7366",
+    "description": "Bakınız: Başvurma Özel Şartları - Ticaret Bakanlığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7368",
+    "description": "Bakınız: Başvurma Özel Şartları - T.C. Devlet Demiryolları Taşımacılık A.Ş. Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7369",
+    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Hudut ve Sahiller Sağlık Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7370",
+    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Kömür İşletmeleri Kurumu Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7371",
+    "description": "Bakınız: Başvurma Özel Şartları - İstanbul Üniversitesi Rektörlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7373",
+    "description": "Bakınız: Başvurma Özel Şartları - Gençlik ve Spor Bakanlığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7374",
+    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Şeker Fabrikaları A.Ş. Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7375",
+    "description": "Bakınız: Başvurma Özel Şartları - Diyanet İşleri Başkanlığı",
+    "educationLevel": "Special"
+  },
+  {
+    "code": "7376",
+    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Taşkömürü Kurumu Genel Müdürlüğü",
+    "educationLevel": "Special"
+  },
+  {
     "code": "2001",
     "description": "Ortaöğretim Kurumlarının herhangi bir alanından mezun olmak.",
     "educationLevel": "Ortaöğretim"
@@ -698,11 +1938,6 @@
     "code": "2125",
     "description": "Ortaöğretim Kurumlarının Hemşirelik-Ebelik-Sağlık Memurluğu Alanı - Ebelik-Hemşirelik Dalının, Hemşirelik-Ebelik-Sağlık Memurluğu Alanı - Hemşirelik Dalının veya Hemşirelik-Ebelik-Sağlık Memurluğu Alanı - Sağlık Memurluğu Dalının birinden mezun olmak.",
     "educationLevel": "Ortaöğretim"
-  },
-  {
-    "code": "6205",
-    "description": "MEB onaylı Aşçılık Sertifikası sahibi olmak.",
-    "educationLevel": "Special"
   },
   {
     "code": "2127",
@@ -5263,1240 +6498,5 @@
     "code": "4880",
     "description": "Ticaret, Turizm ve Hizmetler Ekonomisi lisans programından mezun olmak.",
     "educationLevel": "Lisans"
-  },
-  {
-    "code": "1101",
-    "description": "Cinsiyeti erkek olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "1103",
-    "description": "Cinsiyeti kadın olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6225",
-    "description": "MEB onaylı Bilgisayar İşletmenliği Sertifikası sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6251",
-    "description": "MEB onaylı Doğalgaz Kalorifer Ateşçiliği Sertifikası sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6262",
-    "description": "Bakınız: Başvurma Özel Şartları - Temizlik",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6297",
-    "description": "MEB onaylı Kalorifer Ateşçiliği Sertifikası sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6501",
-    "description": "M Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6502",
-    "description": "A1 Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6503",
-    "description": "A2 Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6504",
-    "description": "A Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6505",
-    "description": "B1 Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6506",
-    "description": "B Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6507",
-    "description": "BE Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6508",
-    "description": "C1 Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6509",
-    "description": "C1E Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6510",
-    "description": "C Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6511",
-    "description": "CE Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6512",
-    "description": "D1 Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6513",
-    "description": "D1E Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6514",
-    "description": "D Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6515",
-    "description": "F Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6516",
-    "description": "G Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6517",
-    "description": "DE Sınıfı Sürücü Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6519",
-    "description": "İstenilen sürücü belgesine en az 5 yıldır sahip olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6551",
-    "description": "Özel Güvenlik Görevlisi Kimlik Kartı sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6903",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Almanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6905",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Almanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6907",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Almanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6909",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Almanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6911",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Almanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6915",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Arapça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6917",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Arapça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6919",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Arapça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6921",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Arapça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6923",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Arapça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6926",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Arnavutça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6927",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Arnavutça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6928",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Arnavutça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6929",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Arnavutça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6930",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Arnavutça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6931",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Boşnakça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6932",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Boşnakça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6933",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Boşnakça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6934",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Boşnakça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6935",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Boşnakça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6936",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Bulgarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6937",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Bulgarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6938",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Bulgarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6939",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Bulgarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6940",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Bulgarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6941",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Çince yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6942",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Çince yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6943",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Çince yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6944",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Çince yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6945",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Çince yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6946",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6947",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6948",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak. Nitelik Kodları - Özel Koşullar 1\n6949 Son 5 yıl içinde en az YDS D düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6950",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Danimarkaca (Danish Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6951",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Fransızca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6953",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Fransızca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6955",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Fransızca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6957",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Fransızca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6959",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Fransızca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6961",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Farsça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6962",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Farsça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6963",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Farsça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6964",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Farsça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6965",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Farsça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6966",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Ermenice yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6967",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Ermenice yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6968",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Ermenice yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6969",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Ermenice yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6970",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Ermenice yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6971",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Gürcüce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6972",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Gürcüce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6973",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Gürcüce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6974",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Gürcüce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6975",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Gürcüce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6976",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6977",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6978",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6979",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6980",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Hollandaca (Dutch Dili) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6981",
-    "description": "Son 5 yıl içinde YDS A düzeyinde İspanyolca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6982",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde İspanyolca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6983",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde İspanyolca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6984",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde İspanyolca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6985",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde İspanyolca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6986",
-    "description": "Son 5 yıl içinde YDS A düzeyinde İtalyanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6987",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde İtalyanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6988",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde İtalyanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6989",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde İtalyanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6990",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde İtalyanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6991",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Japonca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6992",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Japonca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6993",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Japonca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6994",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Japonca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6995",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Japonca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6996",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Korece yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6997",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Korece yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6998",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Korece yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "6999",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Korece yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7000",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Korece yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7001",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Lehçe yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7002",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Lehçe yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7003",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Lehçe yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7004",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Lehçe yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7005",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Lehçe yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7006",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Macarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7007",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Macarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7008",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Macarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7009",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Macarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7010",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Macarca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7011",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Portekizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7012",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Portekizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7013",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Portekizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7014",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Portekizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7015",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Portekizce yeterliği almış olmak. 2\n7016 Son 5 yıl içinde YDS A düzeyinde Rumence yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7017",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Rumence yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7018",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Rumence yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7019",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Rumence yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7020",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Rumence yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7071",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Rusça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7073",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Rusça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7075",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Rusça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7077",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Rusça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7079",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Rusça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7081",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Sırpça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7082",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Sırpça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7083",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Sırpça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7084",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Sırpça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7085",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Sırpça yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7086",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7087",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7088",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7089",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7090",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Ukraynaca (Ukraince) yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7091",
-    "description": "Son 5 yıl içinde YDS A düzeyinde Yunanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7092",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde Yunanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7093",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde Yunanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7094",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde Yunanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7095",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde Yunanca yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7107",
-    "description": "Son 5 yıl içinde YDS A düzeyinde İngilizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7109",
-    "description": "Son 5 yıl içinde en az YDS B düzeyinde İngilizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7111",
-    "description": "Son 5 yıl içinde en az YDS C düzeyinde İngilizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7113",
-    "description": "Son 5 yıl içinde en az YDS D düzeyinde İngilizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7115",
-    "description": "Son 5 yıl içinde en az YDS E düzeyinde İngilizce yeterliği almış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7149",
-    "description": "A Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7151",
-    "description": "B Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7153",
-    "description": "C Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7155",
-    "description": "D Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7157",
-    "description": "E Grubu planlama alanı için yeterlilik belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7163",
-    "description": "C Sınıfı İş Güvenliği Uzmanı belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7165",
-    "description": "B Sınıfı İş Güvenliği Uzmanı belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7167",
-    "description": "A Sınıfı İş Güvenliği Uzmanı belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7180",
-    "description": "Emniyet Genel Müdürlüğü Kurbağa Adam Sertifikası sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7181",
-    "description": "Sınırlı Kaptan Yeterlik Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7182",
-    "description": "Vardiya Zabiti Yeterlik Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7183",
-    "description": "STCW Belgeleri (Deniz Güvenlik Eğitimleri ve Belgeleri) sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7184",
-    "description": "Telsiz Operatörü GOC veya ROC Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7187",
-    "description": "Usta Gemici Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7189",
-    "description": "Gemi Adamı olarak en az 2 yıl çalışmış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7192",
-    "description": "Gemiadamları Sağlık Yönergesine uygun olarak alınmış sağlık yoklama belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7193",
-    "description": "En az Makine Zabiti yeterliğine sahip olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7200",
-    "description": "Hava Trafik Kontrolörlüğü lisansına sahip olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7202",
-    "description": "Pedagojik formasyona sahip olmak",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7205",
-    "description": "Avukatlık Ruhsatı sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7207",
-    "description": "Avukatlık Ruhsatı aldıktan sonra en az 2 yıl mesleği ile ilgili çalışmış olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7229",
-    "description": "Geçerlilik süresi dolmamış Elektrik Kuvvetli Akım Tesislerinde Yüksek Gerilim Altında Çalışma İzin Belgesi (EKAT) sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7233",
-    "description": "Diyanet İşleri Başkanlığı Hafızlık Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7235",
-    "description": "İmam Hatip Lisesi dışındaki lise veya dengi okullardan mezun olanlar için Diyanet İşleri Başkanlığı Hafızlık Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7239",
-    "description": "Diyanet İşleri Başkanlığı Kur'an Kursu Öğreticiliği Yeterlik Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7241",
-    "description": "Diyanet İşleri Başkanlığı İmam-Hatip Yeterlik Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7243",
-    "description": "Diyanet İşleri Başkanlığı Müezzin-Kayyım Yeterlik Belgesi sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7245",
-    "description": "İmam-Hatiplik yapmaya engel bir özürü bulunmamak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7247",
-    "description": "Tehlikeli ve çok tehlikeli işlerde çalışmasına engel bir durumu bulunmamak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7248",
-    "description": "Vardiyalı çalışmasına engel bir durumu bulunmamak. 3\n7251 ICAO ANNEX 1'deki sağlık kriterlerine uygun olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7252",
-    "description": "Tam teşekküllü resmi sağlık kurumlarından \"Yurdun her yerinde görev yapabilir ve silah kullanabilir.\" ibareli sağlık kurulu raporu almak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7257",
-    "description": "Seyahate ve/veya arazide çalışmaya uygun olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7261",
-    "description": "En az 2 yüksek düzeyli programlama dilini bilmek ve bu alanda en az 2 yıl çalışmış olduğunu belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7263",
-    "description": "En az iki yüksek düzeyli programlama dilini bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7265",
-    "description": "Oracle ve C++ veya Delphi programlama dilini bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7267",
-    "description": "Client-Server ya da büyük sistemlerin işletim sistemlerinden en az birini bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7271",
-    "description": "Java ve J2EE bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7273",
-    "description": "SQL veya PL/SQL bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7275",
-    "description": "Unix bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7277",
-    "description": "Linux bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7279",
-    "description": "Cisco ağ sistemlerini bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7281",
-    "description": "Oracle veri tabanı yönetim sistemlerini bildiğini belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7283",
-    "description": "Web tasarımı konusunda belge sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7284",
-    "description": "MS Visual Studio.Net (ASP.NET,C#) platformunda web tabanlı yazılım geliştirme konusunda bilgi sahibi olduğunu veya bu konuda çalışma yapıtğını belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7285",
-    "description": "MS Visual Studio.NET (ASP.NET, C#) platformunda web tabanlı yazılım geliştirmede en az 2 yıl çalışmış olduğunu belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7287",
-    "description": "MS SQL Server veri tabanı yönetimi konusunda en az 2 yıl çalışmış olduğunu belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7288",
-    "description": "Spring Framework bildiğini veya Spring kullanarak çalışma yaptığını belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7289",
-    "description": "Hibernate ORM bildiğini veya Hibernate kullanarak çalışma yaptığını belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7290",
-    "description": "C# programlama dili bildiğini veya C# kullanarak çalışma yaptığını belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7291",
-    "description": "DevExpress, Ext.Net bildiğini veya DevExpress,Ext.Net kullanarak çalışma yaptığını belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7292",
-    "description": "Cisco Certified Network Professional (CCNP) Sertifikası sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7293",
-    "description": "Ağ güvenliği (Intrusion Prevention System(IPS) veya Firewall, UTM veya URL filtering) konusunda en az 2 yıl çalışmış olduğunu belgelemek.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7294",
-    "description": "MCSA Database Administrator Sertifikası sahibi olmak.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7300",
-    "description": "Bu kadro/pozisyonda vardiya sistemi uygulanmaktadır.",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7302",
-    "description": "Bakınız: Başvurma Özel Şartları - Şoför",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7303",
-    "description": "Bakınız: Başvurma Özel Şartları - Koruma Ve Güvenlik Görevlisi",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7304",
-    "description": "Bakınız: Başvurma Özel Şartları - Koruma Ve Güvenlik Görevlisi-Silahlı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7306",
-    "description": "Bakınız: Başvurma Özel Şartları - Aile ve Sosyal Hizmetler Bakanlığı - Destek Personeli(Bakım Personeli-Çocuk Bakıcısı)",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7307",
-    "description": "Bakınız: Başvurma Özel Şartları - ARFF Memuru - İtfaiyeci",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7311",
-    "description": "Bakınız: Başvurma Özel Şartları - Çözümleyici",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7314",
-    "description": "Bakınız: Başvurma Özel Şartları - Makina ve Kimya Endüstrisi Kurumu Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7315",
-    "description": "Bakınız: Başvurma Özel Şartları - İcra Memuru",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7321",
-    "description": "Bakınız: Başvurma Özel Şartları - Apron Memuru",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7322",
-    "description": "Bakınız: Başvurma Özel Şartları - Devlet Hava Meydanları İşletmesi Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7323",
-    "description": "Bakınız: Başvurma Özel Şartları - Adalet Bakanlığı Ceza ve Tevkifevleri Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7324",
-    "description": "Bakınız: Başvurma Özel Şartları - Toprak Mahsulleri Ofisi Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7325",
-    "description": "Bakınız: Başvurma Özel Şartları - Gelir İdaresi Başkanlığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7326",
-    "description": "Bakınız: Başvurma Özel Şartları - Hazine ve Maliye Bakanlığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7327",
-    "description": "Bakınız: Başvurma Özel Şartları - T.C. Devlet Demiryolları İşletmesi Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7328",
-    "description": "Bakınız: Başvurma Özel Şartları - T.C. Devlet Demiryolları İşletmesi Genel Müdürlüğü-Hareket Memuru-Memur(Hat Bakım Onarım Memuru)-Sürveyan",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7329",
-    "description": "Bakınız: Başvurma Özel Şartları - Yüksek Seçim Kurulu Başkanlığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7330",
-    "description": "Bakınız: Başvurma Özel Şartları - Maden Tetkik ve Arama Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7331",
-    "description": "Bakınız: Başvurma Özel Şartları - Öğretmen",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7332",
-    "description": "Bakınız: Başvurma Özel Şartları - Dil ve Konuşma Terapisti",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7333",
-    "description": "Bakınız: Başvurma Özel Şartları - Odyolog",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7334",
-    "description": "Bakınız: Başvurma Özel Şartları - Perfüzyonist",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7335",
-    "description": "Bakınız: Başvurma Özel Şartları - Sağlık Fizikçisi",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7336",
-    "description": "Bakınız: Başvurma Özel Şartları - Klinik Psikolog",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7337",
-    "description": "Bakınız: Başvurma Özel Şartları - Denizcilik Sörvey Mühendisi",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7347",
-    "description": "Bakınız: Başvurma Özel Şartları - Kaloriferci",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7348",
-    "description": "Bakınız: Başvurma Özel Şartları - Destek Personeli",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7350",
-    "description": "Bakınız: Başvurma Özel Şartları - Sağlık Bakanlığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7351",
-    "description": "Bakınız: Başvurma Özel Şartları - Sağlık Bakanlığı-Ebe-Hemşire",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7353",
-    "description": "Bakınız: Başvurma Özel Şartları - Aşçı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7358",
-    "description": "Bakınız: Başvurma Özel Şartları - Zabıta Memuru 4\n7359 Bakınız: Başvurma Özel Şartları - İtfaiye Eri",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7361",
-    "description": "Bakınız: Başvurma Özel Şartları - Avukat",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7362",
-    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Petrolleri Anonim Ortaklığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7363",
-    "description": "Bakınız: Başvurma Özel Şartları - Türk Silahlı Kuvvetleri, Jandarma Genel Komutanlığı ve Sahil Güvenlik Komutanlığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7364",
-    "description": "Bakınız: Başvurma Özel Şartları - Devlet Malzeme Ofisi Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7365",
-    "description": "Bakınız: Başvurma Özel Şartları - Emniyet Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7366",
-    "description": "Bakınız: Başvurma Özel Şartları - Ticaret Bakanlığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7368",
-    "description": "Bakınız: Başvurma Özel Şartları - T.C. Devlet Demiryolları Taşımacılık A.Ş. Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7369",
-    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Hudut ve Sahiller Sağlık Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7370",
-    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Kömür İşletmeleri Kurumu Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7371",
-    "description": "Bakınız: Başvurma Özel Şartları - İstanbul Üniversitesi Rektörlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7373",
-    "description": "Bakınız: Başvurma Özel Şartları - Gençlik ve Spor Bakanlığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7374",
-    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Şeker Fabrikaları A.Ş. Genel Müdürlüğü",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7375",
-    "description": "Bakınız: Başvurma Özel Şartları - Diyanet İşleri Başkanlığı",
-    "educationLevel": "Special"
-  },
-  {
-    "code": "7376",
-    "description": "Bakınız: Başvurma Özel Şartları - Türkiye Taşkömürü Kurumu Genel Müdürlüğü",
-    "educationLevel": "Special"
   }
 ]
