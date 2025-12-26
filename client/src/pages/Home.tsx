@@ -23,14 +23,12 @@ import {
   TrendingUp,
   ChevronRight,
   Star,
-  BarChart3,
-  Users,
-  Award
+  BarChart3
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
-  const { data: meta, isLoading: isMetaLoading } = useKpssMeta();
+  const { data: meta } = useKpssMeta();
   const searchMutation = useSearchPositions();
   const { favoritePositions, favoritesCount } = useFavorites();
 
@@ -567,11 +565,43 @@ export default function Home() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-slate-800 py-8">
         <div className="container max-w-6xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
-            <div>© 2025 KPSS Tercih Robotu. Tüm hakları saklıdır.</div>
-            <div className="flex items-center gap-2">
-              <span>Veriler:</span>
+          {/* Ana Footer İçerik */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+            <div className="flex items-center gap-2 text-sm text-slate-500">
+              <span>© 2025 KPSS Tercih Robotu. Tüm hakları saklıdır.</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <span className="text-slate-500">Veriler:</span>
               <Badge variant="outline" className="border-slate-700 text-slate-400">ÖSYM 2025/2 Kılavuzu</Badge>
+            </div>
+          </div>
+
+          {/* Yasal Uyarı ve İletişim */}
+          <div className="border-t border-slate-800 pt-6">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+              {/* Yasal Uyarı */}
+              <div className="text-slate-600 text-center md:text-left max-w-2xl">
+                <span className="inline-flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <strong className="text-slate-500">Yasal Uyarı:</strong>
+                </span>
+                {" "}Bu site resmi devlet kurumu değildir. Veriler bilgilendirme amaçlıdır, kesin bilgi için ÖSYM kılavuzunu inceleyiniz.
+              </div>
+
+              {/* İletişim */}
+              <div className="flex items-center gap-4 text-slate-500">
+                <a 
+                  href="mailto:info@kpssrobotu.com" 
+                  className="flex items-center gap-1.5 hover:text-blue-400 transition-colors"
+                >
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  İletişim: info@kpssrobotu.com
+                </a>
+              </div>
             </div>
           </div>
         </div>

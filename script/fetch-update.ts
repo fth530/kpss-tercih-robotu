@@ -360,7 +360,6 @@ async function main() {
 
   const state = loadState();
   let hasChanges = false;
-  const isCI = process.env.CI === 'true' || process.env.NETLIFY === 'true';
 
   // 1. En son kılavuzu otomatik bul
   const kilavuzUrl = await findLatestKilavuz();
