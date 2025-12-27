@@ -1,17 +1,22 @@
 import { db } from "./db";
 import { env } from "./env";
-import { 
+import {
   positions, qualifications, positionQualifications,
-  type Position, type Qualification, type PositionWithQualifications, 
-  type SearchPositionsRequest, type FilterDataResponse
+  type Position, type Qualification, type PositionWithQualifications,
+  type SearchPositionsRequest, type FilterDataResponse, type SearchPositionsResponse
 } from "@shared/schema";
 import { eq, and, inArray, sql } from "drizzle-orm";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export interface IStorage {
   getMeta(): Promise<FilterDataResponse>;
-  searchPositions(filters: SearchPositionsRequest): Promise<PositionWithQualifications[]>;
+  searchPositions(filters: SearchPositionsRequest): Promise<SearchPositionsResponse>;
   seedData(): Promise<void>;
 }
 
@@ -39,7 +44,7 @@ class JsonStorage implements IStorage {
 
   private loadData() {
     if (this.loaded) return;
-    
+
     // Try multiple possible paths for Netlify compatibility
     const possiblePaths = [
       path.join(process.cwd(), "parsed_data"),
@@ -47,29 +52,29 @@ class JsonStorage implements IStorage {
       path.join(__dirname, "..", "..", "parsed_data"),
       path.join(__dirname, "..", "..", "dist", "parsed_data"),
     ];
-    
+
     let qualsPath = "";
     let posPath = "";
-    
+
     for (const basePath of possiblePaths) {
       const qPath = path.join(basePath, "qualifications.json");
       const pPath = path.join(basePath, "positions.json");
-      
+
       if (fs.existsSync(qPath) && fs.existsSync(pPath)) {
         qualsPath = qPath;
         posPath = pPath;
         break;
       }
     }
-    
+
     if (!qualsPath || !posPath) {
       console.error("❌ JSON dosyaları bulunamadı! Aranan yollar:", possiblePaths);
       throw new Error("JSON data files not found");
     }
-    
+
     this.qualifications = JSON.parse(fs.readFileSync(qualsPath, "utf-8"));
     this.positions = JSON.parse(fs.readFileSync(posPath, "utf-8"));
-    
+
     this.loaded = true;
     console.log(`📊 JSON Storage: ${this.qualifications.length} nitelik, ${this.positions.length} kadro yüklendi`);
     console.log(`📁 Yol: ${path.dirname(qualsPath)}`);
@@ -77,10 +82,10 @@ class JsonStorage implements IStorage {
 
   async getMeta(): Promise<FilterDataResponse> {
     this.loadData();
-    
+
     const cities = Array.from(new Set(this.positions.map(p => p.city))).sort();
     const educationLevels = Array.from(new Set(this.positions.map(p => p.educationLevel))).sort();
-    
+
     return {
       cities,
       educationLevels,
@@ -92,34 +97,33 @@ class JsonStorage implements IStorage {
     };
   }
 
-
-  async searchPositions(filters: SearchPositionsRequest): Promise<PositionWithQualifications[]> {
+  async searchPositions(filters: SearchPositionsRequest): Promise<SearchPositionsResponse> {
     this.loadData();
-    
+
     let results = this.positions;
-    
+
     // Filter by education level
     if (filters.educationLevel) {
       results = results.filter(p => p.educationLevel === filters.educationLevel);
     }
-    
+
     // Filter by cities
-    const hasAllCities = filters.cities.some(c => 
+    const hasAllCities = filters.cities.some(c =>
       c.toLowerCase() === 'all' || c === 'Tümü' || c === 'Tüm Şehirler'
     );
     if (!hasAllCities && filters.cities.length > 0) {
       results = results.filter(p => filters.cities.includes(p.city));
     }
-    
+
     // Filter by qualification codes
     if (filters.departmentCodes && filters.departmentCodes.length > 0) {
-      const hasAllDepts = filters.departmentCodes.some(c => 
+      const hasAllDepts = filters.departmentCodes.some(c =>
         c.toLowerCase() === 'all' || c === 'Tümü'
       );
-      
+
       if (!hasAllDepts) {
         let codesToSearch = [...filters.departmentCodes];
-        
+
         // Add generic codes
         if (filters.educationLevel === "Ortaöğretim" && !codesToSearch.includes("2001")) {
           codesToSearch.push("2001");
@@ -130,18 +134,24 @@ class JsonStorage implements IStorage {
         if (filters.educationLevel === "Lisans" && !codesToSearch.includes("4001")) {
           codesToSearch.push("4001");
         }
-        
-        results = results.filter(p => 
+
+        results = results.filter(p =>
           p.qualificationCodes.some(qc => codesToSearch.includes(qc))
         );
       }
     }
-    
+
+    const total = results.length;
+    const page = filters.page || 1;
+    const limit = filters.limit || 50;
+    const start = (page - 1) * limit;
+    const paginatedResults = results.slice(start, start + limit);
+
     // Map to PositionWithQualifications format
     const qualMap = new Map(this.qualifications.map(q => [q.code, q]));
-    
-    return results.map((p, idx) => ({
-      id: idx + 1,
+
+    const data = paginatedResults.map((p, idx) => ({
+      id: idx + 1 + start,
       osymCode: p.osymCode,
       institution: p.institution,
       title: p.title,
@@ -158,13 +168,14 @@ class JsonStorage implements IStorage {
           educationLevel: q.educationLevel
         }))
     }));
+
+    return { data, total, page, limit };
   }
 
   async seedData(): Promise<void> {
     this.loadData();
   }
 }
-
 
 // Database storage (original implementation)
 export class DatabaseStorage implements IStorage {
@@ -180,7 +191,7 @@ export class DatabaseStorage implements IStorage {
     };
   }
 
-  async searchPositions(filters: SearchPositionsRequest): Promise<PositionWithQualifications[]> {
+  async searchPositions(filters: SearchPositionsRequest): Promise<SearchPositionsResponse> {
     const conditions = [];
 
     if (filters.educationLevel) {
@@ -192,35 +203,44 @@ export class DatabaseStorage implements IStorage {
       conditions.push(inArray(positions.city, filters.cities));
     }
 
+    let matchingPositionIds: { id: number }[] = [];
+    const page = filters.page || 1;
+    const limit = filters.limit || 50;
+    const offset = (page - 1) * limit;
+
     if (filters.departmentCodes && filters.departmentCodes.length > 0) {
       const hasAllDepts = filters.departmentCodes.some(c => c.toLowerCase() === 'all' || c === 'Tümü');
-      
+
       if (!hasAllDepts) {
         let codesToSearch = [...filters.departmentCodes];
         if (filters.educationLevel === "Ortaöğretim" && !codesToSearch.includes("2001")) codesToSearch.push("2001");
         if (filters.educationLevel === "Önlisans" && !codesToSearch.includes("3001")) codesToSearch.push("3001");
         if (filters.educationLevel === "Lisans" && !codesToSearch.includes("4001")) codesToSearch.push("4001");
 
-        const matchingPositionIds = await db.select({ id: positions.id })
+        // First get total count
+        const allMatchingIds = await db.select({ id: positions.id })
           .from(positions)
           .where(and(...conditions, sql`EXISTS (
             SELECT 1 FROM ${positionQualifications} 
             WHERE ${positionQualifications.positionId} = ${positions.id} 
             AND ${positionQualifications.qualificationCode} = ANY(${codesToSearch})
           )`));
-          
-        if (matchingPositionIds.length === 0) return [];
-        
+
+        const total = allMatchingIds.length;
+        if (total === 0) return { data: [], total: 0, page, limit };
+
+        matchingPositionIds = allMatchingIds.slice(offset, offset + limit);
+
         const results = await db.select().from(positions)
-          .where(inArray(positions.id, matchingPositionIds.map((p: { id: number }) => p.id)));
+          .where(inArray(positions.id, matchingPositionIds.map(p => p.id)));
 
         const quals = await db.select({
           posId: positionQualifications.positionId,
           qualification: qualifications
         })
-        .from(positionQualifications)
-        .innerJoin(qualifications, eq(positionQualifications.qualificationCode, qualifications.code))
-        .where(inArray(positionQualifications.positionId, matchingPositionIds.map((p: { id: number }) => p.id)));
+          .from(positionQualifications)
+          .innerJoin(qualifications, eq(positionQualifications.qualificationCode, qualifications.code))
+          .where(inArray(positionQualifications.positionId, matchingPositionIds.map(p => p.id)));
 
         const qualsByPosition = new Map<number, Qualification[]>();
         quals.forEach((q: { posId: number; qualification: Qualification }) => {
@@ -228,21 +248,32 @@ export class DatabaseStorage implements IStorage {
           qualsByPosition.get(q.posId)!.push(q.qualification);
         });
 
-        return results.map((pos: Position) => ({ ...pos, qualifications: qualsByPosition.get(pos.id) || [] }));
+        const data = results.map((pos: Position) => ({ ...pos, qualifications: qualsByPosition.get(pos.id) || [] }));
+        return { data, total, page, limit };
       }
     }
 
-    const results = await db.select().from(positions).where(and(...conditions));
-    if (results.length === 0) return [];
+    // No qualification filter
+    const totalResult = await db.select({ count: sql<number>`count(*)` })
+      .from(positions)
+      .where(and(...conditions));
+    const total = Number(totalResult[0].count);
+
+    if (total === 0) return { data: [], total: 0, page, limit };
+
+    const results = await db.select().from(positions)
+      .where(and(...conditions))
+      .limit(limit)
+      .offset(offset);
 
     const positionIds = results.map((r: Position) => r.id);
     const quals = await db.select({
       posId: positionQualifications.positionId,
       qualification: qualifications
     })
-    .from(positionQualifications)
-    .innerJoin(qualifications, eq(positionQualifications.qualificationCode, qualifications.code))
-    .where(inArray(positionQualifications.positionId, positionIds));
+      .from(positionQualifications)
+      .innerJoin(qualifications, eq(positionQualifications.qualificationCode, qualifications.code))
+      .where(inArray(positionQualifications.positionId, positionIds));
 
     const qualsByPosition = new Map<number, Qualification[]>();
     quals.forEach((q: { posId: number; qualification: Qualification }) => {
@@ -250,7 +281,8 @@ export class DatabaseStorage implements IStorage {
       qualsByPosition.get(q.posId)!.push(q.qualification);
     });
 
-    return results.map((pos: Position) => ({ ...pos, qualifications: qualsByPosition.get(pos.id) || [] }));
+    const data = results.map((pos: Position) => ({ ...pos, qualifications: qualsByPosition.get(pos.id) || [] }));
+    return { data, total, page, limit };
   }
 
   async seedData(): Promise<void> {

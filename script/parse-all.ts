@@ -163,44 +163,63 @@ async function main() {
   const allQuals: Qualification[] = [];
   const allPositions: Position[] = [];
   
+  // Helper function to find files
+  const findFiles = (dir: string, pattern: RegExp) => {
+    return fs.readdirSync(dir).filter(f => pattern.test(f));
+  };
+
   // 1. Parse Nitelik files
   console.log("📋 NİTELİK DOSYALARI");
-  const nitelikFiles = [
-    { file: "ortaogr_nitelik18122025_(1)_1766511714001.pdf", level: "Ortaöğretim" },
-    { file: "onlisans_nitelik_18122025_(1)_1766511733316.pdf", level: "Önlisans" },
-    { file: "lisansnitelik_18122025_(1)_1766511751773.pdf", level: "Lisans" },
-    { file: "ozel_kosullar18122025_(1)_1766511695454.pdf", level: "Special" },
-  ];
   
-  for (const nf of nitelikFiles) {
-    const fp = path.join(ASSETS_DIR, nf.file);
-    if (fs.existsSync(fp)) {
+  const nitelikDefinitions = [
+    { level: "Ortaöğretim", pattern: /ortaogr.*nitelik.*\.pdf$/i },
+    { level: "Önlisans", pattern: /onlisans.*nitelik.*\.pdf$/i },
+    { level: "Lisans", pattern: /lisans.*nitelik.*\.pdf$/i },
+    { level: "Special", pattern: /ozel_kosul.*\.pdf$/i },
+  ];
+
+  for (const def of nitelikDefinitions) {
+    const files = findFiles(ASSETS_DIR, def.pattern);
+    
+    if (files.length === 0) {
+      console.log(`  ⚠️ ${def.level} için nitelik dosyası bulunamadı.`);
+      continue;
+    }
+
+    for (const file of files) {
+      const fp = path.join(ASSETS_DIR, file);
+      console.log(`  Processing: ${file}`);
       const text = await extractPdfText(fp);
-      const quals = parseQualifications(text, nf.level);
+      const quals = parseQualifications(text, def.level);
       allQuals.push(...quals);
-      console.log(`  ✅ ${nf.level}: ${quals.length} nitelik`);
-    } else {
-      console.log(`  ❌ ${nf.file} bulunamadı`);
+      console.log(`  ✅ ${def.level}: ${quals.length} nitelik eklendi`);
     }
   }
   
   // 2. Parse Position tables
   console.log("\n📋 KADRO TABLOLARI");
-  const tableFiles = [
-    { file: "tablo1_ort18122025_(1)_1766511617169.pdf", level: "Ortaöğretim" },
-    { file: "tablo2_onlisans18122025_(1)_1766511639495.pdf", level: "Önlisans" },
-    { file: "tablo3_lisans18122025_(1)_1766511669411.pdf", level: "Lisans" },
-  ];
   
-  for (const tf of tableFiles) {
-    const fp = path.join(ASSETS_DIR, tf.file);
-    if (fs.existsSync(fp)) {
+  const tableDefinitions = [
+    { level: "Ortaöğretim", pattern: /tablo.*1.*ort.*\.pdf$/i }, // Matches tablo1_ort...
+    { level: "Önlisans", pattern: /tablo.*2.*onlisans.*\.pdf$/i },
+    { level: "Lisans", pattern: /tablo.*3.*lisans.*\.pdf$/i },
+  ];
+
+  for (const def of tableDefinitions) {
+    const files = findFiles(ASSETS_DIR, def.pattern);
+     
+    if (files.length === 0) {
+        console.log(`  ⚠️ ${def.level} için tablo dosyası bulunamadı.`);
+        continue;
+    }
+
+    for (const file of files) {
+      const fp = path.join(ASSETS_DIR, file);
+      console.log(`  Processing: ${file}`);
       const text = await extractPdfText(fp);
-      const positions = parsePositions(text, tf.level);
+      const positions = parsePositions(text, def.level);
       allPositions.push(...positions);
-      console.log(`  ✅ ${tf.level}: ${positions.length} kadro`);
-    } else {
-      console.log(`  ❌ ${tf.file} bulunamadı`);
+      console.log(`  ✅ ${def.level}: ${positions.length} kadro eklendi`);
     }
   }
   

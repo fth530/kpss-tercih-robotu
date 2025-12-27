@@ -4,25 +4,26 @@ import { useFavorites } from "@/hooks/use-favorites";
 import { useTheme } from "@/hooks/use-theme";
 import { ResultsTable } from "@/components/ResultsTable";
 import { Button } from "@/components/ui/button";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { MultiSelect, type Option } from "@/components/MultiSelect";
-import { 
-  Search, 
-  GraduationCap, 
-  MapPin, 
-  BookOpen, 
+import {
+  Search,
+  GraduationCap,
+  MapPin,
+  BookOpen,
   Building2,
   RefreshCw,
   Sparkles,
   TrendingUp,
   ChevronRight,
+  ChevronLeft,
   Star,
   BarChart3,
   Moon,
@@ -41,13 +42,15 @@ export default function Home() {
   const [showStats, setShowStats] = useState(false);
   const [selectedDepartments, setSelectedDepartments] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<"search" | "favorites">("search");
+  const [page, setPage] = useState(1);
+  const ITEMS_PER_PAGE = 50;
 
   const cityOptions: Option[] = [
     { label: "Tüm Şehirler", value: "Tümü" },
     ...(meta?.cities.map(c => ({ label: c, value: c })) || [])
   ];
 
-  const filteredQualifications = meta?.qualifications.filter(q => 
+  const filteredQualifications = meta?.qualifications.filter(q =>
     !educationLevel || q.educationLevel === educationLevel || q.educationLevel === 'Special'
   ) || [];
 
@@ -58,74 +61,90 @@ export default function Home() {
 
   // İstatistikleri hesapla
   const stats = useMemo(() => {
-    if (!searchMutation.data || searchMutation.data.length === 0) return null;
-    
-    const results = searchMutation.data;
-    
-    // Şehir bazında kadro sayısı
+    if (!searchMutation.data || !searchMutation.data.data.length) return null;
+
+    const results = searchMutation.data.data;
+    const total = searchMutation.data.total;
+
+    // Şehir bazında kadro sayısı (sadece bu sayfa için)
     const cityCount: Record<string, number> = {};
     results.forEach(p => {
       cityCount[p.city] = (cityCount[p.city] || 0) + 1;
     });
-    
+
     // En çok kadro olan şehirler (top 5)
     const topCities = Object.entries(cityCount)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 5);
-    
+
     // Kurum bazında kadro sayısı
     const institutionCount: Record<string, number> = {};
     results.forEach(p => {
       institutionCount[p.institution] = (institutionCount[p.institution] || 0) + 1;
     });
-    
+
     // En çok kadro olan kurumlar (top 3)
     const topInstitutions = Object.entries(institutionCount)
       .sort((a, b) => b[1] - a[1])
       .slice(0, 3);
-    
-    // Toplam kontenjan
+
+    // Toplam kontenjan (sadece bu sayfa)
     const totalQuota = results.reduce((sum, p) => sum + p.quota, 0);
-    
+
     // Benzersiz şehir sayısı
     const uniqueCities = Object.keys(cityCount).length;
-    
+
     // Benzersiz kurum sayısı
     const uniqueInstitutions = Object.keys(institutionCount).length;
-    
+
     return {
       topCities,
       topInstitutions,
       totalQuota,
       uniqueCities,
       uniqueInstitutions,
-      totalPositions: results.length
+      totalPositions: total // Show total from server
     };
   }, [searchMutation.data]);
 
-  const handleSearch = () => {
+  const performSearch = (newPage: number) => {
     if (!educationLevel) return;
-    const citiesPayload = (selectedCities.length === 0 || selectedCities.includes("Tümü")) 
+    const citiesPayload = (selectedCities.length === 0 || selectedCities.includes("Tümü"))
       ? ["All"] : selectedCities;
+
     searchMutation.mutate({
       educationLevel,
       cities: citiesPayload,
       departmentCodes: selectedDepartments,
+      page: newPage,
+      limit: ITEMS_PER_PAGE
     });
+  };
+
+  const handleSearch = () => {
+    setPage(1);
+    performSearch(1);
     setShowStats(false);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    performSearch(newPage);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleReset = () => {
     setEducationLevel("");
     setSelectedCities([]);
     setSelectedDepartments([]);
+    setPage(1);
     searchMutation.reset();
     setShowStats(false);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-300">
-      
+
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px] animate-pulse" />
@@ -153,14 +172,14 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              
+
               {/* Brand */}
               <div className="flex flex-col">
                 <span className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">KPSS Tercih</span>
                 <span className="text-xs text-slate-500 font-medium">Kadro Arama Robotu</span>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
@@ -175,16 +194,15 @@ export default function Home() {
                   <Moon className="w-5 h-5" />
                 )}
               </Button>
-              
+
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setActiveTab("favorites")}
-                className={`relative ${
-                  activeTab === "favorites"
+                className={`relative ${activeTab === "favorites"
                     ? "text-yellow-500 dark:text-yellow-400 bg-yellow-500/10"
                     : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
-                }`}
+                  }`}
               >
                 <Star className={`w-4 h-4 mr-2 ${activeTab === "favorites" ? "fill-yellow-400" : ""}`} />
                 Favoriler
@@ -194,7 +212,7 @@ export default function Home() {
                   </Badge>
                 )}
               </Button>
-              
+
               <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 hover:bg-emerald-500/20 px-3 py-1.5">
                 <Sparkles className="w-3.5 h-3.5 mr-1.5" />
                 2025/2 Güncel
@@ -216,10 +234,10 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
-              KPSS puanınıza ve mezuniyet alanınıza uygun tüm kamu kadrolarını 
+              KPSS puanınıza ve mezuniyet alanınıza uygun tüm kamu kadrolarını
               anında listeleyin. Resmi kılavuz verileriyle %100 doğru sonuçlar.
             </p>
-            
+
             {/* Stats */}
             <div className="flex items-center justify-center gap-8 mb-12">
               <div className="text-center">
@@ -244,10 +262,10 @@ export default function Home() {
       {/* Search Section */}
       <section className="relative z-10 pb-20">
         <div className="container max-w-5xl mx-auto px-6">
-          
+
           {/* Filter Card */}
           <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-200 dark:border-slate-700/50 p-8 shadow-xl dark:shadow-2xl shadow-slate-200/50 dark:shadow-black/20">
-            
+
             {/* Card Header */}
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
@@ -260,9 +278,9 @@ export default function Home() {
                 </div>
               </div>
               {(educationLevel || selectedCities.length > 0 || selectedDepartments.length > 0) && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={handleReset}
                   className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
@@ -274,7 +292,7 @@ export default function Home() {
 
             {/* Filters Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              
+
               {/* Education Level */}
               <div className="space-y-3">
                 <Label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
@@ -299,7 +317,7 @@ export default function Home() {
                   <MapPin className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                   Şehir
                 </Label>
-                <MultiSelect 
+                <MultiSelect
                   options={cityOptions}
                   selected={selectedCities}
                   onChange={setSelectedCities}
@@ -315,7 +333,7 @@ export default function Home() {
                   <BookOpen className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                   Bölüm / Nitelik
                 </Label>
-                <MultiSelect 
+                <MultiSelect
                   options={departmentOptions}
                   selected={selectedDepartments}
                   onChange={setSelectedDepartments}
@@ -327,8 +345,8 @@ export default function Home() {
             </div>
 
             {/* Search Button */}
-            <Button 
-              size="lg" 
+            <Button
+              size="lg"
               className="w-full h-14 text-base font-semibold bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all duration-300"
               onClick={handleSearch}
               disabled={searchMutation.isPending || !educationLevel}
@@ -362,7 +380,7 @@ export default function Home() {
 
             {activeTab === "search" && searchMutation.data ? (
               <div className="space-y-6">
-                {/* Results Header - Daha Vurgulu */}
+                {/* Results Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-2xl border border-emerald-500/20">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
@@ -370,15 +388,15 @@ export default function Home() {
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-                        {searchMutation.data.length.toLocaleString('tr-TR')} Kadro Bulundu!
+                        {searchMutation.data.total.toLocaleString('tr-TR')} Kadro Bulundu!
                       </h3>
                       <p className="text-sm text-slate-500 dark:text-slate-400">
-                        {educationLevel} düzeyinde 
-                        {selectedCities.length > 0 && !selectedCities.includes("Tümü") 
-                          ? ` • ${selectedCities.length} şehir` 
+                        {educationLevel} düzeyinde
+                        {selectedCities.length > 0 && !selectedCities.includes("Tümü")
+                          ? ` • ${selectedCities.length} şehir`
                           : " • Tüm şehirler"}
-                        {selectedDepartments.length > 0 
-                          ? ` • ${selectedDepartments.length} nitelik` 
+                        {selectedDepartments.length > 0
+                          ? ` • ${selectedDepartments.length} nitelik`
                           : ""}
                       </p>
                     </div>
@@ -392,12 +410,12 @@ export default function Home() {
                         className={`border-slate-300 dark:border-slate-600 ${showStats ? 'bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/50' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'}`}
                       >
                         <BarChart3 className="w-4 h-4 mr-2" />
-                        İstatistikler
+                        İstatistikler (Bu Sayfa)
                       </Button>
                     )}
                     <div className="text-right">
                       <div className="text-3xl font-bold text-emerald-400">
-                        {searchMutation.data.length}
+                        {searchMutation.data.total}
                       </div>
                       <div className="text-xs text-slate-500 uppercase tracking-wider">Kadro</div>
                     </div>
@@ -407,7 +425,6 @@ export default function Home() {
                 {/* Statistics Panel */}
                 {showStats && stats && (
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-slate-100/80 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/50">
-                    {/* Genel İstatistikler */}
                     <div className="space-y-4">
                       <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <BarChart3 className="w-4 h-4 text-blue-500 dark:text-blue-400" />
@@ -420,34 +437,32 @@ export default function Home() {
                         </div>
                         <div className="bg-white dark:bg-slate-900/50 rounded-xl p-3 text-center shadow-sm">
                           <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stats.totalQuota}</div>
-                          <div className="text-xs text-slate-500">Kontenjan</div>
+                          <div className="text-xs text-slate-500">Kontenjan (Sayfa)</div>
                         </div>
                         <div className="bg-white dark:bg-slate-900/50 rounded-xl p-3 text-center shadow-sm">
                           <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">{stats.uniqueCities}</div>
-                          <div className="text-xs text-slate-500">Şehir</div>
+                          <div className="text-xs text-slate-500">Şehir (Sayfa)</div>
                         </div>
                         <div className="bg-white dark:bg-slate-900/50 rounded-xl p-3 text-center shadow-sm">
                           <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.uniqueInstitutions}</div>
-                          <div className="text-xs text-slate-500">Kurum</div>
+                          <div className="text-xs text-slate-500">Kurum (Sayfa)</div>
                         </div>
                       </div>
                     </div>
 
-                    {/* En Çok Kadro Olan Şehirler */}
                     <div className="space-y-4">
                       <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <MapPin className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
-                        En Çok Kadro (Şehir)
+                        En Çok Kadro (Şehir - Sayfa)
                       </h4>
                       <div className="space-y-2">
                         {stats.topCities.map(([city, count], idx) => (
                           <div key={city} className="flex items-center gap-3">
-                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                              idx === 0 ? 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' :
-                              idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
-                              idx === 2 ? 'bg-orange-500/20 text-orange-600 dark:text-orange-400' :
-                              'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
-                            }`}>
+                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' :
+                                idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
+                                  idx === 2 ? 'bg-orange-500/20 text-orange-600 dark:text-orange-400' :
+                                    'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
+                              }`}>
                               {idx + 1}
                             </span>
                             <span className="flex-1 text-sm text-slate-700 dark:text-slate-300 truncate">{city}</span>
@@ -457,20 +472,18 @@ export default function Home() {
                       </div>
                     </div>
 
-                    {/* En Çok Kadro Olan Kurumlar */}
                     <div className="space-y-4">
                       <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
                         <Building2 className="w-4 h-4 text-purple-500 dark:text-purple-400" />
-                        En Çok Kadro (Kurum)
+                        En Çok Kadro (Kurum - Sayfa)
                       </h4>
                       <div className="space-y-2">
                         {stats.topInstitutions.map(([inst, count], idx) => (
                           <div key={inst} className="flex items-center gap-3">
-                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                              idx === 0 ? 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' :
-                              idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
-                              'bg-orange-500/20 text-orange-600 dark:text-orange-400'
-                            }`}>
+                            <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${idx === 0 ? 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' :
+                                idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
+                                  'bg-orange-500/20 text-orange-600 dark:text-orange-400'
+                              }`}>
                               {idx + 1}
                             </span>
                             <span className="flex-1 text-sm text-slate-700 dark:text-slate-300 truncate" title={inst}>{inst}</span>
@@ -481,13 +494,43 @@ export default function Home() {
                     </div>
                   </div>
                 )}
-                
+
                 {/* Results Table */}
                 <div className="bg-white/80 dark:bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-200 dark:border-slate-700/50 overflow-hidden shadow-lg dark:shadow-none">
-                  <ResultsTable 
-                    results={searchMutation.data} 
-                    isLoading={searchMutation.isPending} 
+                  <ResultsTable
+                    results={searchMutation.data.data}
+                    isLoading={searchMutation.isPending}
                   />
+
+                  {/* Pagination Controls */}
+                  <div className="flex items-center justify-between p-4 border-t border-slate-200 dark:border-slate-700">
+                    <span className="text-sm text-slate-500">
+                      {searchMutation.data.total} sonuçtan {(searchMutation.data.page - 1) * searchMutation.data.limit + 1} - {Math.min(searchMutation.data.page * searchMutation.data.limit, searchMutation.data.total)} gösteriliyor
+                    </span>
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(page - 1)}
+                        disabled={page <= 1 || searchMutation.isPending}
+                      >
+                        <ChevronLeft className="w-4 h-4 mr-2" />
+                        Önceki
+                      </Button>
+                      <span className="text-sm font-medium px-2">
+                        Sayfa {page}
+                      </span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handlePageChange(page + 1)}
+                        disabled={page * ITEMS_PER_PAGE >= searchMutation.data.total || searchMutation.isPending}
+                      >
+                        Sonraki
+                        <ChevronRight className="w-4 h-4 ml-2" />
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : activeTab === "favorites" ? (
@@ -512,13 +555,13 @@ export default function Home() {
                     Aramaya Dön
                   </Button>
                 </div>
-                
+
                 {/* Favorites Table */}
                 {favoritePositions.length > 0 ? (
                   <div className="bg-white/80 dark:bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-200 dark:border-slate-700/50 overflow-hidden shadow-lg dark:shadow-none">
-                    <ResultsTable 
-                      results={favoritePositions} 
-                      isLoading={false} 
+                    <ResultsTable
+                      results={favoritePositions}
+                      isLoading={false}
                     />
                   </div>
                 ) : (
@@ -549,13 +592,13 @@ export default function Home() {
                       <Search className="w-10 h-10 text-blue-500 dark:text-blue-400" />
                     </div>
                   </div>
-                  
+
                   <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Kadro Aramaya Başlayın</h3>
                   <p className="text-slate-600 dark:text-slate-400 max-w-lg mx-auto mb-8 leading-relaxed">
-                    KPSS puanınıza uygun binlerce kamu kadrosunu keşfedin. 
+                    KPSS puanınıza uygun binlerce kamu kadrosunu keşfedin.
                     Yukarıdaki filtrelerden öğrenim düzeyinizi seçerek başlayın.
                   </p>
-                  
+
                   {/* Quick Guide */}
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
                     <div className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800/50 rounded-full shadow-sm dark:shadow-none">
@@ -610,8 +653,8 @@ export default function Home() {
 
               {/* İletişim */}
               <div className="flex items-center gap-4 text-slate-500">
-                <a 
-                  href="mailto:info@kpssrobotu.com" 
+                <a
+                  href="mailto:info@kpssrobotu.com"
                   className="flex items-center gap-1.5 hover:text-blue-400 transition-colors"
                 >
                   <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

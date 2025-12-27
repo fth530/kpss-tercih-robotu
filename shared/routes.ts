@@ -35,10 +35,17 @@ export const api = {
       input: z.object({
         educationLevel: z.string(),
         cities: z.array(z.string()),
-        departmentCodes: z.array(z.string()), // Updated to array
+        departmentCodes: z.array(z.string()),
+        page: z.number().default(1),
+        limit: z.number().default(50),
       }),
       responses: {
-        200: z.array(z.custom<typeof positions.$inferSelect & { qualifications: typeof qualifications.$inferSelect[] }>()),
+        200: z.object({
+          data: z.array(z.custom<typeof positions.$inferSelect & { qualifications: typeof qualifications.$inferSelect[] }>()),
+          total: z.number(),
+          page: z.number(),
+          limit: z.number(),
+        }),
         400: errorSchemas.validation,
       },
     },

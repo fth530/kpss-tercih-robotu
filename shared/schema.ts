@@ -13,7 +13,7 @@ export const qualifications = pgTable("qualifications", {
 
 export const positions = pgTable("positions", {
   id: serial("id").primaryKey(),
-  osymCode: text("osym_code").notNull().unique(), 
+  osymCode: text("osym_code").notNull().unique(),
   institution: text("institution").notNull(),
   title: text("title").notNull(),
   city: text("city").notNull(),
@@ -59,8 +59,17 @@ export interface PositionWithQualifications extends Position {
 
 export type SearchPositionsRequest = {
   educationLevel: string;
-  cities: string[]; 
+  cities: string[];
   departmentCodes: string[]; // Changed to array
+  page: number;
+  limit: number;
+};
+
+export type SearchPositionsResponse = {
+  data: PositionWithQualifications[];
+  total: number;
+  page: number;
+  limit: number;
 };
 
 export type FilterDataResponse = {
