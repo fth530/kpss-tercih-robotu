@@ -45,6 +45,7 @@ function MobileCard({ position, onCopy, onToggleFavorite, isFav }: {
   isFav: boolean;
 }) {
   const [expanded, setExpanded] = useState(false);
+  const [selectedQual, setSelectedQual] = useState<Qualification | null>(null);
 
   return (
     <div className="bg-slate-800/30 rounded-xl p-4 border border-slate-700/50">
@@ -103,26 +104,35 @@ function MobileCard({ position, onCopy, onToggleFavorite, isFav }: {
           Nitelikler ({position.qualifications.length})
         </button>
         {expanded && (
-          <div className="flex flex-wrap gap-1.5">
-            {position.qualifications.map((qual) => (
-              <Tooltip key={qual.code} delayDuration={0}>
-                <TooltipTrigger>
-                  <Badge 
-                    variant="outline"
-                    className="cursor-help text-xs font-mono border-slate-600 text-slate-300 bg-slate-800/50"
-                  >
-                    {qual.code}
-                  </Badge>
-                </TooltipTrigger>
-                <TooltipContent 
-                  side="top" 
-                  className="max-w-[280px] p-3 bg-slate-800 border-slate-700 shadow-xl z-[100]"
+          <div className="space-y-2">
+            <div className="flex flex-wrap gap-1.5">
+              {position.qualifications.map((qual) => (
+                <Badge 
+                  key={qual.code}
+                  variant="outline"
+                  className="cursor-pointer text-xs font-mono border-slate-600 text-slate-300 bg-slate-800/50 hover:bg-slate-700/50 active:bg-slate-700 transition-colors"
+                  onClick={() => setSelectedQual(qual)}
                 >
-                  <p className="font-bold text-sm text-blue-400 mb-1">{qual.code}</p>
-                  <p className="text-xs text-slate-300 leading-relaxed">{qual.description}</p>
-                </TooltipContent>
-              </Tooltip>
-            ))}
+                  {qual.code}
+                </Badge>
+              ))}
+            </div>
+            
+            {/* Açıklama Kutusu - Mobil için */}
+            {selectedQual && (
+              <div className="mt-3 p-3 bg-slate-900/80 border border-slate-700 rounded-lg">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <p className="font-bold text-sm text-blue-400">{selectedQual.code}</p>
+                  <button
+                    onClick={() => setSelectedQual(null)}
+                    className="text-slate-500 hover:text-slate-300 text-xs"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">{selectedQual.description}</p>
+              </div>
+            )}
           </div>
         )}
       </div>
