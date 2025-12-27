@@ -7,44 +7,45 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-  
+
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
-  
+
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method not allowed' });
   }
-  
+
   try {
-    const { educationLevel, cities, departmentCodes } = req.body;
-    
+    const { educationLevel, cities, departmentCodes, page = 1, limit = 50 } = req.body;
+
     if (!educationLevel) {
       return res.status(400).json({ message: "educationLevel is required" });
     }
 
     let results: any[] = positionsData;
-    
+
     // Filter by education level
     results = results.filter((p: any) => p.educationLevel === educationLevel);
-    
+
     // Filter by cities
-    const hasAllCities = cities?.some((c: string) => 
+    const hasAllCities = cities?.some((c: string) =>
       c.toLowerCase() === 'all' || c === 'Tümü' || c === 'Tüm Şehirler'
     );
     if (!hasAllCities && cities?.length > 0) {
       results = results.filter((p: any) => cities.includes(p.city));
     }
-    
+
     // Filter by qualification codes
     if (departmentCodes && departmentCodes.length > 0) {
-      const hasAllDepts = departmentCodes.some((c: string) => 
+      const hasAllDepts = departmentCodes.some((c: string) =>
         c.toLowerCase() === 'all' || c === 'Tümü'
       );
-      
+
       if (!hasAllDepts) {
         let codesToSearch = [...departmentCodes];
-        
+
+        // Add generic codes
         if (educationLevel === "Ortaöğretim" && !codesToSearch.includes("2001")) {
           codesToSearch.push("2001");
         }
@@ -54,18 +55,25 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         if (educationLevel === "Lisans" && !codesToSearch.includes("4001")) {
           codesToSearch.push("4001");
         }
-        
-        results = results.filter((p: any) => 
+
+        results = results.filter((p: any) =>
           p.qualificationCodes.some((qc: string) => codesToSearch.includes(qc))
         );
       }
     }
-    
+
+    // Pagination Logic
+    const total = results.length;
+    const pageNum = Number(page) || 1;
+    const limitNum = Number(limit) || 50;
+    const start = (pageNum - 1) * limitNum;
+    const paginatedResults = results.slice(start, start + limitNum);
+
     // Map to response format
     const qualMap = new Map(qualificationsData.map((q: any) => [q.code, q]));
-    
-    const response = results.map((p: any, idx: number) => ({
-      id: idx + 1,
+
+    const data = paginatedResults.map((p: any, idx: number) => ({
+      id: idx + 1 + start,
       osymCode: p.osymCode,
       institution: p.institution,
       title: p.title,
@@ -83,7 +91,14 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         }))
     }));
 
-    res.status(200).json(response);
+    // Return structured response
+    res.status(200).json({
+      data,
+      total,
+      page: pageNum,
+      limit: limitNum
+    });
+
   } catch (error: any) {
     console.error("Search error:", error);
     res.status(500).json({ message: error.message });
