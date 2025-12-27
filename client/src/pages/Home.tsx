@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import { useKpssMeta, useSearchPositions } from "@/hooks/use-kpss";
 import { useFavorites } from "@/hooks/use-favorites";
+import { useTheme } from "@/hooks/use-theme";
 import { ResultsTable } from "@/components/ResultsTable";
 import { Button } from "@/components/ui/button";
 import { 
@@ -23,7 +24,9 @@ import {
   TrendingUp,
   ChevronRight,
   Star,
-  BarChart3
+  BarChart3,
+  Moon,
+  Sun
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -31,6 +34,7 @@ export default function Home() {
   const { data: meta } = useKpssMeta();
   const searchMutation = useSearchPositions();
   const { favoritePositions, favoritesCount } = useFavorites();
+  const { theme, toggleTheme } = useTheme();
 
   const [educationLevel, setEducationLevel] = useState<string>("");
   const [selectedCities, setSelectedCities] = useState<string[]>([]);
@@ -120,17 +124,17 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 transition-colors duration-300">
       
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/5 rounded-full blur-[150px]" />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/5 dark:bg-cyan-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/3 dark:bg-indigo-500/5 rounded-full blur-[150px]" />
       </div>
 
       {/* Header */}
-      <header className="relative z-10 border-b border-white/5 backdrop-blur-xl bg-slate-950/50">
+      <header className="relative z-10 border-b border-slate-200 dark:border-white/5 backdrop-blur-xl bg-white/80 dark:bg-slate-950/50 transition-colors duration-300">
         <div className="container max-w-6xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -158,6 +162,20 @@ export default function Home() {
             </div>
             
             <div className="flex items-center gap-3">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                className="text-slate-400 hover:text-white hover:bg-slate-800"
+                title={theme === "dark" ? "Light Mode" : "Dark Mode"}
+              >
+                {theme === "dark" ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
+              </Button>
+              
               <Button
                 variant="ghost"
                 size="sm"
