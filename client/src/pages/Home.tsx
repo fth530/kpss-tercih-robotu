@@ -156,7 +156,7 @@ export default function Home() {
               
               {/* Brand */}
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-white tracking-tight">KPSS Tercih</span>
+                <span className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">KPSS Tercih</span>
                 <span className="text-xs text-slate-500 font-medium">Kadro Arama Robotu</span>
               </div>
             </div>
@@ -166,7 +166,7 @@ export default function Home() {
                 variant="ghost"
                 size="icon"
                 onClick={toggleTheme}
-                className="text-slate-400 hover:text-white hover:bg-slate-800"
+                className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
                 title={theme === "dark" ? "Light Mode" : "Dark Mode"}
               >
                 {theme === "dark" ? (
@@ -182,8 +182,8 @@ export default function Home() {
                 onClick={() => setActiveTab("favorites")}
                 className={`relative ${
                   activeTab === "favorites"
-                    ? "text-yellow-400 bg-yellow-500/10"
-                    : "text-slate-400 hover:text-white"
+                    ? "text-yellow-500 dark:text-yellow-400 bg-yellow-500/10"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                 }`}
               >
                 <Star className={`w-4 h-4 mr-2 ${activeTab === "favorites" ? "fill-yellow-400" : ""}`} />
@@ -209,13 +209,13 @@ export default function Home() {
       <section className="relative z-10 pt-16 pb-8">
         <div className="container max-w-6xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 leading-tight">
               Hayalindeki Kadroya
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-cyan-500 to-teal-500 dark:from-blue-400 dark:via-cyan-400 dark:to-teal-400">
                 Bir Adım Daha Yakın
               </span>
             </h1>
-            <p className="text-lg text-slate-400 mb-8 leading-relaxed">
+            <p className="text-lg text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">
               KPSS puanınıza ve mezuniyet alanınıza uygun tüm kamu kadrolarını 
               anında listeleyin. Resmi kılavuz verileriyle %100 doğru sonuçlar.
             </p>
@@ -223,17 +223,17 @@ export default function Home() {
             {/* Stats */}
             <div className="flex items-center justify-center gap-8 mb-12">
               <div className="text-center">
-                <div className="text-3xl font-bold text-white">1,795</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white">1,795</div>
                 <div className="text-sm text-slate-500">Kadro</div>
               </div>
-              <div className="w-px h-10 bg-slate-700" />
+              <div className="w-px h-10 bg-slate-300 dark:bg-slate-700" />
               <div className="text-center">
-                <div className="text-3xl font-bold text-white">1,300</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white">1,300</div>
                 <div className="text-sm text-slate-500">Nitelik</div>
               </div>
-              <div className="w-px h-10 bg-slate-700" />
+              <div className="w-px h-10 bg-slate-300 dark:bg-slate-700" />
               <div className="text-center">
-                <div className="text-3xl font-bold text-white">81</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white">81</div>
                 <div className="text-sm text-slate-500">Şehir</div>
               </div>
             </div>
@@ -246,16 +246,16 @@ export default function Home() {
         <div className="container max-w-5xl mx-auto px-6">
           
           {/* Filter Card */}
-          <div className="bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-700/50 p-8 shadow-2xl shadow-black/20">
+          <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl border border-slate-200 dark:border-slate-700/50 p-8 shadow-xl dark:shadow-2xl shadow-slate-200/50 dark:shadow-black/20">
             
             {/* Card Header */}
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
-                  <Search className="w-5 h-5 text-blue-400" />
+                  <Search className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                 </div>
                 <div>
-                  <h2 className="text-lg font-semibold text-white">Kadro Ara</h2>
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Kadro Ara</h2>
                   <p className="text-sm text-slate-500">Kriterleri belirleyin</p>
                 </div>
               </div>
@@ -264,7 +264,7 @@ export default function Home() {
                   variant="ghost" 
                   size="sm" 
                   onClick={handleReset}
-                  className="text-slate-400 hover:text-white hover:bg-slate-800"
+                  className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Temizle
@@ -277,26 +277,26 @@ export default function Home() {
               
               {/* Education Level */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium text-slate-300 flex items-center gap-2">
-                  <GraduationCap className="w-4 h-4 text-blue-400" />
+                <Label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                   Öğrenim Düzeyi
                 </Label>
                 <Select value={educationLevel} onValueChange={setEducationLevel}>
-                  <SelectTrigger className="h-12 bg-slate-800/50 border-slate-700 text-white hover:border-blue-500/50 focus:border-blue-500 focus:ring-blue-500/20 transition-all">
+                  <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white hover:border-blue-500/50 focus:border-blue-500 focus:ring-blue-500/20 transition-all">
                     <SelectValue placeholder="Seçiniz..." />
                   </SelectTrigger>
-                  <SelectContent className="bg-slate-800 border-slate-700">
-                    <SelectItem value="Ortaöğretim" className="text-white focus:bg-slate-700">Ortaöğretim (Lise)</SelectItem>
-                    <SelectItem value="Önlisans" className="text-white focus:bg-slate-700">Önlisans</SelectItem>
-                    <SelectItem value="Lisans" className="text-white focus:bg-slate-700">Lisans</SelectItem>
+                  <SelectContent className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                    <SelectItem value="Ortaöğretim" className="text-slate-900 dark:text-white focus:bg-slate-100 dark:focus:bg-slate-700">Ortaöğretim (Lise)</SelectItem>
+                    <SelectItem value="Önlisans" className="text-slate-900 dark:text-white focus:bg-slate-100 dark:focus:bg-slate-700">Önlisans</SelectItem>
+                    <SelectItem value="Lisans" className="text-slate-900 dark:text-white focus:bg-slate-100 dark:focus:bg-slate-700">Lisans</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* City */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium text-slate-300 flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-blue-400" />
+                <Label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                   Şehir
                 </Label>
                 <MultiSelect 
@@ -304,15 +304,15 @@ export default function Home() {
                   selected={selectedCities}
                   onChange={setSelectedCities}
                   placeholder="Tüm şehirler"
-                  className="h-12 bg-slate-800/50 border-slate-700 text-white"
+                  className="h-12 bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
                   emptyMessage="Şehir bulunamadı."
                 />
               </div>
 
               {/* Department */}
               <div className="space-y-3">
-                <Label className="text-sm font-medium text-slate-300 flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-blue-400" />
+                <Label className="text-sm font-medium text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                   Bölüm / Nitelik
                 </Label>
                 <MultiSelect 
@@ -320,7 +320,7 @@ export default function Home() {
                   selected={selectedDepartments}
                   onChange={setSelectedDepartments}
                   placeholder={!educationLevel ? "Önce düzey seçin" : "Bölüm arayın..."}
-                  className="h-12 bg-slate-800/50 border-slate-700 text-white"
+                  className="h-12 bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white"
                   emptyMessage={!educationLevel ? "Önce öğrenim düzeyi seçin." : "Bölüm bulunamadı."}
                 />
               </div>
@@ -366,13 +366,13 @@ export default function Home() {
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-2xl border border-emerald-500/20">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
-                      <TrendingUp className="w-7 h-7 text-emerald-400" />
+                      <TrendingUp className="w-7 h-7 text-emerald-500 dark:text-emerald-400" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-bold text-white">
+                      <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                         {searchMutation.data.length.toLocaleString('tr-TR')} Kadro Bulundu!
                       </h3>
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
                         {educationLevel} düzeyinde 
                         {selectedCities.length > 0 && !selectedCities.includes("Tümü") 
                           ? ` • ${selectedCities.length} şehir` 
@@ -389,7 +389,7 @@ export default function Home() {
                         variant="outline"
                         size="sm"
                         onClick={() => setShowStats(!showStats)}
-                        className={`border-slate-600 ${showStats ? 'bg-blue-500/20 text-blue-400 border-blue-500/50' : 'text-slate-300 hover:text-white'}`}
+                        className={`border-slate-300 dark:border-slate-600 ${showStats ? 'bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/50' : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'}`}
                       >
                         <BarChart3 className="w-4 h-4 mr-2" />
                         İstatistikler
@@ -406,28 +406,28 @@ export default function Home() {
 
                 {/* Statistics Panel */}
                 {showStats && stats && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-slate-800/50 rounded-2xl border border-slate-700/50">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4 bg-slate-100/80 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/50">
                     {/* Genel İstatistikler */}
                     <div className="space-y-4">
-                      <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                        <BarChart3 className="w-4 h-4 text-blue-400" />
+                      <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <BarChart3 className="w-4 h-4 text-blue-500 dark:text-blue-400" />
                         Genel Bakış
                       </h4>
                       <div className="grid grid-cols-2 gap-3">
-                        <div className="bg-slate-900/50 rounded-xl p-3 text-center">
-                          <div className="text-2xl font-bold text-blue-400">{stats.totalPositions}</div>
+                        <div className="bg-white dark:bg-slate-900/50 rounded-xl p-3 text-center shadow-sm">
+                          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{stats.totalPositions}</div>
                           <div className="text-xs text-slate-500">Kadro</div>
                         </div>
-                        <div className="bg-slate-900/50 rounded-xl p-3 text-center">
-                          <div className="text-2xl font-bold text-emerald-400">{stats.totalQuota}</div>
+                        <div className="bg-white dark:bg-slate-900/50 rounded-xl p-3 text-center shadow-sm">
+                          <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{stats.totalQuota}</div>
                           <div className="text-xs text-slate-500">Kontenjan</div>
                         </div>
-                        <div className="bg-slate-900/50 rounded-xl p-3 text-center">
-                          <div className="text-2xl font-bold text-cyan-400">{stats.uniqueCities}</div>
+                        <div className="bg-white dark:bg-slate-900/50 rounded-xl p-3 text-center shadow-sm">
+                          <div className="text-2xl font-bold text-cyan-600 dark:text-cyan-400">{stats.uniqueCities}</div>
                           <div className="text-xs text-slate-500">Şehir</div>
                         </div>
-                        <div className="bg-slate-900/50 rounded-xl p-3 text-center">
-                          <div className="text-2xl font-bold text-purple-400">{stats.uniqueInstitutions}</div>
+                        <div className="bg-white dark:bg-slate-900/50 rounded-xl p-3 text-center shadow-sm">
+                          <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.uniqueInstitutions}</div>
                           <div className="text-xs text-slate-500">Kurum</div>
                         </div>
                       </div>
@@ -435,23 +435,23 @@ export default function Home() {
 
                     {/* En Çok Kadro Olan Şehirler */}
                     <div className="space-y-4">
-                      <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-emerald-400" />
+                      <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                         En Çok Kadro (Şehir)
                       </h4>
                       <div className="space-y-2">
                         {stats.topCities.map(([city, count], idx) => (
                           <div key={city} className="flex items-center gap-3">
                             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                              idx === 0 ? 'bg-yellow-500/20 text-yellow-400' :
-                              idx === 1 ? 'bg-slate-400/20 text-slate-300' :
-                              idx === 2 ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-slate-700 text-slate-400'
+                              idx === 0 ? 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' :
+                              idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
+                              idx === 2 ? 'bg-orange-500/20 text-orange-600 dark:text-orange-400' :
+                              'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
                             }`}>
                               {idx + 1}
                             </span>
-                            <span className="flex-1 text-sm text-slate-300 truncate">{city}</span>
-                            <span className="text-sm font-semibold text-emerald-400">{count}</span>
+                            <span className="flex-1 text-sm text-slate-700 dark:text-slate-300 truncate">{city}</span>
+                            <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{count}</span>
                           </div>
                         ))}
                       </div>
@@ -459,22 +459,22 @@ export default function Home() {
 
                     {/* En Çok Kadro Olan Kurumlar */}
                     <div className="space-y-4">
-                      <h4 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
-                        <Building2 className="w-4 h-4 text-purple-400" />
+                      <h4 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
+                        <Building2 className="w-4 h-4 text-purple-500 dark:text-purple-400" />
                         En Çok Kadro (Kurum)
                       </h4>
                       <div className="space-y-2">
                         {stats.topInstitutions.map(([inst, count], idx) => (
                           <div key={inst} className="flex items-center gap-3">
                             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
-                              idx === 0 ? 'bg-yellow-500/20 text-yellow-400' :
-                              idx === 1 ? 'bg-slate-400/20 text-slate-300' :
-                              'bg-orange-500/20 text-orange-400'
+                              idx === 0 ? 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' :
+                              idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
+                              'bg-orange-500/20 text-orange-600 dark:text-orange-400'
                             }`}>
                               {idx + 1}
                             </span>
-                            <span className="flex-1 text-sm text-slate-300 truncate" title={inst}>{inst}</span>
-                            <span className="text-sm font-semibold text-purple-400 shrink-0">{count}</span>
+                            <span className="flex-1 text-sm text-slate-700 dark:text-slate-300 truncate" title={inst}>{inst}</span>
+                            <span className="text-sm font-semibold text-purple-600 dark:text-purple-400 shrink-0">{count}</span>
                           </div>
                         ))}
                       </div>
@@ -483,7 +483,7 @@ export default function Home() {
                 )}
                 
                 {/* Results Table */}
-                <div className="bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-700/50 overflow-hidden">
+                <div className="bg-white/80 dark:bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-200 dark:border-slate-700/50 overflow-hidden shadow-lg dark:shadow-none">
                   <ResultsTable 
                     results={searchMutation.data} 
                     isLoading={searchMutation.isPending} 
@@ -496,10 +496,10 @@ export default function Home() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
-                      <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                      <Star className="w-5 h-5 text-yellow-500 dark:text-yellow-400 fill-yellow-500 dark:fill-yellow-400" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-white">Favorilerim</h3>
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Favorilerim</h3>
                       <p className="text-sm text-slate-500">{favoritesCount} favori kadro</p>
                     </div>
                   </div>
@@ -507,7 +507,7 @@ export default function Home() {
                     variant="ghost"
                     size="sm"
                     onClick={() => setActiveTab("search")}
-                    className="text-slate-400 hover:text-white"
+                    className="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   >
                     Aramaya Dön
                   </Button>
@@ -515,18 +515,18 @@ export default function Home() {
                 
                 {/* Favorites Table */}
                 {favoritePositions.length > 0 ? (
-                  <div className="bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-700/50 overflow-hidden">
+                  <div className="bg-white/80 dark:bg-slate-900/50 backdrop-blur rounded-2xl border border-slate-200 dark:border-slate-700/50 overflow-hidden shadow-lg dark:shadow-none">
                     <ResultsTable 
                       results={favoritePositions} 
                       isLoading={false} 
                     />
                   </div>
                 ) : (
-                  <div className="text-center py-20 bg-slate-900/30 rounded-2xl border border-slate-700/30">
-                    <div className="w-20 h-20 rounded-full bg-slate-800/50 flex items-center justify-center mx-auto mb-6">
-                      <Star className="w-10 h-10 text-slate-600" />
+                  <div className="text-center py-20 bg-slate-100/50 dark:bg-slate-900/30 rounded-2xl border border-slate-200 dark:border-slate-700/30">
+                    <div className="w-20 h-20 rounded-full bg-slate-200 dark:bg-slate-800/50 flex items-center justify-center mx-auto mb-6">
+                      <Star className="w-10 h-10 text-slate-400 dark:text-slate-600" />
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-400 mb-2">Henüz Favori Yok</h3>
+                    <h3 className="text-xl font-semibold text-slate-600 dark:text-slate-400 mb-2">Henüz Favori Yok</h3>
                     <p className="text-slate-500 max-w-md mx-auto mb-6">
                       Kadro listesinde yıldız ikonuna tıklayarak favorilerinize ekleyin
                     </p>
@@ -541,36 +541,36 @@ export default function Home() {
               </div>
             ) : (
               !searchMutation.isPending && (
-                <div className="text-center py-16 bg-slate-900/30 rounded-2xl border border-slate-700/30">
+                <div className="text-center py-16 bg-slate-100/50 dark:bg-slate-900/30 rounded-2xl border border-slate-200 dark:border-slate-700/30">
                   {/* Animated Icon */}
                   <div className="relative w-24 h-24 mx-auto mb-8">
                     <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-ping" />
-                    <div className="relative w-24 h-24 rounded-full bg-slate-800/80 flex items-center justify-center">
-                      <Search className="w-10 h-10 text-blue-400" />
+                    <div className="relative w-24 h-24 rounded-full bg-slate-200 dark:bg-slate-800/80 flex items-center justify-center">
+                      <Search className="w-10 h-10 text-blue-500 dark:text-blue-400" />
                     </div>
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-white mb-3">Kadro Aramaya Başlayın</h3>
-                  <p className="text-slate-400 max-w-lg mx-auto mb-8 leading-relaxed">
+                  <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Kadro Aramaya Başlayın</h3>
+                  <p className="text-slate-600 dark:text-slate-400 max-w-lg mx-auto mb-8 leading-relaxed">
                     KPSS puanınıza uygun binlerce kamu kadrosunu keşfedin. 
                     Yukarıdaki filtrelerden öğrenim düzeyinizi seçerek başlayın.
                   </p>
                   
                   {/* Quick Guide */}
                   <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
-                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full">
-                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">1</span>
-                      <span className="text-slate-300">Öğrenim düzeyi seçin</span>
+                    <div className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800/50 rounded-full shadow-sm dark:shadow-none">
+                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">1</span>
+                      <span className="text-slate-700 dark:text-slate-300">Öğrenim düzeyi seçin</span>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-600 hidden sm:block" />
-                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full">
-                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">2</span>
-                      <span className="text-slate-300">Şehir/Bölüm filtreleyin</span>
+                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-600 hidden sm:block" />
+                    <div className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800/50 rounded-full shadow-sm dark:shadow-none">
+                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">2</span>
+                      <span className="text-slate-700 dark:text-slate-300">Şehir/Bölüm filtreleyin</span>
                     </div>
-                    <ChevronRight className="w-4 h-4 text-slate-600 hidden sm:block" />
-                    <div className="flex items-center gap-2 px-4 py-2 bg-slate-800/50 rounded-full">
-                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">3</span>
-                      <span className="text-slate-300">Kadroları listeleyin</span>
+                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-600 hidden sm:block" />
+                    <div className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800/50 rounded-full shadow-sm dark:shadow-none">
+                      <span className="w-6 h-6 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center text-xs font-bold">3</span>
+                      <span className="text-slate-700 dark:text-slate-300">Kadroları listeleyin</span>
                     </div>
                   </div>
                 </div>
@@ -581,7 +581,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="relative z-10 border-t border-slate-800 py-8">
+      <footer className="relative z-10 border-t border-slate-200 dark:border-slate-800 py-8 bg-slate-50/50 dark:bg-transparent">
         <div className="container max-w-6xl mx-auto px-6">
           {/* Ana Footer İçerik */}
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
@@ -590,15 +590,15 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-2 text-sm">
               <span className="text-slate-500">Veriler:</span>
-              <Badge variant="outline" className="border-slate-700 text-slate-400">ÖSYM 2025/2 Kılavuzu</Badge>
+              <Badge variant="outline" className="border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400">ÖSYM 2025/2 Kılavuzu</Badge>
             </div>
           </div>
 
           {/* Yasal Uyarı ve İletişim */}
-          <div className="border-t border-slate-800 pt-6">
+          <div className="border-t border-slate-200 dark:border-slate-800 pt-6">
             <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
               {/* Yasal Uyarı */}
-              <div className="text-slate-600 text-center md:text-left max-w-2xl">
+              <div className="text-slate-500 dark:text-slate-600 text-center md:text-left max-w-2xl">
                 <span className="inline-flex items-center gap-1.5">
                   <svg className="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
