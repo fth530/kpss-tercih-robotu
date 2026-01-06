@@ -200,8 +200,8 @@ export default function Home() {
                 size="sm"
                 onClick={() => setActiveTab("favorites")}
                 className={`relative ${activeTab === "favorites"
-                    ? "text-yellow-500 dark:text-yellow-400 bg-yellow-500/10"
-                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                  ? "text-yellow-500 dark:text-yellow-400 bg-yellow-500/10"
+                  : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
                   }`}
               >
                 <Star className={`w-4 h-4 mr-2 ${activeTab === "favorites" ? "fill-yellow-400" : ""}`} />
@@ -241,17 +241,29 @@ export default function Home() {
             {/* Stats */}
             <div className="flex items-center justify-center gap-8 mb-12">
               <div className="text-center">
-                <div className="text-3xl font-bold text-slate-900 dark:text-white">1,795</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                  {meta?.positionsCount?.toLocaleString('tr-TR') ?? (
+                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                  )}
+                </div>
                 <div className="text-sm text-slate-500">Kadro</div>
               </div>
               <div className="w-px h-10 bg-slate-300 dark:bg-slate-700" />
               <div className="text-center">
-                <div className="text-3xl font-bold text-slate-900 dark:text-white">1,300</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                  {meta?.qualifications?.length?.toLocaleString('tr-TR') ?? (
+                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                  )}
+                </div>
                 <div className="text-sm text-slate-500">Nitelik</div>
               </div>
               <div className="w-px h-10 bg-slate-300 dark:bg-slate-700" />
               <div className="text-center">
-                <div className="text-3xl font-bold text-slate-900 dark:text-white">81</div>
+                <div className="text-3xl font-bold text-slate-900 dark:text-white">
+                  {meta?.cities?.length?.toLocaleString('tr-TR') ?? (
+                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                  )}
+                </div>
                 <div className="text-sm text-slate-500">Şehir</div>
               </div>
             </div>
@@ -459,9 +471,9 @@ export default function Home() {
                         {stats.topCities.map(([city, count], idx) => (
                           <div key={city} className="flex items-center gap-3">
                             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${idx === 0 ? 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' :
-                                idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
-                                  idx === 2 ? 'bg-orange-500/20 text-orange-600 dark:text-orange-400' :
-                                    'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
+                              idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
+                                idx === 2 ? 'bg-orange-500/20 text-orange-600 dark:text-orange-400' :
+                                  'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'
                               }`}>
                               {idx + 1}
                             </span>
@@ -481,8 +493,8 @@ export default function Home() {
                         {stats.topInstitutions.map(([inst, count], idx) => (
                           <div key={inst} className="flex items-center gap-3">
                             <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${idx === 0 ? 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400' :
-                                idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
-                                  'bg-orange-500/20 text-orange-600 dark:text-orange-400'
+                              idx === 1 ? 'bg-slate-400/20 text-slate-600 dark:text-slate-300' :
+                                'bg-orange-500/20 text-orange-600 dark:text-orange-400'
                               }`}>
                               {idx + 1}
                             </span>

@@ -43,7 +43,7 @@ async function loadData() {
 export function useKpssMeta() {
   return useQuery({
     queryKey: ['meta'],
-    queryFn: async (): Promise<FilterDataResponse> => {
+    queryFn: async () => {
       const { qualifications, positions } = await loadData();
 
       const cities = Array.from(new Set(positions.map(p => p.city))).sort();
@@ -52,7 +52,8 @@ export function useKpssMeta() {
       return {
         cities,
         educationLevels,
-        qualifications
+        qualifications,
+        positionsCount: positions.length, // Dynamic count
       };
     },
     staleTime: 1000 * 60 * 60, // 1 hour
