@@ -1,7 +1,8 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useKpssMeta, useSearchPositions } from "@/hooks/use-kpss";
 import { useFavorites } from "@/hooks/use-favorites";
 import { useTheme } from "@/hooks/use-theme";
+import { usePageTitle } from "@/hooks/use-page-title";
 import { ResultsTable } from "@/components/ResultsTable";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,6 +45,15 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<"search" | "favorites">("search");
   const [page, setPage] = useState(1);
   const ITEMS_PER_PAGE = 50;
+
+  // Dynamic page title based on state
+  const pageTitle = useMemo(() => {
+    if (activeTab === "favorites") return "Favorilerim";
+    if (searchMutation.data?.total) return `${searchMutation.data.total} Kadro Bulundu`;
+    return undefined; // Use default title
+  }, [activeTab, searchMutation.data?.total]);
+
+  usePageTitle(pageTitle);
 
   const cityOptions: Option[] = [
     { label: "Tüm Şehirler", value: "Tümü" },
