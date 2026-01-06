@@ -298,7 +298,7 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
                   <div className="flex flex-wrap gap-1.5 max-w-[250px]">
                     {position.qualifications.slice(0, 4).map((qual) => (
                       <Tooltip key={qual.code} delayDuration={0}>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                           <Badge
                             variant="outline"
                             className="cursor-help text-xs font-mono border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-600 dark:hover:text-blue-300 transition-all"
@@ -317,7 +317,7 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
                     ))}
                     {position.qualifications.length > 4 && (
                       <Tooltip delayDuration={0}>
-                        <TooltipTrigger>
+                        <TooltipTrigger asChild>
                           <Badge
                             variant="outline"
                             className="cursor-help text-xs border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/50"
