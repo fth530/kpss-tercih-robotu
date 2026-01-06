@@ -1,18 +1,19 @@
 import { useState } from "react";
-import { 
-  Tooltip, 
-  TooltipContent, 
-  TooltipTrigger 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
 } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Copy, Building2, MapPin, SearchX, CheckCircle2, Star, 
-  ChevronDown, ChevronUp, Loader2 
+import {
+  Copy, Building2, MapPin, SearchX, CheckCircle2, Star,
+  ChevronDown, ChevronUp
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useFavorites } from "@/hooks/use-favorites";
 import { ShareButton } from "@/components/ShareButton";
+import { ResultsSkeleton } from "@/components/ResultsSkeleton";
 
 interface Qualification {
   code: string;
@@ -73,9 +74,10 @@ function MobileCard({ position, onCopy, onToggleFavorite, isFav }: {
         <Button
           variant="ghost"
           size="icon"
-          className={`h-8 w-8 shrink-0 ${
-            isFav ? 'text-yellow-500' : 'text-slate-400 dark:text-slate-600'
-          }`}
+          aria-label={isFav ? `${position.institution} favorilerden kaldır` : `${position.institution} favorilere ekle`}
+          aria-pressed={isFav}
+          className={`h-8 w-8 shrink-0 ${isFav ? 'text-yellow-500' : 'text-slate-400 dark:text-slate-600'
+            }`}
           onClick={() => onToggleFavorite(position)}
         >
           <Star className={`h-4 w-4 ${isFav ? 'fill-yellow-500' : ''}`} />
@@ -107,7 +109,7 @@ function MobileCard({ position, onCopy, onToggleFavorite, isFav }: {
           <div className="space-y-2">
             <div className="flex flex-wrap gap-1.5">
               {position.qualifications.map((qual) => (
-                <Badge 
+                <Badge
                   key={qual.code}
                   variant="outline"
                   className="cursor-pointer text-xs font-mono border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 hover:bg-slate-200 dark:hover:bg-slate-700/50 active:bg-slate-300 dark:active:bg-slate-700 transition-colors"
@@ -117,7 +119,7 @@ function MobileCard({ position, onCopy, onToggleFavorite, isFav }: {
                 </Badge>
               ))}
             </div>
-            
+
             {/* Açıklama Kutusu - Mobil için */}
             {selectedQual && (
               <div className="mt-3 p-3 bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 rounded-lg">
@@ -140,20 +142,9 @@ function MobileCard({ position, onCopy, onToggleFavorite, isFav }: {
   );
 }
 
-// Loading Animation Component
+// Loading State - uses modern skeleton loader
 function LoadingState() {
-  return (
-    <div className="flex flex-col items-center justify-center py-16 px-6">
-      <div className="relative">
-        <div className="w-16 h-16 rounded-full border-4 border-slate-200 dark:border-slate-700 border-t-blue-500 animate-spin" />
-        <Loader2 className="w-6 h-6 text-blue-500 dark:text-blue-400 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-pulse" />
-      </div>
-      <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-300 mt-6 mb-2">Kadrolar Aranıyor...</h3>
-      <p className="text-slate-500 text-sm text-center max-w-md">
-        Kriterlere uygun kadrolar listeleniyor, lütfen bekleyin.
-      </p>
-    </div>
-  );
+  return <ResultsSkeleton rows={5} />;
 }
 
 export function ResultsTable({ results, isLoading }: ResultsTableProps) {
@@ -165,8 +156,8 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
     toast({
       description: (
         <div className="flex items-center gap-2">
-           <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-           <span>ÖSYM Kodu kopyalandı: <strong>{code}</strong></span>
+          <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+          <span>ÖSYM Kodu kopyalandı: <strong>{code}</strong></span>
         </div>
       ),
       duration: 2000,
@@ -176,7 +167,7 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
   const handleToggleFavorite = (position: Position) => {
     const wasFavorite = isFavorite(position.id);
     toggleFavorite(position);
-    
+
     toast({
       description: (
         <div className="flex items-center gap-2">
@@ -226,8 +217,11 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
       </div>
 
       {/* Desktop View */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="w-full">
+      <div className="hidden md:block overflow-x-auto" role="region" aria-label="Kadro sonuçları tablosu">
+        <table className="w-full" aria-describedby="results-desc">
+          <caption id="results-desc" className="sr-only">
+            KPSS kadro arama sonuçları. {results.length} sonuç gösteriliyor.
+          </caption>
           <thead>
             <tr className="border-b border-slate-200 dark:border-slate-700/50">
               <th className="text-slate-500 dark:text-slate-400 font-semibold text-xs uppercase tracking-wider py-4 pl-6 w-[50px] text-left"></th>
@@ -241,7 +235,7 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
           </thead>
           <tbody>
             {results.map((position) => (
-              <tr 
+              <tr
                 key={position.id}
                 className="border-b border-slate-100 dark:border-slate-700/30 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"
               >
@@ -249,11 +243,12 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`h-8 w-8 transition-all ${
-                      isFavorite(position.id)
-                        ? 'text-yellow-500 hover:text-yellow-400'
-                        : 'text-slate-400 dark:text-slate-600 hover:text-yellow-500'
-                    }`}
+                    aria-label={isFavorite(position.id) ? `${position.institution} favorilerden kaldır` : `${position.institution} favorilere ekle`}
+                    aria-pressed={isFavorite(position.id)}
+                    className={`h-8 w-8 transition-all ${isFavorite(position.id)
+                      ? 'text-yellow-500 hover:text-yellow-400'
+                      : 'text-slate-400 dark:text-slate-600 hover:text-yellow-500'
+                      }`}
                     onClick={() => handleToggleFavorite(position)}
                   >
                     <Star className={`h-4 w-4 ${isFavorite(position.id) ? 'fill-yellow-500' : ''}`} />
@@ -304,15 +299,15 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
                     {position.qualifications.slice(0, 4).map((qual) => (
                       <Tooltip key={qual.code} delayDuration={0}>
                         <TooltipTrigger>
-                          <Badge 
+                          <Badge
                             variant="outline"
                             className="cursor-help text-xs font-mono border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/50 hover:bg-blue-500/20 hover:border-blue-500/50 hover:text-blue-600 dark:hover:text-blue-300 transition-all"
                           >
                             {qual.code}
                           </Badge>
                         </TooltipTrigger>
-                        <TooltipContent 
-                          side="top" 
+                        <TooltipContent
+                          side="top"
                           className="max-w-sm p-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-xl z-[100]"
                         >
                           <p className="font-bold text-sm text-blue-600 dark:text-blue-400 mb-2">{qual.code}</p>
@@ -323,15 +318,15 @@ export function ResultsTable({ results, isLoading }: ResultsTableProps) {
                     {position.qualifications.length > 4 && (
                       <Tooltip delayDuration={0}>
                         <TooltipTrigger>
-                          <Badge 
+                          <Badge
                             variant="outline"
                             className="cursor-help text-xs border-slate-300 dark:border-slate-600 text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/50"
                           >
                             +{position.qualifications.length - 4}
                           </Badge>
                         </TooltipTrigger>
-                        <TooltipContent 
-                          side="top" 
+                        <TooltipContent
+                          side="top"
                           className="max-w-md p-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 shadow-xl z-[100]"
                         >
                           <p className="font-bold text-sm text-slate-700 dark:text-slate-300 mb-3">Diğer Nitelikler</p>

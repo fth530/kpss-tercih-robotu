@@ -1,12 +1,13 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
+import type {
+  Qualification,
+  PositionWithQualifications,
+  FilterDataResponse,
+  SearchPositionsResponse,
+} from "@shared/schema";
 
-interface Qualification {
-  code: string;
-  description: string;
-  educationLevel: string;
-}
-
-interface Position {
+// Local type for raw position data from JSON
+interface RawPosition {
   osymCode: string;
   institution: string;
   title: string;
@@ -16,34 +17,9 @@ interface Position {
   educationLevel: string;
 }
 
-interface MetaResponse {
-  cities: string[];
-  educationLevels: string[];
-  qualifications: Qualification[];
-}
-
-interface PositionWithQualifications {
-  id: number;
-  osymCode: string;
-  institution: string;
-  title: string;
-  city: string;
-  quota: number;
-  educationLevel: string;
-  minScore: number | null;
-  qualifications: Qualification[];
-}
-
-interface SearchResponse {
-  data: PositionWithQualifications[];
-  total: number;
-  page: number;
-  limit: number;
-}
-
 // Cache for loaded data
 let cachedQualifications: Qualification[] | null = null;
-let cachedPositions: Position[] | null = null;
+let cachedPositions: RawPosition[] | null = null;
 
 async function loadData() {
   if (!cachedQualifications || !cachedPositions) {
@@ -67,7 +43,7 @@ async function loadData() {
 export function useKpssMeta() {
   return useQuery({
     queryKey: ['meta'],
-    queryFn: async (): Promise<MetaResponse> => {
+    queryFn: async (): Promise<FilterDataResponse> => {
       const { qualifications, positions } = await loadData();
 
       const cities = Array.from(new Set(positions.map(p => p.city))).sort();
@@ -94,7 +70,7 @@ interface SearchInput {
 // Search positions from static JSON with pagination
 export function useSearchPositions() {
   return useMutation({
-    mutationFn: async (data: SearchInput): Promise<SearchResponse> => {
+    mutationFn: async (data: SearchInput): Promise<SearchPositionsResponse> => {
       const { qualifications, positions } = await loadData();
       const { educationLevel, cities, departmentCodes, page = 1, limit = 50 } = data;
 
