@@ -7,6 +7,8 @@ interface AdBannerProps {
   className?: string;
 }
 
+const ADSENSE_CLIENT = import.meta.env.VITE_ADSENSE_CLIENT;
+
 export function AdBanner({ 
   slot, 
   format = "auto", 
@@ -14,6 +16,7 @@ export function AdBanner({
   className = "" 
 }: AdBannerProps) {
   useEffect(() => {
+    if (!ADSENSE_CLIENT) return;
     try {
       // @ts-ignore
       (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -22,12 +25,14 @@ export function AdBanner({
     }
   }, []);
 
+  if (!ADSENSE_CLIENT) return null;
+
   return (
     <div className={`ad-container ${className}`}>
       <ins
         className="adsbygoogle"
         style={{ display: "block" }}
-        data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" // Buraya kendi AdSense ID'ni koy
+        data-ad-client={ADSENSE_CLIENT}
         data-ad-slot={slot}
         data-ad-format={format}
         data-full-width-responsive={responsive.toString()}
@@ -36,11 +41,12 @@ export function AdBanner({
   );
 }
 
-// Farklı reklam tipleri için hazır bileşenler
 export function TopBannerAd() {
+  const slot = import.meta.env.VITE_ADSENSE_SLOT_TOP;
+  if (!slot) return null;
   return (
     <AdBanner 
-      slot="1234567890" // Kendi slot ID'ni koy
+      slot={slot}
       format="auto"
       className="my-4"
     />
@@ -48,9 +54,11 @@ export function TopBannerAd() {
 }
 
 export function SidebarAd() {
+  const slot = import.meta.env.VITE_ADSENSE_SLOT_SIDEBAR;
+  if (!slot) return null;
   return (
     <AdBanner 
-      slot="0987654321" // Kendi slot ID'ni koy
+      slot={slot}
       format="rectangle"
       responsive={false}
       className="sticky top-4"
@@ -59,9 +67,11 @@ export function SidebarAd() {
 }
 
 export function InFeedAd() {
+  const slot = import.meta.env.VITE_ADSENSE_SLOT_INFEED;
+  if (!slot) return null;
   return (
     <AdBanner 
-      slot="1122334455" // Kendi slot ID'ni koy
+      slot={slot}
       format="fluid"
       className="my-6"
     />

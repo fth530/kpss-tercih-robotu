@@ -49,38 +49,38 @@ export function ShareButton({ position }: ShareButtonProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-slate-500 hover:text-white"
+          className="h-8 w-8 text-muted-foreground hover:text-foreground"
         >
           <Share2 className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48 bg-slate-800 border-slate-700">
+      <DropdownMenuContent align="end" className="w-48 bg-popover text-popover-foreground border shadow-md rounded-md">
         <DropdownMenuItem 
           onClick={handleTwitterShare}
-          className="text-slate-300 hover:bg-slate-700 cursor-pointer"
+          className="cursor-pointer"
         >
-          <Twitter className="h-4 w-4 mr-2 text-blue-400" />
+          <Twitter className="h-4 w-4 mr-2 text-blue-500" />
           Twitter'da Paylaş
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={handleWhatsAppShare}
-          className="text-slate-300 hover:bg-slate-700 cursor-pointer"
+          className="cursor-pointer"
         >
-          <MessageCircle className="h-4 w-4 mr-2 text-green-400" />
+          <MessageCircle className="h-4 w-4 mr-2 text-green-500" />
           WhatsApp'ta Paylaş
         </DropdownMenuItem>
         <DropdownMenuItem 
           onClick={handleCopyLink}
-          className="text-slate-300 hover:bg-slate-700 cursor-pointer"
+          className="cursor-pointer"
         >
           {copied ? (
             <>
-              <Check className="h-4 w-4 mr-2 text-emerald-400" />
+              <Check className="h-4 w-4 mr-2 text-emerald-500" />
               Kopyalandı!
             </>
           ) : (
             <>
-              <Link2 className="h-4 w-4 mr-2 text-slate-400" />
+              <Link2 className="h-4 w-4 mr-2 text-muted-foreground" />
               Linki Kopyala
             </>
           )}

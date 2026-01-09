@@ -157,8 +157,8 @@ export default function Home() {
 
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/5 dark:bg-cyan-500/10 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/5 dark:bg-blue-500/10 rounded-full blur-[120px] animate-pulse motion-reduce:animate-none" />
+        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/5 dark:bg-cyan-500/10 rounded-full blur-[100px] animate-pulse motion-reduce:animate-none" style={{ animationDelay: '1s' }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-500/3 dark:bg-indigo-500/5 rounded-full blur-[150px]" />
       </div>
 
@@ -253,7 +253,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="text-3xl font-bold text-slate-900 dark:text-white">
                   {meta?.positionsCount?.toLocaleString('tr-TR') ?? (
-                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse motion-reduce:animate-none" />
                   )}
                 </div>
                 <div className="text-sm text-slate-500">Kadro</div>
@@ -262,7 +262,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="text-3xl font-bold text-slate-900 dark:text-white">
                   {meta?.qualifications?.length?.toLocaleString('tr-TR') ?? (
-                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse motion-reduce:animate-none" />
                   )}
                 </div>
                 <div className="text-sm text-slate-500">Nitelik</div>
@@ -271,7 +271,7 @@ export default function Home() {
               <div className="text-center">
                 <div className="text-3xl font-bold text-slate-900 dark:text-white">
                   {meta?.cities?.length?.toLocaleString('tr-TR') ?? (
-                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse" />
+                    <span className="inline-block w-16 h-8 bg-slate-200 dark:bg-slate-700 rounded animate-pulse motion-reduce:animate-none" />
                   )}
                 </div>
                 <div className="text-sm text-slate-500">Şehir</div>
@@ -609,7 +609,7 @@ export default function Home() {
                 <div className="text-center py-16 bg-slate-100/50 dark:bg-slate-900/30 rounded-2xl border border-slate-200 dark:border-slate-700/30">
                   {/* Animated Icon */}
                   <div className="relative w-24 h-24 mx-auto mb-8">
-                    <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-ping" />
+                    <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-ping motion-reduce:animate-none" />
                     <div className="relative w-24 h-24 rounded-full bg-slate-200 dark:bg-slate-800/80 flex items-center justify-center">
                       <Search className="w-10 h-10 text-blue-500 dark:text-blue-400" />
                     </div>

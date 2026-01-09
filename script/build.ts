@@ -35,7 +35,7 @@ const allowlist = [
 async function buildAll() {
   const startTime = Date.now();
   const isCI = process.env.CI === 'true' || process.env.NETLIFY === 'true';
-  
+
   await rm("dist", { recursive: true, force: true });
 
   if (!isCI) console.log("🏗️  Building client...");
@@ -56,8 +56,11 @@ async function buildAll() {
     entryPoints: ["server/index.ts"],
     platform: "node",
     bundle: true,
-    format: "cjs",
-    outfile: "dist/index.cjs",
+    format: "esm",
+    outfile: "dist/index.js",
+    banner: {
+      js: `import { createRequire } from 'module';import { fileURLToPath } from 'url';import { dirname } from 'path';const require = createRequire(import.meta.url);const __filename = fileURLToPath(import.meta.url);const __dirname = dirname(__filename);`,
+    },
     define: {
       "process.env.NODE_ENV": '"production"',
     },
@@ -68,11 +71,11 @@ async function buildAll() {
     treeShaking: true, // Enable tree shaking
     target: "node18", // Target Node.js 18+
   });
-  
+
   // Copy parsed_data to dist for serverless functions
   if (!isCI) console.log("📦 Copying parsed_data...");
   await cp("parsed_data", "dist/parsed_data", { recursive: true });
-  
+
   if (!isCI) console.log(`✅ Server built in ${Date.now() - serverStart}ms`);
   if (!isCI) console.log(`🎉 Total build time: ${Date.now() - startTime}ms`);
 }
